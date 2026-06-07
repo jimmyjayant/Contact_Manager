@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Don't put space between QSA and L that is [QSA,L] and not [QSA, L]
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] 

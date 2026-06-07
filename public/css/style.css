@@ -1,0 +1,162 @@
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    padding:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    flex-wrap:nowrap;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.main {
+    flex:1;
+}
+
+.header {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:space-between;
+    /*align-items:center;*/
+    margin:0;
+    padding:1rem;
+    background-color:#7f8c8d;
+}
+
+#hambergurmenu {
+    display:none;
+}
+
+.sitelogo img {
+    width:2.5rem;
+    height:2.5rem;
+    border-radius:50%;
+}
+
+.sitelogo img:hover {
+    /*box-shadow:5px 5px 5px #f1f1f1, -5px -5px 5px #f1f1f1;*/
+    border:5px solid white;
+}
+
+.heading {
+    font-size:2rem;
+    font-weight:bold;
+}
+
+.login {
+    position:relative;
+}
+
+.login:hover .userstatus {
+    display:block;
+    cursor:pointer;
+}
+
+.head {
+  background:black;
+  height:1rem;
+  width:1rem;
+  border-radius:50%;
+  margin:auto;
+}
+
+.body {
+  background:black;
+  height:1rem;
+  width:2rem;
+  border-radius:1rem 1rem 0 0;
+  margin:auto;
+}
+
+.userstatus {
+    display:none;
+    position:absolute;
+    background-color:#f1f1f1;
+    right:0;
+    box-shadow:3px 3px 5px black;
+}
+
+.userstatus a {
+    display:block;
+    text-decoration:none;
+    padding:1rem 1.5rem;
+    color:black;
+}
+
+.userstatus a:hover {
+    background-color:#596275;
+}
+
+#navbar {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    background-color:#394f48;
+    width:100%;
+}
+
+#navbar a {
+    text-decoration:none;
+    padding:0.8rem;
+    color:white;
+}
+
+#navbar a:not(:first-child):hover {
+    background-color:#4c5250;
+}
+
+#navbar a:first-child {
+    display:none;
+    text-align:right;
+}
+
+#navbar span {
+    padding:0.5rem;
+    font-size:1.5rem;
+    font-weight:bold;
+    background:#394f48;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#navbar span:hover {
+    background-color:#4c5250;
+}
+
+
+@media screen and (max-width:600px) {
+    #hambergurmenu {
+        display:block;
+    }
+
+    #hambergurmenu:hover {
+        cursor:pointer;
+    }
+
+    #hambergurmenu > div {
+        width:2rem;
+        height:5px;
+        margin:5px 0;
+        background:white;
+    }
+
+    .heading {
+        display:none;
+    }
+
+    #navbar {
+        display:none;
+        position:fixed;
+        z-index:2;
+        height:100vh;
+        flex-direction:column;
+        overflow:hidden;
+    }
+
+    #navbar a:first-child {
+        display:block;
+    }
+}

@@ -1,0 +1,53 @@
+/*Start of CSS of 404 error page*/
+.main {
+    text-align:center;
+}
+
+.image {
+  position:relative;
+  border:0.5rem solid black;
+  border-radius:50%;
+  width:10rem;
+  height:10rem;
+  margin:1rem auto;
+}
+
+.eye1, .eye2 {
+  position:absolute;
+  border:0.1rem solid black;
+  border-radius:50%;
+  background:black;
+  width:1rem;
+  height:1rem;
+  top:1.5rem;
+}
+
+.eye1 {
+  left:2rem;
+}
+
+.eye2 {
+  right:2rem;
+}
+
+.smile {
+  position:absolute;
+  border-top:solid 0.7rem;
+  border-radius:50%;
+  width:4rem;
+  height:3rem;
+  bottom:2rem;
+  left:2.9rem;
+}
+
+.msg h1 {
+  font-size:2rem;
+  margin:0;
+}
+
+.msg h3 {
+  font-size:1.3rem;
+  margin:1rem;
+}
+
+/* End of CSS of 404 error page*/

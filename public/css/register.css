@@ -1,0 +1,67 @@
+h1 {
+    text-align:center;
+}
+
+form {
+    text-align:center;
+    border:2px solid grey;
+    border-radius:1rem;
+    width:50%;
+    min-width:200px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:1rem;
+    margin-bottom:1rem;
+}
+
+input {
+    padding:1rem;
+    font-size:1rem;
+    border-radius:1rem;
+    margin-top:0.5rem;
+}
+
+input:not([type=submit]):not([type=reset]) {
+    width:100%;
+    max-width:700px;
+}
+
+input[type=submit]:hover, input[type=reset]:hover {
+    cursor:pointer;
+    background-color:darkgrey;
+    color:white;
+}
+
+.row {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    margin-bottom:1rem;
+}
+
+.row .col25 {
+    flex: 0 0 25%;
+}
+
+.row .col75 {
+    flex: 0 0 75%;
+}
+
+label {
+    font-size:1.5rem;
+    line-height:2;
+}
+
+@media screen and (max-width:600px) {
+    .row {
+        flex-direction:column;
+    }
+
+    form input {
+        padding:0.3rem;
+    }
+
+    label {
+        line-height:1;
+    }
+}

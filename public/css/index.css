@@ -1,0 +1,38 @@
+.intro {
+    text-align:center;
+}
+
+.intro {
+    font-size:1.2rem;
+    line-height:2;
+}
+
+.intro a {
+    display:inline-block;
+    text-decoration:none;
+    color:black;
+    background-color:#7f8c8d;
+    padding:0.5rem 1rem;
+    border-radius:1rem;
+}
+
+.intro a:hover {
+    cursor:pointer;
+    background-color:#394F48;
+    color:white;
+}
+
+#feature {
+    padding:1rem;
+    text-align:center;
+    font-size:1.2rem;
+}
+
+#feature > div {
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+    padding:1rem;
+    font-size:1.2rem;
+}
+
