@@ -43,7 +43,7 @@
 
                     <div class="userstatus">
                         <?php 
-                            if(!isset($_SESSION['username']))
+                            if(!isset($_SESSION['user_token']))
                             {
                                 echo "<a href='login' alt='Login'>Login</a>";
                                 echo "<a href='register' alt='Register'>Signup</a>";
@@ -53,7 +53,7 @@
                                 echo "<a alt='Current User'>Hi! {$_SESSION['username']}</a>";
                                 echo "<a href='dashboard' alt='User Dashboard'>Dashboard</a>";
                                 echo "<a href='changepassword' alt='Change Password'>Change Password</a>";
-                                echo "<a alt='Logout' onclick='logout()' style='cursor:pointer;'>Logout</a>";
+                                echo "<a href='logout' alt='Logout' style='cursor:pointer;'>Logout</a>";
                             }
                         ?>                            
                     </div>
@@ -64,7 +64,7 @@
                 <a href="#"><span id="closebutton">X</span></a>
                 <a href="index" target="_self">Home</a>
                 <?php
-                    if(isset($_SESSION['username']))
+                    if(isset($_SESSION['user_token']))
                     {
                         echo "<a href='dashboard' target='_self'>Dashboard</a>";
                     }

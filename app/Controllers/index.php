@@ -13,49 +13,66 @@ switch($page)
     case 'index':
     case '':
     case 'home':
+    case 'index.php':
+    case '/':
+    case 'home.php':
         require '../app/Views/index.php';
         break;
 
     case 'dashboard':
+    case 'dashboard.php':
         require '../app/Views/dashboard.php';
         break;
 
     case 'register':
+    case 'register.php':
         require '../app/Views/register.php';
         break;
 
     case 'login':
+    case 'login.php':
         require '../app/Views/login.php';
         break;
 
     case 'logout':
+    case 'logout.php':
         require '../app/Views/logout.php';
         break;
 
     case 'get_user_data':
+    case 'get_user_data.php':
         require '../app/Models/get_user_data.php';
         break;
 
     case 'register_user_data':
+    case 'register_user_data.php':
         require '../app/Models/register_user_data.php';
         break;
     
     case 'provide_feedback':
+    case 'provide_feedback.php':
         require '../app/Models/provide_feedback.php';
         break;
 
     case 'feedback':
+    case 'feedback.php':
         require '../app/Views/feedback.php';
         break;
     
     case 'docs':
+    case 'docs.php':
         require '../app/Views/docs.php';
         break;
 
     case 'sitemap':
+    case 'sitemap.php':
         require '../app/Views/sitemap.php';
         break;
-
+/*
+    case 'createusertable':
+        require '../app/Config/Database_Connection.php';
+        break;
+*/
     default:
         // Send 404 status header
         http_response_code(404);
