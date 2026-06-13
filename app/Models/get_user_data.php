@@ -1,4 +1,5 @@
 <?php
+// PHP Script for Login Page
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
 
@@ -14,6 +15,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $email = test_input($_POST['email']);
 
+    if(empty($email))
+    {
+        $_SESSION['email_error'] = "Email cannot be empty!";
+        header("Location: login");
+        exit();
+    }
+
     if(!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         $_SESSION['email_error'] = "Invalid Email Address!";
@@ -23,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $pass = test_input($_POST['pass']);
 
-    if(empty($pass) || $pass == '')
+    if(empty($pass))
     {
         $_SESSION['pass_error'] = "Password cannot be empty!";
         header("Location: login");
@@ -35,8 +43,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: login");
         exit();
     }
-
-    //echo "$fname $lname $email $pass $contact";
 
     // sql statement to insert new user into user table in contact_manager_db database
     $sql = "SELECT * FROM user WHERE email='{$email}'";
@@ -75,18 +81,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     header("Location: login");
     exit();
 }
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

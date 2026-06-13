@@ -18,6 +18,7 @@ form {
 
 form input {
     padding:1rem;
+    border:2px solid darkgrey;
     border-radius:1rem;
     font-size:1rem;
     max-width:500px;
@@ -52,6 +53,7 @@ input[type=submit]:hover, input[type=reset]:hover {
     min-width:500px;*/
     max-width:800px;
     min-height:200px;
+    border:2px solid darkgrey;
     border-radius:1rem;
     padding:1rem;
     font-size:1rem;

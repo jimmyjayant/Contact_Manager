@@ -11,7 +11,7 @@ require '../app/Views/headerandnavbar.php';
         <?php
             if(isset($_SESSION['login_error']))
             {
-                echo "<div style='text-align:center;'><span style='color:red;text-align:center;'>" . $_SESSION['login_error'] . "</span></div>";
+                echo "<div class='center'><span class='red_font'>" . $_SESSION['login_error'] . "</span></div>";
                 $_SESSION['login_error'] = NULL;
             }
         ?>
@@ -20,10 +20,13 @@ require '../app/Views/headerandnavbar.php';
             <div class="row">
                 <div class="col25"><label for="email">Email</label></div>
                 <div class="col75"><input type="email" id="email" name="email" required></div>
+            </div>
+
+            <div class="row">
                 <?php
                     if(isset($_SESSION['email_error']))
                     {
-                        echo "<div style='text-align:center;'><span style='color:red;'>" . $_SESSION['email_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . $_SESSION['email_error'] . "</span></div>";
                         $_SESSION['email_error'] = NULL;
                     }
                 ?>
@@ -32,10 +35,13 @@ require '../app/Views/headerandnavbar.php';
             <div class="row">
                 <div class="col25"><label for="pass">Password</label></div>
                 <div class="col75"><input type="password" id="pass" name="pass" minlength="6" maxlength="12" required></div>
+            </div>
+
+            <div class="row">
                 <?php
                     if(isset($_SESSION['pass_error']))
                     {
-                        echo "<div style='text-align:center;'><span style='color:red;'>" . $_SESSION['pass_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . $_SESSION['pass_error'] . "</span></div>";
                         $_SESSION['pass_error'] = NULL;
                     }
                 ?>

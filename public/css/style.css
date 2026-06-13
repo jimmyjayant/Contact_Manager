@@ -126,6 +126,17 @@ body {
     background-color:#4c5250;
 }
 
+.red_font {
+    color:red;
+}
+
+.green_font {
+    color:green;
+}
+
+.center {
+    text-align:center;
+}
 
 @media screen and (max-width:600px) {
     #hambergurmenu {

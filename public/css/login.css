@@ -17,6 +17,7 @@ form {
 
 form input {
     padding:1rem;
+    border:2px solid darkgrey;
     border-radius:1rem;
     font-size:1rem;
 }
