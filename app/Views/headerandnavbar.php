@@ -11,6 +11,11 @@
         <link rel="stylesheet" href="css/footer.css">
         <script src="script/script.js"></script>
         <?php
+            if(isset($js))
+            {
+                echo "<script src='{$js}'></script>";
+            }
+
             if(isset($css))
             {
                 echo "<link rel='stylesheet' href='{$css}'>";

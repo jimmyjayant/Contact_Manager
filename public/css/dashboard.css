@@ -1,3 +1,52 @@
 h1 {
     text-align:center;
 }
+
+#searchdiv {
+    display:flex;
+    flex-direction:column;
+    flex-wrap:nowrap;
+    justify-content:center;
+    gap:1rem;
+}
+
+#firstchild, #secondchild {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:center;
+    gap:1rem;
+}
+
+#firstchild input {
+    flex:0 0 75%;
+    border-radius:1rem;
+    padding:1rem;
+    font-size:1rem;
+}
+
+#firstchild button {
+    font-size:1rem;
+    border-radius:1rem;
+}
+
+#firstchild button:hover {
+    cursor:pointer;
+    background-color:grey;
+}
+
+#secondchild button {
+    font-size:1rem;
+    border-radius:1rem;
+    padding:0.8rem 1rem;
+}
+
+#secondchild button:hover {
+    cursor:pointer;
+    background-color:grey;
+}
+
+#result {
+    padding:1rem;
+}
+

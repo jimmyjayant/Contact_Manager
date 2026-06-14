@@ -19,6 +19,11 @@ switch($page)
         require '../app/Views/index.php';
         break;
 
+    case 'changepassword':
+    case 'changepassword.php':
+        require '../app/Views/changepassword.php';
+        break;
+    
     case 'dashboard':
     case 'dashboard.php':
         require '../app/Views/dashboard.php';
@@ -67,6 +72,11 @@ switch($page)
     case 'sitemap':
     case 'sitemap.php':
         require '../app/Views/sitemap.php';
+        break;
+
+    case 'get_user_contacts':
+    case 'get_user_contacts.php':
+        require '../app/Models/get_user_contacts.php';
         break;
 /*
     case 'createusertable':
