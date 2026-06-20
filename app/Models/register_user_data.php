@@ -126,15 +126,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: register");
         exit();
     }
-    else if(strlen($contact) < 10)
-    {
-        $_SESSION['contact_error'] = "Contact must be of 10 digits!";
-        header("Location: register");
-        exit();
-    }
     else if(!preg_match("/^\d{10}$/", $contact))
     {
-        $_SESSION['contact_error'] = "Contact must contain digits!";
+        $_SESSION['contact_error'] = "Contact must contain 10 digits!";
         header("Location: register");
         exit();
     }

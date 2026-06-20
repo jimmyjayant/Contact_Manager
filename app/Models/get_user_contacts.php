@@ -19,6 +19,8 @@ if($result->num_rows > 0)
 
     if($result->num_rows > 0)
     {
+        ob_start();
+
         echo "<table>";
         echo "<tr>";
         echo "<th>First Name</th>";
@@ -50,10 +52,22 @@ if($result->num_rows > 0)
         }
 
         echo "</table>";
+
+        $data['data'] = ob_get_contents();
+        ob_end_clean();
+
+        $data['status'] = "success";
+        $data = json_encode($data);
+        header("Content-Type: application/json");
+        echo $data;
     }
     else
     {
-        echo json_encode("No contact list!");
+        $data['status'] = "error";
+        $data['data'] = "No contact list!";
+        $data = json_encode($data);
+        header("Content-Type: application/json");
+        echo $data;
     }
 }
 ?>
