@@ -174,7 +174,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     }
 
     $mobnum = test_input($_POST['mobnum']);
-    //var_dump($mobnum);
+
     if(!empty($mobnum) && !preg_match("/^\d{10}$/", $mobnum))
     {
         $_SESSION['mobile_error'] = "Mobile Number must contain 10 digits!";
@@ -197,6 +197,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: dashboard");
         exit();
     }
+
+    $mobnum = empty($mobnum) ? "NULL" : "'$mobnum'";
+    $landnum = empty($landnum) ? "NULL" : "'$landnum'";
 
     $address = test_input($_POST['address']);
 
@@ -228,24 +231,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $id = $row['id'];
 
         // sql query to insert new contact of currently logged in user into contacts table in contact_manager_db
-        $sql = "INSERT INTO contacts(user_id, first_name, middle_name, last_name, nickname, gender, mobile_number,     landline_number,addr, relationship)
-                VALUES($id, '$firstname', '$middlename', '$lastname', '$nickname', '$gender', '$mobnum', '$landnum', '$address', '$relationship')";
+        $sql = "INSERT INTO contacts(user_id, first_name, middle_name, last_name, nickname, gender, mobile_number,     landline_number, addr, relationship)
+                VALUES($id, '$firstname', '$middlename', '$lastname', '$nickname', '$gender', $mobnum, $landnum, '$address', '$relationship')";
 
         try
         {
             $result = $conn->query($sql);
             if($result === TRUE)
             {
-                $_SESSION['add_contact_success'] = "Contact added successfully";
-                header("Location: dashboard");
-                exit();
+                $last_insert_id = $conn->insert_id;
             }
         }
         catch(mysqli_sql_exception $e)
         {
             if($e->getCode() == 1062)
             {
-                $_SESSION['add_contact_error'] = "Mobile or Landline Number Already Exists!";
+                $_SESSION['add_contact_error'] = $e->getMessage()/*"Mobile or Landline Number Already Exists!"*/;
                 header("Location: dashboard");
                 exit();
             }
@@ -257,11 +258,38 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             }
         }
     }
-/*
+    else
+    {
+        $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
+        header("Location: dashboard");
+        exit();
+    }
+
+
+    // If custom fields are present in form
+    
     if(isset($_POST['custom_fields_present']) && $_POST['custom_fields_present'] == 1)
     {
         if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
         {
+            $sql = "SELECT form_number FROM contacts WHERE form_number = $last_insert_id";
+
+            try
+            {
+                $result = $conn->query($sql);
+                if($result->num_rows > 0)
+                {
+                    $row = $result->fetch_assoc();
+                    $formNumber = $row['form_number'];
+                }
+            }
+            catch(mysqli_sql_exception $e)
+            {
+                $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
+                header("Location: dashboard");
+                exit();
+            }
+
             $custom_fields_number = (int)test_input($_POST['custom_fields_number']);
             for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
             {
@@ -276,24 +304,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                 }
 
                 // sql statement to insert additional fields into additional_fields table in contact_manager_db database
-                $sql = "INSERT INTO additional_fields(userID, field_name, field_value) 
-                        VALUES($id, '$customFieldName', '$customFieldValue')";
+                $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value) 
+                        VALUES($id, $formNumber, '$customFieldName', '$customFieldValue')";
 
                try
                {
                     $result = $conn->query($sql);
-                    /*
-                    if($result === TRUE)
-                    {
-                        $_SESSION['add_contact_success'] = "Contact added successfully";
-                        header("Location: dashboard");
-                        exit();
-                    }
-                    *//*
                }
                catch(mysqli_sql_exception $e)
                {
-                /*
                     if($e->getCode() == 1062)
                     {
                         $_SESSION['add_contact_error'] = "Mobile or Landline Number Already Exists!";
@@ -302,11 +321,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                     }
                     else
                     {
-                        *//*
-                        $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
+                        $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later1!";
                         header("Location: dashboard");
                         exit();
-                    //}
+                    }
                }
             }
 
@@ -314,6 +332,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             header("Location: dashboard");
             exit();
         }
-    }*/
+    }
+    else
+    {
+        $_SESSION['add_contact_success'] = "Contact added successfully";
+        header("Location: dashboard");
+        exit();
+    }
 }
 ?>
