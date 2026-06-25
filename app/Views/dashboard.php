@@ -15,6 +15,36 @@ foreach($_SESSION as $key => $value)
     }
 }
 
+if(isset($_SESSION['form_data']))
+{
+    print_r($_SESSION['form_data']);
+}
+
+function old(string $inputFieldName)
+{
+    if(isset($_SESSION['form_data']))
+    {
+        if(array_key_exists($inputFieldName, $_SESSION['form_data']))
+        {
+            $value = $_SESSION['form_data'][$inputFieldName];
+            unset($_SESSION['form_data'][$inputFieldName]);
+            return $value;
+        }
+    }
+    else
+    {
+        if($inputFieldName == 'gender')
+        {
+            return "male";
+        }
+        else
+        {
+            return "";
+        }
+    }
+}
+
+
 $js = "script/dashboard.js";
 require '../app/Views/headerandnavbar.php';
 
@@ -77,7 +107,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="firstname">First Name*</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="firstname" name="firstname" maxlength="100" required>
+                            <input type="text" id="firstname" name="firstname" value="<?= old('firstname'); ?>" maxlength="100" required>
                         </div>
                     </div>
 
@@ -96,7 +126,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="middlename">Middle Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="middlename" name="middlename" maxlength="100">
+                            <input type="text" id="middlename" name="middlename" value="<?= old('middlename'); ?>" maxlength="100">
                         </div>
                     </div>
 
@@ -115,7 +145,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="lastname">Last Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="lastname" name="lastname" maxlength="100">
+                            <input type="text" id="lastname" name="lastname" value="<?= old('lastname'); ?>" maxlength="100">
                         </div>
                     </div>
 
@@ -134,7 +164,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="nickname">Nickname</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="nickname" name="nickname" maxlength="100">
+                            <input type="text" id="nickname" name="nickname" value="<?= old('nickname'); ?>" maxlength="100">
                         </div>
                     </div>
 
@@ -154,11 +184,33 @@ if(!isset($_SESSION['user_token']))
                         </div>
                         <div class="col75 radio">
                             <div>
-                                <input type="radio" id="male" name="gender" value="male" checked>
+                                <input type="radio" id="male" name="gender" value="male" 
+                                <?php 
+                                    $value = old('gender');
+                                    if($value == 'male')
+                                    {
+                                        echo " checked";
+                                    }
+                                    else
+                                    {
+                                        echo "";
+                                    }
+                                ?>>
                                 <label for="male">Male</label>
                             </div>
                             <div>
-                                <input type="radio" id="female" name="gender" value="female">
+                                <input type="radio" id="female" name="gender" value="female"
+                                <?php 
+                                    $value = old('gender');
+                                    if($value == 'female')
+                                    {
+                                        echo " checked";
+                                    }
+                                    else
+                                    {
+                                        echo "";
+                                    }
+                                ?>>
                                 <label for="female">Female</label>
                             </div>
                         </div>
@@ -179,7 +231,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="mobnum">Mobile Number</label>
                         </div>
                         <div class="col75">
-                            <input type="tel" id="mobnum" name="mobnum" pattern="[0-9]{10}">
+                            <input type="tel" id="mobnum" name="mobnum" value="<?= old('mobnum'); ?>" pattern="[0-9]{10}">
                         </div>
                     </div>
 
@@ -198,7 +250,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="landnum">Landline Number</label>
                         </div>
                         <div class="col75">
-                            <input type="tel" id="landnum" name="landnum">
+                            <input type="tel" id="landnum" name="landnum" value="<?= old('landnum'); ?>">
                         </div>
                     </div>
 
@@ -217,7 +269,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="address">Address</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="address" name="address" maxlength="500">
+                            <input type="text" id="address" name="address" value="<?= old('address'); ?>" maxlength="500">
                         </div>
                     </div>
 
@@ -236,7 +288,7 @@ if(!isset($_SESSION['user_token']))
                             <label for="relationship">Relationship</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="relationship" name="relationship" maxlength="100">
+                            <input type="text" id="relationship" name="relationship" value="<?= old('relationship'); ?>" maxlength="100">
                         </div>
                     </div>
 
@@ -271,10 +323,18 @@ if(!isset($_SESSION['user_token']))
 
             <div id="filter_contact"></div>
 
-            <div id="result"></div>
+            <div id="contact_data">
+                <div id="result"></div>
+                <div id="pagination">
+                    <button type="button" id="previous_page">&lt;</button>
+                    <input type="number" id="page_number" min="1" step="1" value="1">
+                    <button type="button" id="next_page">&gt;</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </div>
 
 <?php require '../app/Views/footer.php'; ?>
+<?php unset($_SESSION['form_data']); ?>

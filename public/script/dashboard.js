@@ -12,8 +12,10 @@ else
 */
 
 var counter = 1;
+var total_pages = 1;
 
-window.addEventListener("DOMContentLoaded", function() {
+function get_user_contacts(pageNumber = 1)
+{
     var xhttp = new XMLHttpRequest();
     var resultdiv = document.getElementById("result");
     xhttp.onload = function() {
@@ -31,10 +33,15 @@ window.addEventListener("DOMContentLoaded", function() {
         else if(data.status == 'success')
         {
             resultdiv.innerHTML = data.data;
+            total_pages = Math.ceil(data.total_records / 10);
         }
     }
-    xhttp.open("GET", "get_user_contacts", true);
-    xhttp.send();    
+    xhttp.open("GET", "get_user_contacts?page=" + pageNumber, true);
+    xhttp.send();
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+    get_user_contacts(1);
 });
 
 window.addEventListener("DOMContentLoaded", function() {
@@ -107,5 +114,38 @@ window.addEventListener("DOMContentLoaded", function() {
         parentDiv.insertBefore(newRowDiv, arr);
         counter = counter + 2;
         //console.log(counter);
+    });
+});
+
+window.addEventListener("DOMContentLoaded", function() {
+    var previous_page_button = document.getElementById("previous_page");
+    var next_page_button = document.getElementById("next_page");
+
+    var page_number = document.getElementById("page_number");
+
+    previous_page_button.addEventListener("click", function() {
+        if(Math.floor(Number(page_number.value)) <= 1)
+        {
+            page_number.value = 1;
+        }
+        else
+        {
+            page_number.value = Math.floor(Number(page_number.value)) - 1;
+        }
+
+        get_user_contacts(page_number.value);
+    });
+
+    next_page_button.addEventListener("click", function() {
+        if(Math.floor(Number(page_number.value)) >= total_pages)
+        {
+            page_number.value = total_pages;
+        }
+        else
+        {
+            page_number.value = Math.floor(Number(page_number.value)) + 1;
+        }
+
+        get_user_contacts(page_number.value);
     });
 });

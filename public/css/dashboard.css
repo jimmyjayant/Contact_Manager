@@ -48,6 +48,7 @@ h1 {
 
 #result {
     padding:1rem;
+    overflow-x:auto;
 }
 
 .hide {
@@ -150,7 +151,6 @@ table {
     width:100%;
     border-collapse:collapse;
     border:2px solid grey;
-    overflow-x:auto;
 }
 
 table th {
@@ -169,6 +169,32 @@ table td {
     text-align:center;
     padding:0.3rem;
     border:1px solid grey;
+}
+
+#pagination {
+    text-align:center;
+    padding:1rem;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+}
+
+input#page_number {
+    width:5rem;
+    max-width:fit-content;
+    margin:0 1rem;
+    text-align:center;
+}
+
+#previous_page, #next_page {
+    padding:0 1rem;
+    border-radius:1rem;
+    font-size:1.5rem;
+    cursor:pointer;
+}
+
+#previous_page:hover, #next_page:hover {
+    background-color:darkgrey;
 }
 
 @media screen and (max-width:600px) {
