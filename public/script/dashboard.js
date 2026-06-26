@@ -1,18 +1,10 @@
-// Session storage
-//var display_add_contact_div = 0;
-/*
-if(sessionStorage.getItem("show"))
-{
-    display_add_contact_div = sessionStorage.getItem("add_div_active");
-}
-else
-{
-    sessionStorage.setItem("add_div_active", "0");
-}
-*/
 
 var counter = 1;
 var total_pages = 1;
+var searchActive = 0;
+var filterActive = 0;
+var searchText = "";
+var filterText = "";
 
 function get_user_contacts(pageNumber = 1)
 {
@@ -40,8 +32,97 @@ function get_user_contacts(pageNumber = 1)
     xhttp.send();
 }
 
+
+function search_user_contacts(searchText, page = 1)
+{
+    var xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        //console.log(this.responseText);
+        var data = JSON.parse(this.responseText);
+        if(data.status == 'error')
+        {
+            alert(data.data);
+            searchActive = 0;
+        }
+        else if(data.status == 'success')
+        {
+            var resultdiv = document.getElementById("result");
+            resultdiv.innerHTML = "";
+            resultdiv.innerHTML = data.data;
+            total_pages = Math.ceil(data.total_records / 10);
+            searchActive = 1;
+            console.log(searchActive);
+        }
+    }
+    xhttp.open("GET", 
+                    "search_user_contacts?searchText=" + searchText + "&page=" + page, 
+                    true);
+    xhttp.send();
+}
+
+function filter_user_contacts(filterText, page = 1)
+{
+    // Validate and Sanitize data
+
+
+
+
+
+
+
+
+
+    // AJAX Request
+    var xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        //console.log(this.responseText);
+        var data = JSON.parse(this.responseText);
+        if(data.status == 'error')
+        {
+            alert(data.data);
+            filterActive = 0;
+        }
+        else if(data.status == 'success')
+        {
+            var resultdiv = document.getElementById("result");
+            resultdiv.innerHTML = "";
+            resultdiv.innerHTML = data.data;
+            total_pages = Math.ceil(data.total_records / 10);
+            filterActive = 1;
+            console.log(filterActive);
+        }
+    }
+    xhttp.open("GET", 
+                    "filter_user_contacts?filterText=" + filterText + "&page=" + page, 
+                    true);
+    xhttp.send();
+}
+
+
 window.addEventListener("DOMContentLoaded", function() {
     get_user_contacts(1);
+});
+
+window.addEventListener("DOMContentLoaded", function() {
+    var searchButton = document.getElementById("search");
+    searchButton.addEventListener("click", function() {
+        searchText = document.getElementById("searchtext");
+
+        searchText = searchText.value.trim();
+        console.log(searchText);
+        if(searchText == '')
+        {
+            alert("Please enter firstname!");
+        }
+        else if(searchText.length > 100)
+        {
+            alert("Firstname cannot be more than 100 characters!");
+        }
+        else
+        {
+            search_user_contacts(searchText, 1);
+        }
+    });
 });
 
 window.addEventListener("DOMContentLoaded", function() {
@@ -62,9 +143,9 @@ window.addEventListener("DOMContentLoaded", function() {
         add_contact_div.classList.remove("hide");       
     });
 
-    var cross_button = document.getElementById("cross_button");
+    var add_cross_button = document.getElementById("add_cross_button");
 
-    cross_button.addEventListener("click", function() {
+    add_cross_button.addEventListener("click", function() {
         add_contact_div.classList.add("hide");
     });
 
@@ -81,6 +162,7 @@ window.addEventListener("DOMContentLoaded", function() {
         newInputElement.name = "customInputElement" + counter;
         newInputElement.maxLength = "100";
         newInputElement.placeholder = "Enter field name here";
+        newInputElement.required = "true";
 
         newCol25Div.appendChild(newInputElement);
 
@@ -93,6 +175,7 @@ window.addEventListener("DOMContentLoaded", function() {
         newInputElement1.name = "customInputElement" + (counter + 1);
         newInputElement1.maxLength = "500";
         newInputElement1.placeholder = "Enter field value here";
+        newInputElement1.required = "true";
 
         newCol75Div.appendChild(newInputElement1);
 
@@ -118,6 +201,30 @@ window.addEventListener("DOMContentLoaded", function() {
 });
 
 window.addEventListener("DOMContentLoaded", function() {
+    var filter_contact_button = document.getElementById("filter");
+    var filter_contact_div = document.getElementById("filter_contact");
+
+    if(display_filter_contact_div == 0)
+    {
+        filter_contact_div.classList.add("hide");
+    }
+    else
+    {
+        filter_contact_div.classList.remove("hide");
+    }
+    
+    filter_contact_button.addEventListener("click", function() {
+        filter_contact_div.classList.remove("hide");       
+    });
+
+    var filter_cross_button = document.getElementById("filter_cross_button");
+
+    filter_cross_button.addEventListener("click", function() {
+        filter_contact_div.classList.add("hide");
+    });
+});
+
+window.addEventListener("DOMContentLoaded", function() {
     var previous_page_button = document.getElementById("previous_page");
     var next_page_button = document.getElementById("next_page");
 
@@ -133,7 +240,14 @@ window.addEventListener("DOMContentLoaded", function() {
             page_number.value = Math.floor(Number(page_number.value)) - 1;
         }
 
-        get_user_contacts(page_number.value);
+        if(searchActive == 1)
+        {
+            search_user_contacts(searchText, page_number.value);
+        }
+        else
+        {
+            get_user_contacts(page_number.value);
+        }
     });
 
     next_page_button.addEventListener("click", function() {
@@ -146,6 +260,13 @@ window.addEventListener("DOMContentLoaded", function() {
             page_number.value = Math.floor(Number(page_number.value)) + 1;
         }
 
-        get_user_contacts(page_number.value);
+        if(searchActive == 1)
+        {
+            search_user_contacts(searchText, page_number.value);
+        }
+        else
+        {
+            get_user_contacts(page_number.value);
+        }
     });
 });

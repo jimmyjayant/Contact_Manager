@@ -45,15 +45,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     }
 
     // Putting all form data in a session variable
-    $_SESSION['form_data']['firstname'] = $_POST['firstname'];
-    $_SESSION['form_data']['middlename'] = $_POST['middlename'];
-    $_SESSION['form_data']['lastname'] = $_POST['lastname'];
-    $_SESSION['form_data']['nickname'] = $_POST['nickname'];
-    $_SESSION['form_data']['gender'] = $_POST['gender'];
-    $_SESSION['form_data']['mobnum'] = $_POST['mobnum'];
-    $_SESSION['form_data']['landnum'] = $_POST['landnum'];
-    $_SESSION['form_data']['address'] = $_POST['address'];
-    $_SESSION['form_data']['relationship'] = $_POST['relationship'];
+    $_SESSION['add_form_data']['firstname'] = $_POST['firstname'];
+    $_SESSION['add_form_data']['middlename'] = $_POST['middlename'];
+    $_SESSION['add_form_data']['lastname'] = $_POST['lastname'];
+    $_SESSION['add_form_data']['nickname'] = $_POST['nickname'];
+    $_SESSION['add_form_data']['gender'] = $_POST['gender'];
+    $_SESSION['add_form_data']['mobnum'] = $_POST['mobnum'];
+    $_SESSION['add_form_data']['landnum'] = $_POST['landnum'];
+    $_SESSION['add_form_data']['address'] = $_POST['address'];
+    $_SESSION['add_form_data']['relationship'] = $_POST['relationship'];
 
     $firstname = test_input($_POST['firstname']);
 

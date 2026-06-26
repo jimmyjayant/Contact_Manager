@@ -59,7 +59,7 @@ h1 {
     display:block;
 }
 
-#add_contact {
+#add_contact, #filter_contact {
     border:2px solid grey;
     border-radius:2rem;
     text-align:center;
@@ -70,21 +70,21 @@ h1 {
     padding:1rem;
 }
 
-#cross_div {
+#add_cross_div, #filter_cross_div {
     display:flex;
     flex-direction:row;
     flex-wrap:nowrap;
     justify-content:end;
 }
 
-#cross_button {
+#add_cross_button, #filter_cross_button {
     padding:0.5rem;
     font-weight:bold;
     border-radius:50%;
     cursor:pointer;
 }
 
-#cross_button:hover {
+#add_cross_button:hover, #filter_cross_button:hover {
     background-color:darkgrey;
 }
 

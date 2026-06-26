@@ -79,10 +79,21 @@ switch($page)
         require '../app/Models/get_user_contacts.php';
         break;
 
+    case 'search_user_contacts':
+    case 'search_user_contacts.php':
+        require '../app/Models/search_user_contacts.php';
+        break;
+
     case 'add_user_contact':
     case 'add_user_contact.php':
         require '../app/Models/add_user_contact.php';
         break;
+
+    case 'filter_user_contact':
+    case 'filter_user_contact.php':
+        require '../app/Models/filter_user_contact.php';
+        break;
+
 /*
     case 'createusertable':
         require '../app/Config/Database_Connection.php';

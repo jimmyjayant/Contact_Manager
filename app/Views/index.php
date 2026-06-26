@@ -13,8 +13,13 @@ require '../app/Views/headerandnavbar.php';
             <br>
             Store and manage your contacts hassle free.
             <br>
-            <a href="login" target="_self">Sign In</a>
-            <a href="register" target="_self">Sign Up</a>
+            <?php
+                if(!isset($_SESSION['user_token']))
+                {
+                    echo "<a href='login' target='_self'>Sign In</a>";
+                    echo "<a href='register' target='_self'>Sign Up</a>";
+                }
+            ?>
         </div>
     </div>
 
