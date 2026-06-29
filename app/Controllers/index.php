@@ -94,6 +94,11 @@ else if($_SERVER['REQUEST_METHOD'] === 'POST')
             require '../app/Models/add_user_contact.php';
             break;
 
+        case 'change_user_password':
+        case 'change_user_password.php':
+            require '../app/Models/change_user_password.php';
+            break;
+
         case 'filter_user_contact':
         case 'filter_user_contact.php':
             require '../app/Models/filter_user_contact.php';
