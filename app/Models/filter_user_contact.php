@@ -6,6 +6,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+
     function test_input($input)
     {
         $input = trim($input);
@@ -14,203 +15,345 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         return $input;
     }
 
+    //print_r(json_encode($_POST['filterData_']));
+    parse_str($_POST['filterData_'], $data);
+    //echo json_encode($data);
+    //$DataToFilter = $_POST['filterData'];
+    //var_dump($DataToFilter);
+    //exit();
+
+    /*
     // Putting all form data in a session variable
     $_SESSION['filter_form_data']['filter_firstname'] = $_POST['filter_firstname'];
     $_SESSION['filter_form_data']['filter_middlename'] = $_POST['filter_middlename'];
     $_SESSION['filter_form_data']['filter_lastname'] = $_POST['filter_lastname'];
     $_SESSION['filter_form_data']['filter_nickname'] = $_POST['filter_nickname'];
     $_SESSION['filter_form_data']['filter_gender'] = $_POST['filter_gender'];
-    $_SESSION['filter_form_data']['filter_mobnum'] = $_POST['filter_mobnum'];
-    $_SESSION['filter_form_data']['filter_landnum'] = $_POST['filter_landnum'];
+    $_SESSION['filter_form_data']['filter_mobile'] = $_POST['filter_mobile'];
+    $_SESSION['filter_form_data']['filter_landline'] = $_POST['filter_landline'];
     $_SESSION['filter_form_data']['filter_address'] = $_POST['filter_address'];
     $_SESSION['filter_form_data']['filter_relationship'] = $_POST['filter_relationship'];
+    */
 
-    $filter_firstname = test_input($_POST['filter_firstname']);
+
+    $filter_firstname = test_input($data['filter_firstname']);
 
     if(!empty($filter_firstname))
     {
         if(strlen($filter_firstname) > 100)
         {
+            $data['status'] = "error";
+            $data['data'] = "First Name cannot be more than 100 characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_firstname_error'] = "First Name cannot be more than 100 characters!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_firstname))
         {
+            $data['status'] = "error";
+            $data['data'] = "First Name cannot contain digits!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_firstname_error'] = "First Name cannot contain digits!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_firstname))
         {
+            $data['status'] = "error";
+            $data['data'] = "First Name cannot contain whitespaces!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_firstname_error'] = "First Name cannot contain whitespaces!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_firstname))
         {
+            $data['status'] = "error";
+            $data['data'] = "First Name cannot contain special characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_firstname_error'] = "First Name cannot contain special characters!";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
 
-    $filter_middlename = test_input($_POST['filter_middlename']);
+
+    $filter_middlename = test_input($data['filter_middlename']);
 
     if(!empty($filter_middlename))
     {
         if(strlen($filter_middlename) > 100)
         {
+            $data['status'] = "error";
+            $data['data'] = "Middle Name cannot be more than 100 characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_middlename_error'] = "Middle Name cannot be more than 100 characters!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_middlename))
         {
+            $data['status'] = "error";
+            $data['data'] = "Middle Name cannot contain digits!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_middlename_error'] = "Middle Name cannot contain digits!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_middlename))
         {
+            $data['status'] = "error";
+            $data['data'] = "Middle Name cannot contain whitespaces!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_middlename_error'] = "Middle Name cannot contain whitespaces!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_middlename))
         {
+            $data['status'] = "error";
+            $data['data'] = "Middle Name cannot contain special characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_middlename_error'] = "Middle Name cannot contain special characters!";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
+        
 
-    $filter_lastname = test_input($_POST['filter_lastname']);
+    $filter_lastname = test_input($data['filter_lastname']);
 
     if(!empty($filter_lastname))
     {
         if(strlen($filter_lastname) > 100)
         {
+            $data['status'] = "error";
+            $data['data'] = "Last Name cannot be more than 100 characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_lastname_error'] = "Last Name cannot be more than 100 characters!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_lastname))
         {
+            $data['status'] = "error";
+            $data['data'] = "Last Name cannot contain digits!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_lastname_error'] = "Last Name cannot contain digits!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_lastname))
         {
+            $data['status'] = "error";
+            $data['data'] = "Last Name cannot contain whitespaces!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_lastname_error'] = "Last Name cannot contain whitespaces!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_lastname))
         {
+            $data['status'] = "error";
+            $data['data'] = "Last Name cannot contain special characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_lastname_error'] = "Last Name cannot contain special characters!";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
 
-    $filter_nickname = test_input($_POST['filter_nickname']);
+
+    $filter_nickname = test_input($data['filter_nickname']);
 
     if(!empty($filter_nickname))
     {
         if(strlen($filter_nickname) > 100)
         {
+            $data['status'] = "error";
+            $data['data'] = "Nick Name cannot be more than 100 characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_nickname_error'] = "Nick Name cannot be more than 100 characters!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_nickname))
         {
+            $data['status'] = "error";
+            $data['data'] = "Nick Name cannot contain digits!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_nickname_error'] = "Nick Name cannot contain digits!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_nickname))
         {
+            $data['status'] = "error";
+            $data['data'] = "Nick Name cannot contain whitespaces!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_nickname_error'] = "Nick Name cannot contain whitespaces!";
             header("Location: dashboard");
+            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_nickname))
         {
+            $data['status'] = "error";
+            $data['data'] = "Nick Name cannot contain special characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_nickname_error'] = "Nick Name cannot contain special characters!";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
 
-    $filter_gender = test_input($_POST['filter_gender']);
+
+    $filter_gender = test_input($data['filter_gender']);
 
     if(!empty($filter_gender))
     {
         if(($filter_gender != 'male') && ($filter_gender != 'female'))
         {
+            $data['status'] = "error";
+            $data['data'] = "Gender should be either male or female";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_gender_error'] = "Gender should be either male or female";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
 
-    $filter_mobnum = test_input($_POST['filter_mobnum']);
 
-    if(!empty($filter_mobnum) && !preg_match("/^\d{10}$/", $filter_mobnum))
+    $filter_mobile = test_input($data['filter_mobile']);
+
+    if(!empty($filter_mobile) && !preg_match("/^\d{10}$/", $filter_mobile))
     {
+        $data['status'] = "error";
+        $data['data'] = "Mobile Number must contain 10 digits!";
+        $data = json_encode($data);
+        echo $data;
+        /*
         $_SESSION['filter_mobile_error'] = "Mobile Number must contain 10 digits!";
         header("Location: dashboard");
+        */
         exit();
     }
 
-    $filter_landnum = test_input($_POST['filter_landnum']);
+    $filter_landline = test_input($data['filter_landline']);
 
-    if(!empty($filter_landnum) && !preg_match("/^\d{10}$/", $filter_landnum))
+    if(!empty($filter_landline) && !preg_match("/^\d{10}$/", $filter_landline))
     {
+        $data['status'] = "error";
+        $data['data'] = "Landline Number must contain 10 digits!";
+        $data = json_encode($data);
+        echo $data;
+        /*
         $_SESSION['filter_landline_error'] = "Landline Number must contain 10 digits!";
         header("Location: dashboard");
+        */
         exit();
     }
 
-    $filter_address = test_input($_POST['filter_address']);
+    $filter_address = test_input($data['filter_address']);
 
     if(!empty($filter_address))
     {
         if(strlen($filter_address) > 500)
         {
+            $data['status'] = "error";
+            $data['data'] = "Address cannot contain more than 500 characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_address_error'] = "Address cannot contain more than 500 characters!";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
 
-    $filter_relationship = test_input($_POST['filter_relationship']);
+
+    $filter_relationship = test_input($data['filter_relationship']);
 
     if(!empty($filter_relationship))
     {
         if(strlen($filter_relationship) > 100)
         {
+            $data['status'] = "error";
+            $data['data'] = "Relationship cannot contain more than 100 characters!";
+            $data = json_encode($data);
+            echo $data;
+            /*
             $_SESSION['filter_relationship_error'] = "Relationship cannot contain more than 100 characters!";
             header("Location: dashboard");
+            */
             exit();
         }
     }
-    
+
     // If all input fields are empty
     if(empty($filter_firstname) && empty($filter_middlename) && empty($filter_lastname) && empty($filter_nickname) &&
-        empty($filter_gender) && empty($filter_mobnum) && empty($filter_landnum) && empty($filter_address) && empty($filter_relationship))
+        empty($filter_gender) && empty($filter_mobile) && empty($filter_landline) && empty($filter_address) && empty($filter_relationship))
     {
+        $data['status'] = "error";
+        $data['data'] = "Please provide atleast one input!";
+        $data = json_encode($data);
+        echo $data;
+        /*
         $_SESSION['filter_contact_error'] = "Please provide atleast one input!";
         header("Location: dashboard");
+        */
         exit();
     }
 
@@ -225,215 +368,238 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $row = $result->fetch_assoc();
         $id = $row['id'];
 
-        $sql = "SELECT * FROM contacts WHERE user_id = {$id} AND ";
+        $sql = "SELECT * FROM contacts WHERE ";
+        
+        $parameter = "user_id = {$id} AND ";
 
         if(!empty($filter_firstname))
         {
-            $sql .= "first_name = {$filter_firstname} ";
+            $parameter .= "first_name = '{$filter_firstname}' ";
         }
 
         if(!empty($filter_middlename))
         {
-            if(str_contains($sql, "first_name"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND middle_name = {$filter_middlename}";
+                $parameter .= "middle_name = '{$filter_middlename}'";
             }
             else
             {
-                $sql .= "middle_name = {$filter_middlename}";
+                $parameter .= "AND middle_name = '{$filter_middlename}'";
             }
         }
 
         if(!empty($filter_lastname))
         {
-            if(str_contains($sql, "middle_name"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND last_name = {$filter_lastname}";
+                $parameter .= "last_name = '{$filter_lastname}'";
             }
             else
             {
-                $sql .= "last_name = {$filter_lastname}";
+                $parameter .= " AND last_name = '{$filter_lastname}'";
             }
         }
 
         if(!empty($filter_nickname))
         {
-            if(str_contains($sql, "last_name"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND nickname = {$filter_nickname}";
+                $parameter .= "nickname = '{$filter_nickname}'";
             }
             else
             {
-                $sql .= "nickname = {$filter_nickname}";
+                $parameter .= "AND nickname = '{$filter_nickname}'";
             }
         }
 
         if(!empty($filter_gender))
         {
-            if(str_contains($sql, "nickname"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND gender = {$filter_gender}";
+                $parameter .= "gender = '{$filter_gender}'";
             }
             else
             {
-                $sql .= "gender = {$filter_gender}";
+                $parameter .= "AND gender = '{$filter_gender}'";
             }
         }
 
-        if(!empty($filter_mobnum))
+        if(!empty($filter_mobile))
         {
-            if(str_contains($sql, "gender"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND mobile_number = {$filter_mobnum}";
+                $parameter .= "mobile_number = '{$filter_mobile}'";
             }
             else
             {
-                $sql .= "mobile_number = {$filter_mobnum}";
+                $parameter .= "AND mobile_number = '{$filter_mobile}'";
             }
         }
 
-        if(!empty($filter_landnum))
+        if(!empty($filter_landline))
         {
-            if(str_contains($sql, "mobile_number"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND landline_number = {$filter_landnum}";
+                $parameter .= "landline_number = '{$filter_landline}'";
             }
             else
             {
-                $sql .= "landline_number = {$filter_landnum}";
+                $parameter .= "AND landline_number = '{$filter_landline}'";
             }
         }
 
         if(!empty($filter_address))
         {
-            if(str_contains($sql, "landline_number"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND addr = {$filter_address}";
+                $parameter .= "addr = '{$filter_address}'";
             }
             else
             {
-                $sql .= "addr = {$filter_address}";
+                $parameter .= "AND addr = '{$filter_address}'";
             }
         }
 
         if(!empty($filter_relationship))
         {
-            if(str_contains($sql, "addr"))
+            if(str_ends_with($parameter, "AND "))
             {
-                $sql .= "AND relationship = {$filter_relationship}";
+                $parameter .= "relationship = '{$filter_relationship}'";
             }
             else
             {
-                $sql .= "relationship = {$filter_relationship}";
+                $parameter .= "AND relationship = '{$filter_relationship}'";
             }
         }
 
-        
+        $sql .= $parameter;
 
-        // Pagination
-        $page = $_GET['page'] ?? 1;
+        //echo json_encode($sql);
+        //exit();
 
-        $page = test_input($page);
+        // Finding the total number of contacts based on provided filter data
+        $totalContactsQuery = "SELECT COUNT(*) AS total FROM contacts WHERE ";
+        $totalContactsQuery .= $parameter;
 
-        $page = floor((int)$page);
+        //echo json_encode($totalContactsQuery);
+        //exit();
 
-        if($page < 1 || $page > $total_pages)
+        $totalContactsQueryResult = $conn->query($totalContactsQuery);
+
+        if($totalContactsQueryResult->num_rows > 0)
         {
-            $data['status'] = "error";
-            $data['data'] = "Page Number must be between 1-$total_pages";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
+            $row = $totalContactsQueryResult->fetch_assoc();
 
-        $startingIndex = (($page - 1) * 10);
+            $total_records = $row['total'];
+            $total_pages = ceil($total_records / 10);
 
-        $sql .= " LIMIT $startingIndex, 10";
+            // Pagination
+            $page = $data['page'] ?? 1;
 
-        $result = $conn->query($sql);
+            $page = test_input($page);
 
-        if($result->num_rows > 0)
-        {
-            ob_start();
+            $page = floor((int)$page);
 
-            echo "<table>";
-            echo "<tr>";
-            echo "<th>Serial Number</th>";
-            echo "<th>First Name</th>";
-            echo "<th>Middle Name</th>";
-            echo "<th>Last Name</th>";
-            echo "<th>Nickname</th>";
-            echo "<th>Gender</th>";
-            echo "<th>Mobile Number</th>";
-            echo "<th>Landline Number</th>";
-            echo "<th>Address</th>";
-            echo "<th>Relationship</th>";
-            echo "<th>Created At</th>";
-            echo "</tr>";
-
-            while($row = $result->fetch_assoc())
+            if($page < 1 || $page > $total_pages)
             {
-                $formNumber = $row['form_number'];
+                $data['status'] = "error";
+                $data['data'] = "Page Number must be between 1-$total_pages";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
+
+            $startingIndex = (($page - 1) * 10);
+
+            $sql .= " LIMIT $startingIndex, 10";
+
+            $result = $conn->query($sql);
+
+            if($result->num_rows > 0)
+            {
+                ob_start();
+
+                echo "<table>";
                 echo "<tr>";
-                echo "<td>" . $row['form_number'] ."</td>";
-                echo "<td>" . $row['first_name'] ."</td>";
-                echo "<td>" . $row['middle_name'] ."</td>";
-                echo "<td>" . $row['last_name'] ."</td>";
-                echo "<td>" . $row['nickname'] ."</td>";
-                echo "<td>" . $row['gender'] ."</td>";
-                echo "<td>" . $row['mobile_number'] ."</td>";
-                echo "<td>" . $row['landline_number'] ."</td>";
-                echo "<td>" . $row['addr'] ."</td>";
-                echo "<td>" . $row['relationship'] ."</td>";
-                echo "<td>" . $row['created_at'] ."</td>";
+                echo "<th>Serial Number</th>";
+                echo "<th>First Name</th>";
+                echo "<th>Middle Name</th>";
+                echo "<th>Last Name</th>";
+                echo "<th>Nickname</th>";
+                echo "<th>Gender</th>";
+                echo "<th>Mobile Number</th>";
+                echo "<th>Landline Number</th>";
+                echo "<th>Address</th>";
+                echo "<th>Relationship</th>";
+                echo "<th>Created At</th>";
+                echo "</tr>";
 
-                $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
-
-                $result1 = $conn->query($sql);
-
-                if($result1->num_rows > 0)
+                while($row = $result->fetch_assoc())
                 {
-                    $row = $result1->fetch_assoc();
-                    $total_additional_fields = $row['total_fields'];
-                    $total_additional_fields_pages = ceil($total_additional_fields / 10);
+                    $formNumber = $row['form_number'];
+                    echo "<tr>";
+                    echo "<td>" . $row['form_number'] ."</td>";
+                    echo "<td>" . $row['first_name'] ."</td>";
+                    echo "<td>" . $row['middle_name'] ."</td>";
+                    echo "<td>" . $row['last_name'] ."</td>";
+                    echo "<td>" . $row['nickname'] ."</td>";
+                    echo "<td>" . $row['gender'] ."</td>";
+                    echo "<td>" . $row['mobile_number'] ."</td>";
+                    echo "<td>" . $row['landline_number'] ."</td>";
+                    echo "<td>" . $row['addr'] ."</td>";
+                    echo "<td>" . $row['relationship'] ."</td>";
+                    echo "<td>" . $row['created_at'] ."</td>";
 
-                    // Pagination here must be created in the future
+                    $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
-                    $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+                    $result1 = $conn->query($sql);
 
-                    $result2 = $conn->query($sql);
-
-                    if($result2->num_rows > 0)
+                    if($result1->num_rows > 0)
                     {
-                        while($row = $result2->fetch_assoc())
+                        $row = $result1->fetch_assoc();
+                        $total_additional_fields = $row['total_fields'];
+                        $total_additional_fields_pages = ceil($total_additional_fields / 10);
+
+                        // Pagination here must be created in the future
+
+                        $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+
+                        $result2 = $conn->query($sql);
+
+                        if($result2->num_rows > 0)
                         {
-                            echo "<th>" . $row['field_name'] . "</th>";
-                            echo "<td>" . $row['field_value'] . "</td>";
+                            while($row = $result2->fetch_assoc())
+                            {
+                                echo "<th>" . $row['field_name'] . "</th>";
+                                echo "<td>" . $row['field_value'] . "</td>";
+                            }
                         }
                     }
                 }
+                echo "</tr>";
+                echo "</table>";
+
+                $data['data'] = ob_get_contents();
+                ob_end_clean();
+
+                $data['status'] = "success";
+                $data['total_pages'] = $total_pages;
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
             }
-            echo "</tr>";
-            echo "</table>";
-
-            $data['data'] = ob_get_contents();
-            ob_end_clean();
-
-            $data['status'] = "success";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else
-        {
-            $data['status'] = "error";
-            $data['data'] = "No contact found!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
+            else
+            {
+                $data['status'] = "error";
+                $data['data'] = "No contact found!";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
         }
     }
 }
