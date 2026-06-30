@@ -4,6 +4,10 @@
 require_once "../app/Views/sessionstart.php";
 require_once "../app/Config/Database_Connection.php";
 
+ini_set("display_errors", 0);
+
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 function test_input($input)
 {
     $input = trim($input);
@@ -64,129 +68,152 @@ $token = $_SESSION['user_token'];
 // sql query
 $sql = "SELECT id FROM user WHERE token='{$token}'";
 
-$result = $conn->query($sql);
-
-if($result->num_rows > 0)
+try
 {
-    $row = $result->fetch_assoc();
-    $id = $row['id'];
-
-    $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id} AND first_name='$searchText'";
+    if(!$conn)
+    {
+        $data['status'] = "error";
+        $data['data'] = "Database server unavailable. Please try again later!";
+        $data = json_encode($data);
+        header("Content-Type: application/json");
+        echo $data;
+        exit();
+    }
 
     $result = $conn->query($sql);
 
     if($result->num_rows > 0)
     {
         $row = $result->fetch_assoc();
-        // Total number of records
-        $data['total_records'] = $row['total'];
+        $id = $row['id'];
 
-        $total_pages = ceil($data['total_records'] / 10);
-
-        $page = $_GET['page'] ?? 1;
-
-        $page = test_input($page);
-
-        $page = floor((int)$page);
-
-        if($page < 1 || $page > $total_pages)
-        {
-            $data['status'] = "error";
-            $data['data'] = "Page Number must be between 1-$total_pages";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-
-        $startingIndex = (($page - 1) * 10);
-
-        $sql = "SELECT * FROM contacts WHERE user_id=$id AND first_name='$searchText' LIMIT $startingIndex, 10";
+        $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id} AND first_name='$searchText'";
 
         $result = $conn->query($sql);
 
         if($result->num_rows > 0)
         {
-            ob_start();
+            $row = $result->fetch_assoc();
+            // Total number of records
+            $data['total_records'] = $row['total'];
 
-            echo "<table>";
-            echo "<tr>";
-            echo "<th>Serial Number</th>";
-            echo "<th>First Name</th>";
-            echo "<th>Middle Name</th>";
-            echo "<th>Last Name</th>";
-            echo "<th>Nickname</th>";
-            echo "<th>Gender</th>";
-            echo "<th>Mobile Number</th>";
-            echo "<th>Landline Number</th>";
-            echo "<th>Address</th>";
-            echo "<th>Relationship</th>";
-            echo "<th>Created At</th>";
-            echo "</tr>";
+            $total_pages = ceil($data['total_records'] / 10);
 
-            while($row = $result->fetch_assoc())
+            $page = $_GET['page'] ?? 1;
+
+            $page = test_input($page);
+
+            $page = floor((int)$page);
+
+            if($page < 1 || $page > $total_pages)
             {
-                $formNumber = $row['form_number'];
+                $data['status'] = "error";
+                $data['data'] = "Page Number must be between 1-$total_pages";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
+
+            $startingIndex = (($page - 1) * 10);
+
+            $sql = "SELECT * FROM contacts WHERE user_id=$id AND first_name='$searchText' LIMIT $startingIndex, 10";
+
+            $result = $conn->query($sql);
+
+            if($result->num_rows > 0)
+            {
+                ob_start();
+
+                echo "<table>";
                 echo "<tr>";
-                echo "<td>" . $row['form_number'] ."</td>";
-                echo "<td>" . $row['first_name'] ."</td>";
-                echo "<td>" . $row['middle_name'] ."</td>";
-                echo "<td>" . $row['last_name'] ."</td>";
-                echo "<td>" . $row['nickname'] ."</td>";
-                echo "<td>" . $row['gender'] ."</td>";
-                echo "<td>" . $row['mobile_number'] ."</td>";
-                echo "<td>" . $row['landline_number'] ."</td>";
-                echo "<td>" . $row['addr'] ."</td>";
-                echo "<td>" . $row['relationship'] ."</td>";
-                echo "<td>" . $row['created_at'] ."</td>";
+                echo "<th>Serial Number</th>";
+                echo "<th>First Name</th>";
+                echo "<th>Middle Name</th>";
+                echo "<th>Last Name</th>";
+                echo "<th>Nickname</th>";
+                echo "<th>Gender</th>";
+                echo "<th>Mobile Number</th>";
+                echo "<th>Landline Number</th>";
+                echo "<th>Address</th>";
+                echo "<th>Relationship</th>";
+                echo "<th>Created At</th>";
+                echo "</tr>";
 
-                $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
-
-                $result1 = $conn->query($sql);
-
-                if($result1->num_rows > 0)
+                while($row = $result->fetch_assoc())
                 {
-                    $row = $result1->fetch_assoc();
-                    $total_additional_fields = $row['total_fields'];
-                    $total_additional_fields_pages = ceil($total_additional_fields / 10);
+                    $formNumber = $row['form_number'];
+                    echo "<tr>";
+                    echo "<td>" . $row['form_number'] ."</td>";
+                    echo "<td>" . $row['first_name'] ."</td>";
+                    echo "<td>" . $row['middle_name'] ."</td>";
+                    echo "<td>" . $row['last_name'] ."</td>";
+                    echo "<td>" . $row['nickname'] ."</td>";
+                    echo "<td>" . $row['gender'] ."</td>";
+                    echo "<td>" . $row['mobile_number'] ."</td>";
+                    echo "<td>" . $row['landline_number'] ."</td>";
+                    echo "<td>" . $row['addr'] ."</td>";
+                    echo "<td>" . $row['relationship'] ."</td>";
+                    echo "<td>" . $row['created_at'] ."</td>";
 
-                    // Pagination here must be created in the future
+                    $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
-                    $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+                    $result1 = $conn->query($sql);
 
-                    $result2 = $conn->query($sql);
-
-                    if($result2->num_rows > 0)
+                    if($result1->num_rows > 0)
                     {
-                        while($row = $result2->fetch_assoc())
+                        $row = $result1->fetch_assoc();
+                        $total_additional_fields = $row['total_fields'];
+                        $total_additional_fields_pages = ceil($total_additional_fields / 10);
+
+                        // Pagination here must be created in the future
+
+                        $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+
+                        $result2 = $conn->query($sql);
+
+                        if($result2->num_rows > 0)
                         {
-                            echo "<th>" . $row['field_name'] . "</th>";
-                            echo "<td>" . $row['field_value'] . "</td>";
+                            while($row = $result2->fetch_assoc())
+                            {
+                                echo "<th>" . $row['field_name'] . "</th>";
+                                echo "<td>" . $row['field_value'] . "</td>";
+                            }
                         }
                     }
                 }
+                echo "</tr>";
+                echo "</table>";
+
+                $data['data'] = ob_get_contents();
+                ob_end_clean();
+
+                $data['status'] = "success";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
             }
-            echo "</tr>";
-            echo "</table>";
-
-            $data['data'] = ob_get_contents();
-            ob_end_clean();
-
-            $data['status'] = "success";
+        }
+        else
+        {
+            $data['status'] = "error";
+            $data['data'] = "Nothing found!";
             $data = json_encode($data);
             header("Content-Type: application/json");
             echo $data;
             exit();
         }
     }
-    else
-    {
-        $data['status'] = "error";
-        $data['data'] = "Nothing found!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
+}
+catch(mysqli_sql_exception $e)
+{
+    error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
+    $data['status'] = "error";
+    $data['data'] = "Please try again later!";
+    $data = json_encode($data);
+    header("Content-Type: application/json");
+    echo $data;
+    exit();
 }
 ?>

@@ -3,6 +3,10 @@
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
 
+ini_set("display_errors", 0);
+
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     function test_input($input)
@@ -47,21 +51,30 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     // sql statement to insert new user into user table in contact_manager_db database
     $sql = "SELECT * FROM user WHERE email='{$email}'";
 
-    $result = $conn->query($sql);
-
-    if($result->num_rows > 0)
+    try
     {
-        //var_dump($result);
-        $row = $result->fetch_assoc();
-        //var_dump($row);
+        $result = $conn->query($sql);
 
-        // Verify the password
-        if(password_verify($pass, $row['user_password']))
-        {           
-            $_SESSION['user_token'] = $row['token'];
-            $_SESSION['username'] = $row['firstname'];
-            header("Location: dashboard");
-            exit();
+        if($result->num_rows > 0)
+        {
+            //var_dump($result);
+            $row = $result->fetch_assoc();
+            //var_dump($row);
+
+            // Verify the password
+            if(password_verify($pass, $row['user_password']))
+            {           
+                $_SESSION['user_token'] = $row['token'];
+                $_SESSION['username'] = $row['firstname'];
+                header("Location: dashboard");
+                exit();
+            }
+            else
+            {
+                $_SESSION['login_error'] = "Wrong Credentials!";
+                header("Location: login");
+                exit();
+            }
         }
         else
         {
@@ -69,16 +82,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             header("Location: login");
             exit();
         }
+
+        $_SESSION['login_error'] = "Error Logging User. Please try again later!";
+        header("Location: login");
+        exit();
     }
-    else
+    catch(mysqli_sql_exception $e)
     {
+        error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
         $_SESSION['login_error'] = "Wrong Credentials!";
         header("Location: login");
         exit();
     }
-
-    $_SESSION['login_error'] = "Error Logging User. Please try again later!";
-    header("Location: login");
-    exit();
 }
 ?>

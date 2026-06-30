@@ -2,6 +2,8 @@
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
 
+ini_set("display_errors", 0);
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -361,246 +363,267 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     // sql query
     $sql = "SELECT id FROM user WHERE token='{$token}'";
 
-    $result = $conn->query($sql);
-
-    if($result->num_rows > 0)
+    try
     {
-        $row = $result->fetch_assoc();
-        $id = $row['id'];
-
-        $sql = "SELECT * FROM contacts WHERE ";
-        
-        $parameter = "user_id = {$id} AND ";
-
-        if(!empty($filter_firstname))
+        if(!$conn)
         {
-            $parameter .= "first_name = '{$filter_firstname}' ";
+            $data['status'] = "error";
+            $data['data'] = "Database server unavailable. Please try again later!";
+            $data = json_encode($data);
+            echo $data;
+            exit();
         }
 
-        if(!empty($filter_middlename))
+        $result = $conn->query($sql);
+
+        if($result->num_rows > 0)
         {
-            if(str_ends_with($parameter, "AND "))
+            $row = $result->fetch_assoc();
+            $id = $row['id'];
+
+            $sql = "SELECT * FROM contacts WHERE ";
+            
+            $parameter = "user_id = {$id} AND ";
+
+            if(!empty($filter_firstname))
             {
-                $parameter .= "middle_name = '{$filter_middlename}'";
-            }
-            else
-            {
-                $parameter .= "AND middle_name = '{$filter_middlename}'";
-            }
-        }
-
-        if(!empty($filter_lastname))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "last_name = '{$filter_lastname}'";
-            }
-            else
-            {
-                $parameter .= " AND last_name = '{$filter_lastname}'";
-            }
-        }
-
-        if(!empty($filter_nickname))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "nickname = '{$filter_nickname}'";
-            }
-            else
-            {
-                $parameter .= "AND nickname = '{$filter_nickname}'";
-            }
-        }
-
-        if(!empty($filter_gender))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "gender = '{$filter_gender}'";
-            }
-            else
-            {
-                $parameter .= "AND gender = '{$filter_gender}'";
-            }
-        }
-
-        if(!empty($filter_mobile))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "mobile_number = '{$filter_mobile}'";
-            }
-            else
-            {
-                $parameter .= "AND mobile_number = '{$filter_mobile}'";
-            }
-        }
-
-        if(!empty($filter_landline))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "landline_number = '{$filter_landline}'";
-            }
-            else
-            {
-                $parameter .= "AND landline_number = '{$filter_landline}'";
-            }
-        }
-
-        if(!empty($filter_address))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "addr = '{$filter_address}'";
-            }
-            else
-            {
-                $parameter .= "AND addr = '{$filter_address}'";
-            }
-        }
-
-        if(!empty($filter_relationship))
-        {
-            if(str_ends_with($parameter, "AND "))
-            {
-                $parameter .= "relationship = '{$filter_relationship}'";
-            }
-            else
-            {
-                $parameter .= "AND relationship = '{$filter_relationship}'";
-            }
-        }
-
-        $sql .= $parameter;
-
-        //echo json_encode($sql);
-        //exit();
-
-        // Finding the total number of contacts based on provided filter data
-        $totalContactsQuery = "SELECT COUNT(*) AS total FROM contacts WHERE ";
-        $totalContactsQuery .= $parameter;
-
-        //echo json_encode($totalContactsQuery);
-        //exit();
-
-        $totalContactsQueryResult = $conn->query($totalContactsQuery);
-
-        if($totalContactsQueryResult->num_rows > 0)
-        {
-            $row = $totalContactsQueryResult->fetch_assoc();
-
-            $total_records = $row['total'];
-            $total_pages = ceil($total_records / 10);
-
-            // Pagination
-            $page = $data['page'] ?? 1;
-
-            $page = test_input($page);
-
-            $page = floor((int)$page);
-
-            if($page < 1 || $page > $total_pages)
-            {
-                $data['status'] = "error";
-                $data['data'] = "Page Number must be between 1-$total_pages";
-                $data = json_encode($data);
-                header("Content-Type: application/json");
-                echo $data;
-                exit();
+                $parameter .= "first_name = '{$filter_firstname}' ";
             }
 
-            $startingIndex = (($page - 1) * 10);
-
-            $sql .= " LIMIT $startingIndex, 10";
-
-            $result = $conn->query($sql);
-
-            if($result->num_rows > 0)
+            if(!empty($filter_middlename))
             {
-                ob_start();
-
-                echo "<table>";
-                echo "<tr>";
-                echo "<th>Serial Number</th>";
-                echo "<th>First Name</th>";
-                echo "<th>Middle Name</th>";
-                echo "<th>Last Name</th>";
-                echo "<th>Nickname</th>";
-                echo "<th>Gender</th>";
-                echo "<th>Mobile Number</th>";
-                echo "<th>Landline Number</th>";
-                echo "<th>Address</th>";
-                echo "<th>Relationship</th>";
-                echo "<th>Created At</th>";
-                echo "</tr>";
-
-                while($row = $result->fetch_assoc())
+                if(str_ends_with($parameter, "AND "))
                 {
-                    $formNumber = $row['form_number'];
+                    $parameter .= "middle_name = '{$filter_middlename}'";
+                }
+                else
+                {
+                    $parameter .= "AND middle_name = '{$filter_middlename}'";
+                }
+            }
+
+            if(!empty($filter_lastname))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "last_name = '{$filter_lastname}'";
+                }
+                else
+                {
+                    $parameter .= " AND last_name = '{$filter_lastname}'";
+                }
+            }
+
+            if(!empty($filter_nickname))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "nickname = '{$filter_nickname}'";
+                }
+                else
+                {
+                    $parameter .= "AND nickname = '{$filter_nickname}'";
+                }
+            }
+
+            if(!empty($filter_gender))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "gender = '{$filter_gender}'";
+                }
+                else
+                {
+                    $parameter .= "AND gender = '{$filter_gender}'";
+                }
+            }
+
+            if(!empty($filter_mobile))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "mobile_number = '{$filter_mobile}'";
+                }
+                else
+                {
+                    $parameter .= "AND mobile_number = '{$filter_mobile}'";
+                }
+            }
+
+            if(!empty($filter_landline))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "landline_number = '{$filter_landline}'";
+                }
+                else
+                {
+                    $parameter .= "AND landline_number = '{$filter_landline}'";
+                }
+            }
+
+            if(!empty($filter_address))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "addr = '{$filter_address}'";
+                }
+                else
+                {
+                    $parameter .= "AND addr = '{$filter_address}'";
+                }
+            }
+
+            if(!empty($filter_relationship))
+            {
+                if(str_ends_with($parameter, "AND "))
+                {
+                    $parameter .= "relationship = '{$filter_relationship}'";
+                }
+                else
+                {
+                    $parameter .= "AND relationship = '{$filter_relationship}'";
+                }
+            }
+
+            $sql .= $parameter;
+
+            //echo json_encode($sql);
+            //exit();
+
+            // Finding the total number of contacts based on provided filter data
+            $totalContactsQuery = "SELECT COUNT(*) AS total FROM contacts WHERE ";
+            $totalContactsQuery .= $parameter;
+
+            //echo json_encode($totalContactsQuery);
+            //exit();
+
+            $totalContactsQueryResult = $conn->query($totalContactsQuery);
+
+            if($totalContactsQueryResult->num_rows > 0)
+            {
+                $row = $totalContactsQueryResult->fetch_assoc();
+
+                $total_records = $row['total'];
+                $total_pages = ceil($total_records / 10);
+
+                // Pagination
+                $page = $data['page'] ?? 1;
+
+                $page = test_input($page);
+
+                $page = floor((int)$page);
+
+                if($page < 1 || $page > $total_pages)
+                {
+                    $data['status'] = "error";
+                    $data['data'] = "Page Number must be between 1-$total_pages";
+                    $data = json_encode($data);
+                    header("Content-Type: application/json");
+                    echo $data;
+                    exit();
+                }
+
+                $startingIndex = (($page - 1) * 10);
+
+                $sql .= " LIMIT $startingIndex, 10";
+
+                $result = $conn->query($sql);
+
+                if($result->num_rows > 0)
+                {
+                    ob_start();
+
+                    echo "<table>";
                     echo "<tr>";
-                    echo "<td>" . $row['form_number'] ."</td>";
-                    echo "<td>" . $row['first_name'] ."</td>";
-                    echo "<td>" . $row['middle_name'] ."</td>";
-                    echo "<td>" . $row['last_name'] ."</td>";
-                    echo "<td>" . $row['nickname'] ."</td>";
-                    echo "<td>" . $row['gender'] ."</td>";
-                    echo "<td>" . $row['mobile_number'] ."</td>";
-                    echo "<td>" . $row['landline_number'] ."</td>";
-                    echo "<td>" . $row['addr'] ."</td>";
-                    echo "<td>" . $row['relationship'] ."</td>";
-                    echo "<td>" . $row['created_at'] ."</td>";
+                    echo "<th>Serial Number</th>";
+                    echo "<th>First Name</th>";
+                    echo "<th>Middle Name</th>";
+                    echo "<th>Last Name</th>";
+                    echo "<th>Nickname</th>";
+                    echo "<th>Gender</th>";
+                    echo "<th>Mobile Number</th>";
+                    echo "<th>Landline Number</th>";
+                    echo "<th>Address</th>";
+                    echo "<th>Relationship</th>";
+                    echo "<th>Created At</th>";
+                    echo "</tr>";
 
-                    $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
-
-                    $result1 = $conn->query($sql);
-
-                    if($result1->num_rows > 0)
+                    while($row = $result->fetch_assoc())
                     {
-                        $row = $result1->fetch_assoc();
-                        $total_additional_fields = $row['total_fields'];
-                        $total_additional_fields_pages = ceil($total_additional_fields / 10);
+                        $formNumber = $row['form_number'];
+                        echo "<tr>";
+                        echo "<td>" . $row['form_number'] ."</td>";
+                        echo "<td>" . $row['first_name'] ."</td>";
+                        echo "<td>" . $row['middle_name'] ."</td>";
+                        echo "<td>" . $row['last_name'] ."</td>";
+                        echo "<td>" . $row['nickname'] ."</td>";
+                        echo "<td>" . $row['gender'] ."</td>";
+                        echo "<td>" . $row['mobile_number'] ."</td>";
+                        echo "<td>" . $row['landline_number'] ."</td>";
+                        echo "<td>" . $row['addr'] ."</td>";
+                        echo "<td>" . $row['relationship'] ."</td>";
+                        echo "<td>" . $row['created_at'] ."</td>";
 
-                        // Pagination here must be created in the future
+                        $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
-                        $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+                        $result1 = $conn->query($sql);
 
-                        $result2 = $conn->query($sql);
-
-                        if($result2->num_rows > 0)
+                        if($result1->num_rows > 0)
                         {
-                            while($row = $result2->fetch_assoc())
+                            $row = $result1->fetch_assoc();
+                            $total_additional_fields = $row['total_fields'];
+                            $total_additional_fields_pages = ceil($total_additional_fields / 10);
+
+                            // Pagination here must be created in the future
+
+                            $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+
+                            $result2 = $conn->query($sql);
+
+                            if($result2->num_rows > 0)
                             {
-                                echo "<th>" . $row['field_name'] . "</th>";
-                                echo "<td>" . $row['field_value'] . "</td>";
+                                while($row = $result2->fetch_assoc())
+                                {
+                                    echo "<th>" . $row['field_name'] . "</th>";
+                                    echo "<td>" . $row['field_value'] . "</td>";
+                                }
                             }
                         }
                     }
+                    echo "</tr>";
+                    echo "</table>";
+
+                    $data['data'] = ob_get_contents();
+                    ob_end_clean();
+
+                    $data['status'] = "success";
+                    $data['total_pages'] = $total_pages;
+                    $data = json_encode($data);
+                    header("Content-Type: application/json");
+                    echo $data;
+                    exit();
                 }
-                echo "</tr>";
-                echo "</table>";
-
-                $data['data'] = ob_get_contents();
-                ob_end_clean();
-
-                $data['status'] = "success";
-                $data['total_pages'] = $total_pages;
-                $data = json_encode($data);
-                header("Content-Type: application/json");
-                echo $data;
-                exit();
-            }
-            else
-            {
-                $data['status'] = "error";
-                $data['data'] = "No contact found!";
-                $data = json_encode($data);
-                header("Content-Type: application/json");
-                echo $data;
-                exit();
+                else
+                {
+                    $data['status'] = "error";
+                    $data['data'] = "No contact found!";
+                    $data = json_encode($data);
+                    header("Content-Type: application/json");
+                    echo $data;
+                    exit();
+                }
             }
         }
+    }
+    catch(mysqli_sql_exception $e)
+    {
+        error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
+        $data['status'] = "error";
+        $data['data'] = "Please try again later!";
+        $data = json_encode($data);
+        echo $data;
+        exit();
     }
 }
 ?>

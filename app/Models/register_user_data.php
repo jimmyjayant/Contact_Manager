@@ -1,6 +1,9 @@
 <?php
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
+
+ini_set("display_errors", 0);
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -145,6 +148,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
     try
     {
+        if(!$conn)
+        {
+            $_SESSION['registration_error'] = "Database server unavailable. Please try again later!";
+            header("Location: register");
+            exit();
+        }
+
         $result = $conn->query($sql);
         if($result === true)
         {
@@ -159,12 +169,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         //echo $e->getMessage();
         if($e->getCode() == 1062)
         {
+            error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
             $_SESSION['registration_error'] = "Email Already Exists!";
             header("Location: register");
             exit();
         }
         else
         {
+            error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
             $_SESSION['registration_error'] = "Error Registering User. Please try again later!";
             header("Location: register");
             exit();

@@ -2,6 +2,8 @@
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
 
+ini_set("display_errors", 0);
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 // Block direct access to this webpage
@@ -58,46 +60,53 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
     try
     {
-        $result = $conn->query($sql);
-
-        if($result->num_rows == 1)
+        if(!$conn)
         {
-            $row = $result->fetch_assoc();
+            $_SESSION['change_password_error'] = "Database server unavailable. Please try again later!";
+            header("Location: changepassword");
+            exit();
+        }
+            $result = $conn->query($sql);
 
-            if(password_verify($old_password, $row['user_password']))
+            if($result->num_rows == 1)
             {
-                $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-                $ChangePasswordQuery = "UPDATE user SET user_password = '$new_password_hash' WHERE token='{$token}'";
+                $row = $result->fetch_assoc();
 
-                try
+                if(password_verify($old_password, $row['user_password']))
                 {
-                    $ChangePasswordResult = $conn->query($ChangePasswordQuery);
+                    $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+                    $ChangePasswordQuery = "UPDATE user SET user_password = '$new_password_hash' WHERE token='{$token}'";
 
-                    if($ChangePasswordResult)
+                    try
                     {
-                        $_SESSION['change_password_success'] = "Password Changed Successfully!";
+                        $ChangePasswordResult = $conn->query($ChangePasswordQuery);
+
+                        if($ChangePasswordResult)
+                        {
+                            $_SESSION['change_password_success'] = "Password Changed Successfully!";
+                            header("Location: changepassword");
+                            exit();
+                        }
+                    }
+                    catch(mysqli_sql_exception $e)
+                    {
+                        error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
+                        $_SESSION['change_password_error'] = "Unable to change password. Please try again later!";
                         header("Location: changepassword");
                         exit();
                     }
                 }
-                catch(mysqli_sql_exception $e)
+                else
                 {
-                    error_log($e->getMessage(), 0, "../writable/logs/");
-                    $_SESSION['change_password_error'] = "Unable to change password. Please try again later!";
+                    $_SESSION['change_password_error'] = "Wrong Password!";
                     header("Location: changepassword");
                     exit();
                 }
             }
-            else
-            {
-                $_SESSION['change_password_error'] = "Wrong Password!";
-                header("Location: changepassword");
-                exit();
-            }
-        }
     }
     catch(mysqli_sql_exception $e)
     {
+        error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
         $_SESSION['change_password_error'] = "Please try again later!";
         header("Location: changepassword");
         exit();

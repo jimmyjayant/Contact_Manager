@@ -2,6 +2,9 @@
 // PHP Script for Feedback Page
 require"../app/Views/sessionstart.php";
 require_once("../app/Config/Database_Connection.php");
+
+ini_set("display_errors", 0);
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -163,6 +166,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
     try
     {
+        if(!$conn)
+        {
+            $_SESSION['feedback_error'] = "Database server unavailable. Please try again later!";
+            header("Location: feedback");
+            exit();
+        }
+
         $result = $conn->query($sql);
         if($result === true)
         {
@@ -173,6 +183,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     }
     catch(mysqli_sql_exception $e)
     {
+        error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
         $_SESSION['feedback_error'] = "Error submitting feedback. Please try again later!";
         header("Location: feedback");
         exit();
