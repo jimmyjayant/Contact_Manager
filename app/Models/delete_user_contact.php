@@ -7,76 +7,94 @@ ini_set("display_errors", 0);
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$token = $_SESSION['user_token'];
-// sql query
-$sql = "SELECT id FROM user WHERE token='{$token}'";
-
-try
+if($_SERVER['REQUEST_METHOD'] === 'GET')
 {
-    if(!$conn)
+    if(!isset($_SESSION['user_token']))
     {
         $data['status'] = "error";
-        $data['data'] = "Database server unavailable. Please try again later!";
+        $data['data'] = "Please login!";
         $data = json_encode($data);
+        header("Content-Type: application/json");
         echo $data;
         exit();
     }
 
-    $result = $conn->query($sql);
+    $token = $_SESSION['user_token'];
+    // sql query
+    $sql = "SELECT id FROM user WHERE token='{$token}'";
 
-    if($result->num_rows > 0)
+    try
     {
-        $row = $result->fetch_assoc();
-        $user_id = $row['id'];
-
-        function test_input($input)
+        if(!$conn)
         {
-            $input = trim($input);
-            $input = stripslashes($input);
-            $input = htmlspecialchars($input);
-            return $input;
+            $data['status'] = "error";
+            $data['data'] = "Database server unavailable. Please try again later!";
+            $data = json_encode($data);
+            header("Content-Type: application/json");
+            echo $data;
+            exit();
         }
-
-        $contact_id = test_input($_GET['id']);
-        $contact_id = (int)$contact_id;
-        
-        $sql = "DELETE FROM contacts WHERE user_id={$user_id} AND form_number={$contact_id}";
 
         $result = $conn->query($sql);
 
-        if($result === TRUE)
+        if($result->num_rows > 0)
         {
-            $data['status'] = "success";
-            $data['data'] = "Contact deleted successfully!";
-            $data = json_encode($data);
-            echo $data;
-            exit();
+            $row = $result->fetch_assoc();
+            $user_id = $row['id'];
+
+            function test_input($input)
+            {
+                $input = trim($input);
+                $input = stripslashes($input);
+                $input = htmlspecialchars($input);
+                return $input;
+            }
+
+            $contact_id = test_input($_GET['id']);
+            $contact_id = (int)$contact_id;
+            
+            $sql = "DELETE FROM contacts WHERE user_id={$user_id} AND form_number={$contact_id}";
+
+            $result = $conn->query($sql);
+
+            if($result === TRUE)
+            {
+                $data['status'] = "success";
+                $data['data'] = "Contact deleted successfully!";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
+            else
+            {
+                $data['status'] = "error";
+                $data['data'] = "Unable to delete contact. Please try again later!";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
         }
         else
         {
             $data['status'] = "error";
-            $data['data'] = "Unable to delete contact. Please try again later!";
+            $data['data'] = "Cannot find logged in user. Please try again later!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
             exit();
         }
     }
-    else
+    catch(mysqli_sql_exception $e)
     {
+        error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
         $data['status'] = "error";
-        $data['data'] = "Cannot find logged in user. Please try again later!";
+        $data['data'] = "Database server unavailable. Please try again later!";
         $data = json_encode($data);
+        header("Content-Type: application/json");
         echo $data;
         exit();
     }
-}
-catch(mysqli_sql_exception $e)
-{
-    error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-    $data['status'] = "error";
-    $data['data'] = "Database server unavailable. Please try again later!";
-    $data = json_encode($data);
-    echo $data;
-    exit();
 }
 ?>

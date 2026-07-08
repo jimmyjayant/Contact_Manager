@@ -9,6 +9,12 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+    if(isset($_SESSION['user_token']))
+    {
+        header("Location: logout");
+        exit();
+    }
+
     function test_input($input)
     {
         $input = trim($input);

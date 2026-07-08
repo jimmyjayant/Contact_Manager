@@ -8,6 +8,15 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+    if(!isset($_SESSION['user_token']))
+    {
+        $data['status'] = "error";
+        $data['data'] = "Please login!";
+        $data = json_encode($data);
+        header("Content-Type: application/json");
+        echo $data;
+        exit();
+    }
 
     function test_input($input)
     {
@@ -17,26 +26,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         return $input;
     }
 
-    //print_r(json_encode($_POST['filterData_']));
     parse_str($_POST['filterData_'], $data);
-    //echo json_encode($data);
-    //$DataToFilter = $_POST['filterData'];
-    //var_dump($DataToFilter);
-    //exit();
-
-    /*
-    // Putting all form data in a session variable
-    $_SESSION['filter_form_data']['filter_firstname'] = $_POST['filter_firstname'];
-    $_SESSION['filter_form_data']['filter_middlename'] = $_POST['filter_middlename'];
-    $_SESSION['filter_form_data']['filter_lastname'] = $_POST['filter_lastname'];
-    $_SESSION['filter_form_data']['filter_nickname'] = $_POST['filter_nickname'];
-    $_SESSION['filter_form_data']['filter_gender'] = $_POST['filter_gender'];
-    $_SESSION['filter_form_data']['filter_mobile'] = $_POST['filter_mobile'];
-    $_SESSION['filter_form_data']['filter_landline'] = $_POST['filter_landline'];
-    $_SESSION['filter_form_data']['filter_address'] = $_POST['filter_address'];
-    $_SESSION['filter_form_data']['filter_relationship'] = $_POST['filter_relationship'];
-    */
-
 
     $filter_firstname = test_input($data['filter_firstname']);
 
@@ -47,11 +37,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "First Name cannot be more than 100 characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_firstname_error'] = "First Name cannot be more than 100 characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_firstname))
@@ -59,11 +46,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "First Name cannot contain digits!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_firstname_error'] = "First Name cannot contain digits!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_firstname))
@@ -71,11 +55,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "First Name cannot contain whitespaces!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_firstname_error'] = "First Name cannot contain whitespaces!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_firstname))
@@ -83,11 +64,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "First Name cannot contain special characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_firstname_error'] = "First Name cannot contain special characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
@@ -102,11 +80,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Middle Name cannot be more than 100 characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_middlename_error'] = "Middle Name cannot be more than 100 characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_middlename))
@@ -114,11 +89,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Middle Name cannot contain digits!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_middlename_error'] = "Middle Name cannot contain digits!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_middlename))
@@ -126,11 +98,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Middle Name cannot contain whitespaces!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_middlename_error'] = "Middle Name cannot contain whitespaces!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_middlename))
@@ -138,15 +107,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Middle Name cannot contain special characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_middlename_error'] = "Middle Name cannot contain special characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
-        
 
     $filter_lastname = test_input($data['filter_lastname']);
 
@@ -157,11 +122,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Last Name cannot be more than 100 characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_lastname_error'] = "Last Name cannot be more than 100 characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_lastname))
@@ -169,11 +131,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Last Name cannot contain digits!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_lastname_error'] = "Last Name cannot contain digits!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_lastname))
@@ -181,11 +140,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Last Name cannot contain whitespaces!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_lastname_error'] = "Last Name cannot contain whitespaces!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_lastname))
@@ -193,11 +149,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Last Name cannot contain special characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_lastname_error'] = "Last Name cannot contain special characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
@@ -212,11 +165,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Nick Name cannot be more than 100 characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_nickname_error'] = "Nick Name cannot be more than 100 characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\d/", $filter_nickname))
@@ -224,11 +174,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Nick Name cannot contain digits!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_nickname_error'] = "Nick Name cannot contain digits!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\s/", $filter_nickname))
@@ -236,11 +183,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Nick Name cannot contain whitespaces!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_nickname_error'] = "Nick Name cannot contain whitespaces!";
-            header("Location: dashboard");
-            */
             exit();
         }
         else if(preg_match_all("/\W/", $filter_nickname))
@@ -248,11 +192,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Nick Name cannot contain special characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_nickname_error'] = "Nick Name cannot contain special characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
@@ -267,11 +208,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Gender should be either male or female";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_gender_error'] = "Gender should be either male or female";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
@@ -284,26 +222,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $data['status'] = "error";
         $data['data'] = "Mobile Number must contain 10 digits!";
         $data = json_encode($data);
+        header("Content-Type: application/json");
         echo $data;
-        /*
-        $_SESSION['filter_mobile_error'] = "Mobile Number must contain 10 digits!";
-        header("Location: dashboard");
-        */
         exit();
     }
 
     $filter_landline = test_input($data['filter_landline']);
 
-    if(!empty($filter_landline) && !preg_match("/^\d{10}$/", $filter_landline))
+    if(!empty($filter_landline) && !preg_match("/^\d{8}$/", $filter_landline))
     {
         $data['status'] = "error";
-        $data['data'] = "Landline Number must contain 10 digits!";
+        $data['data'] = "Landline Number must contain 8 digits!";
         $data = json_encode($data);
+        header("Content-Type: application/json");
         echo $data;
-        /*
-        $_SESSION['filter_landline_error'] = "Landline Number must contain 10 digits!";
-        header("Location: dashboard");
-        */
         exit();
     }
 
@@ -316,11 +248,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Address cannot contain more than 500 characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_address_error'] = "Address cannot contain more than 500 characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
@@ -335,11 +264,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Relationship cannot contain more than 100 characters!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
-            /*
-            $_SESSION['filter_relationship_error'] = "Relationship cannot contain more than 100 characters!";
-            header("Location: dashboard");
-            */
             exit();
         }
     }
@@ -351,11 +277,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $data['status'] = "error";
         $data['data'] = "Please provide atleast one input!";
         $data = json_encode($data);
+        header("Content-Type: application/json");
         echo $data;
-        /*
-        $_SESSION['filter_contact_error'] = "Please provide atleast one input!";
-        header("Location: dashboard");
-        */
         exit();
     }
 
@@ -370,6 +293,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $data['status'] = "error";
             $data['data'] = "Database server unavailable. Please try again later!";
             $data = json_encode($data);
+            header("Content-Type: application/json");
             echo $data;
             exit();
         }
@@ -488,15 +412,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
             $sql .= $parameter;
 
-            //echo json_encode($sql);
-            //exit();
-
             // Finding the total number of contacts based on provided filter data
             $totalContactsQuery = "SELECT COUNT(*) AS total FROM contacts WHERE ";
             $totalContactsQuery .= $parameter;
-
-            //echo json_encode($totalContactsQuery);
-            //exit();
 
             $totalContactsQueryResult = $conn->query($totalContactsQuery);
 
@@ -505,6 +423,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                 $row = $totalContactsQueryResult->fetch_assoc();
 
                 $total_records = $row['total'];
+
+                if($total_records == 0)
+                {
+                    $data['status'] = "error";
+                    $data['data'] = "No contact list!";
+                    $data = json_encode($data);
+                    header("Content-Type: application/json");
+                    echo $data;
+                    exit();
+                }
+
                 $total_pages = ceil($total_records / 10);
 
                 // Pagination
@@ -622,6 +551,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $data['status'] = "error";
         $data['data'] = "Please try again later!";
         $data = json_encode($data);
+        header("Content-Type: application/json");
         echo $data;
         exit();
     }
