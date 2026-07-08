@@ -97,6 +97,16 @@ try
             // Total number of records
             $data['total_records'] = $row['total'];
 
+            if($data['total_records'] == 0)
+            {
+                $data['status'] = "error";
+                $data['data'] = "No contact list!";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
+
             $total_pages = ceil($data['total_records'] / 10);
 
             $page = $_GET['page'] ?? 1;

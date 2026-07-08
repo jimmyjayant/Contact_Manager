@@ -67,6 +67,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
             require '../app/Models/get_user_contacts.php';
             break;
 
+        case 'delete_user_contact':
+        case 'delete_user_contact.php':
+            require '../app/Models/delete_user_contact.php';
+            break;
+
         case 'search_user_contacts':
         case 'search_user_contacts.php':
             require '../app/Models/search_user_contacts.php';

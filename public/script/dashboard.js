@@ -6,6 +6,45 @@ var filterActive = 0;
 var searchText = "";
 var filterText = "";
 
+function get_delete_contact_buttons()
+{
+    var delete_contact_button = Array.from(document.getElementsByClassName("delete_contact_btn"));
+    console.log(delete_contact_button);
+
+    delete_contact_button.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            //console.log(event.srcElement.alt);
+
+            var contact_id = Number(event.target.dataset.id);
+            console.log(contact_id);
+
+            var xhttp = new XMLHttpRequest();
+            var resultdiv = document.getElementById("result");
+
+            xhttp.onload = function() {
+                var data = JSON.parse(this.responseText);
+
+                if(data.status == 'error')
+                {
+                    var newDivElement = document.createElement("div");
+                    newDivElement.classList.add("center");
+                    var newSpanElement = document.createElement("span");
+                    newSpanElement.classList.add("red_font");
+                    newSpanElement.innerHTML = data.data;
+                    newDivElement.appendChild(newSpanElement);
+                    resultdiv.appendChild(newDivElement);
+                }
+                else if(data.status == 'success')
+                {
+                    window.location.href = "dashboard";
+                }
+            }
+            xhttp.open("GET", "delete_user_contact?id=" + contact_id, true);
+            xhttp.send();
+        });
+    });
+}
+
 function get_user_contacts(pageNumber = 1)
 {
     var xhttp = new XMLHttpRequest();
@@ -26,6 +65,7 @@ function get_user_contacts(pageNumber = 1)
         {
             resultdiv.innerHTML = data.data;
             total_pages = Math.ceil(data.total_records / 10);
+            get_delete_contact_buttons();
         }
     }
     xhttp.open("GET", "get_user_contacts?page=" + pageNumber, true);

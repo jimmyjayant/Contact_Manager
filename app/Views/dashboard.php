@@ -28,10 +28,10 @@ function add_old(string $inputFieldName)
 {
     if(isset($_SESSION['add_form_data']))
     {
-        if(array_key_exists($inputFieldName, $_SESSION['form_data']))
+        if(array_key_exists($inputFieldName, $_SESSION['add_form_data']))
         {
-            $value = $_SESSION['form_data'][$inputFieldName];
-            unset($_SESSION['form_data'][$inputFieldName]);
+            $value = $_SESSION['add_form_data'][$inputFieldName];
+            unset($_SESSION['add_form_data'][$inputFieldName]);
             return $value;
         }
     }
@@ -117,11 +117,26 @@ if(!isset($_SESSION['user_token']))
                 <div id="firstchild">
                     <input type="text" name="searchtext" id="searchtext" placeholder="Enter the firstname of your contact" maxlength="100">
                     <button type="button" id="search">Search</button>
+                    <!--
+                    <button type="button" id="searchimg">
+                        <img src="public/images/search_btn.png">
+                    </button>
+                    -->
                 </div>
 
                 <div id="secondchild">
                     <button type="button" id="add">Add</button>
+                    <!--
+                    <button type="button" id="addimg">
+                        <img src="public/images/add_btn.png">
+                    </button>
+                    -->
                     <button type="button" id="filter">Filter</button>
+                    <!--
+                    <button type="button" id="filterimg">
+                        <img src="public/images/filter_btn.png">
+                    </button>
+                    -->
                 </div>                
             </div>
 

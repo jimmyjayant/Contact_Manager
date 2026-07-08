@@ -2,7 +2,7 @@
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
 
-ini_set("display_errors", 0);
+//ini_set("display_errors", 0);
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -197,9 +197,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $landnum = test_input($_POST['landnum']);
 
-    if(!empty($landnum) && !preg_match("/^\d{10}$/", $landnum))
+    if(!empty($landnum) && !preg_match("/^\d{8}$/", $landnum))
     {
-        $_SESSION['landline_error'] = "Landline Number must contain 10 digits!";
+        $_SESSION['landline_error'] = "Landline Number must contain 8 digits!";
         header("Location: dashboard");
         exit();
     }

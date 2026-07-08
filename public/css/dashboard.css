@@ -35,6 +35,10 @@ h1 {
     background-color:grey;
 }
 
+#firstchild #searchimg {
+    padding:1rem;
+}
+
 #secondchild button {
     font-size:1rem;
     border-radius:1rem;
@@ -168,6 +172,17 @@ table tr {
 table td {
     text-align:center;
     padding:0.3rem;
+    border:1px solid grey;
+}
+
+.edit_contact_btn, .delete_contact_btn {
+    width:1.5rem;
+    height:1.5rem;
+}
+
+.edit_contact_btn:hover, .delete_contact_btn:hover {
+    cursor:pointer;
+    background-color:darkgrey;
     border:1px solid grey;
 }
 

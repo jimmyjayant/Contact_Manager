@@ -28,13 +28,6 @@ try
     {
         $row = $result->fetch_assoc();
         $id = $row['id'];
-    /*
-        $sql = "SELECT * FROM contacts 
-        LEFT JOIN additional_fields 
-        ON contacts.form_number = additional_fields.form_no
-        WHERE contacts.user_id={$row['id']}
-        ORDER BY contacts.form_number";
-    */
 
         $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id}";
 
@@ -46,6 +39,15 @@ try
             // Total number of records
             $data['total_records'] = $row['total'];
 
+            if($data['total_records'] == 0)
+            {
+                $data['status'] = "error";
+                $data['data'] = "No contact list!";
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
             $total_pages = ceil($data['total_records'] / 10);
 
             function test_input($input)
@@ -86,6 +88,7 @@ try
 
                 echo "<table>";
                 echo "<tr>";
+                echo "<th colspan='2'>Action</th>";
                 echo "<th>Serial Number</th>";
                 echo "<th>First Name</th>";
                 echo "<th>Middle Name</th>";
@@ -103,6 +106,12 @@ try
                 {
                     $formNumber = $row['form_number'];
                     echo "<tr>";
+                    echo "<td>";
+                    echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
+                    echo "</td>";
+                    echo "<td>";
+                    echo "<img src='public/images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
+                    echo "</td>";
                     echo "<td>" . $row['form_number'] ."</td>";
                     echo "<td>" . $row['first_name'] ."</td>";
                     echo "<td>" . $row['middle_name'] ."</td>";

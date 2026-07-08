@@ -74,7 +74,4 @@
                         echo "<a href='dashboard' target='_self'>Dashboard</a>";
                     }
                 ?>
-                <a href="docs" target="_self">Docs</a>
-                <a href="feedback" target="_self">Feedback</a>
-                <a href="sitemap" target="_self">Site Map</a>
             </div>
