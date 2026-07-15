@@ -22,6 +22,21 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
             require '../app/Views/index.php';
             break;
 
+        case 'add':
+        case 'add.php':
+            require '../app/Views/add.php';
+            break;
+
+        case 'edit':
+        case 'edit.php':
+            require '../app/Views/edit.php';
+            break;
+
+        case 'filter':
+        case 'filter.php':
+            require '../app/Views/filter.php';
+            break;
+
         case 'changepassword':
         case 'changepassword.php':
             require '../app/Views/changepassword.php';
@@ -62,6 +77,16 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
             require '../app/Views/sitemap.php';
             break;
 
+        case 'show':
+        case 'show.php':
+            require '../app/Views/show.php';
+            break;
+
+        case 'search':
+        case 'search.php':
+            require '../app/Views/search.php';
+            break;
+
         case 'get_user_contacts':
         case 'get_user_contacts.php':
             require '../app/Models/get_user_contacts.php';
@@ -75,6 +100,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
         case 'search_user_contacts':
         case 'search_user_contacts.php':
             require '../app/Models/search_user_contacts.php';
+            break;
+
+        case 'get_particular_user_contact_data':
+        case 'get_particular_user_contact_data.php':
+            require '../app/Models/get_particular_user_contact_data.php';
             break;
 
         /*

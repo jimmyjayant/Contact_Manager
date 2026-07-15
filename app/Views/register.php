@@ -99,6 +99,7 @@ require '../app/Views/headerandnavbar.php';
                 </div>
                 <div class="col75">
                     <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="Enter Your contact number" required>
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                 </div>
             </div>
 

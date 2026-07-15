@@ -34,7 +34,10 @@ require '../app/Views/headerandnavbar.php';
 
             <div class="row">
                 <div class="col25"><label for="pass">Password</label></div>
-                <div class="col75"><input type="password" id="pass" name="pass" minlength="6" maxlength="12" required></div>
+                <div class="col75">
+                    <input type="password" id="pass" name="pass" minlength="6" maxlength="12" required>
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
+                </div>
             </div>
 
             <div class="row">

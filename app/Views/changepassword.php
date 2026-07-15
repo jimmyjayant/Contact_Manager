@@ -46,7 +46,10 @@ if(!isset($_SESSION['user_token']))
 
             <div class="row">
                 <div class="col25"><label for="newpass">New Password</label></div>
-                <div class="col75"><input type="password" id="newpass" name="newpass" minlength="6" maxlength="12" required></div>
+                <div class="col75">
+                    <input type="password" id="newpass" name="newpass" minlength="6" maxlength="12" required>
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
+                </div>
             </div>
 
             <div class="row">

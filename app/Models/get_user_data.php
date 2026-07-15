@@ -3,15 +3,29 @@
 require '../app/Views/sessionstart.php';
 require_once("../app/Config/Database_Connection.php");
 
+// Do not display the error to the user
 ini_set("display_errors", 0);
 
+// Report MySQL Database errors
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+    // If the user is already logged in, then
     if(isset($_SESSION['user_token']))
     {
         header("Location: logout");
+        exit();
+    }
+
+    /* If the session variable csrf_token and post variable csrf_token are not set OR 
+        both of these variables are not equal to one another, then 
+    */
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) || 
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
+    {
+        $_SESSION['email_error'] = "Session expired. Please refresh the webpage!";
+        header("Location: login");
         exit();
     }
 

@@ -1,17 +1,14 @@
-var counter = 1;
-var total_pages = 1;
-
-function get_delete_contact_buttons()
+function get_edit_contact_buttons()
 {
-    var delete_contact_button = Array.from(document.getElementsByClassName("delete_contact_btn"));
-    console.log(delete_contact_button);
+    var edit_contact_button = Array.from(document.getElementsByClassName("edit_contact_btn"));
+    console.log(edit_contact_button);
 
-    delete_contact_button.forEach(function(button) {
+    edit_contact_button.forEach(function(button) {
         button.addEventListener("click", function(event) {
             //console.log(event.srcElement.alt);
 
-            var contact_id = Number(event.target.dataset.id);
-            console.log(contact_id);
+            var edit_id = Number(event.target.dataset.id);
+            console.log(edit_id);
 
             var xhttp = new XMLHttpRequest();
             var resultdiv = document.getElementById("result");
@@ -31,10 +28,13 @@ function get_delete_contact_buttons()
                 }
                 else if(data.status == 'success')
                 {
-                    window.location.href = "dashboard";
+                    var introDiv = document.getElementsByClassName("intro")[0];
+                    var div = document.createElement("div");
+                    div.innerHTML = data.data;
+                    introDiv.appendChild(div);
                 }
             }
-            xhttp.open("GET", "delete_user_contact?id=" + contact_id, true);
+            xhttp.open("GET", "get_particular_user_contact_data?id=" + edit_id, true);
             xhttp.send();
         });
     });
