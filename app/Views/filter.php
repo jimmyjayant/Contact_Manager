@@ -1,7 +1,7 @@
 <?php
 require '../app/Views/sessionstart.php';
 
-$css = "css/filter.css";
+$css = ["css/filter.css"];
 
 function filter_old(string $inputFieldName)
 {
@@ -27,7 +27,8 @@ function filter_old(string $inputFieldName)
     }
 }
 
-$js = "script/filter.js";
+$js = ["script/filter.js"];
+
 require '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
@@ -170,6 +171,8 @@ if(!isset($_SESSION['user_token']))
                         <input type="hidden" id="custom_fields_number" name="custom_fields_number" value="0">
                     </div>
                     -->
+
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     <input type="submit" value="Filter" id="submit_filter_data_button">
                     <input type="reset" value="Reset">
                 </form>

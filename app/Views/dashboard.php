@@ -1,9 +1,10 @@
 <?php
 require '../app/Views/sessionstart.php';
 
-$css = "css/dashboard.css";
+$css = ["css/dashboard.css"];
 
-$js = "script/dashboard.js";
+//$js = ["script/dashboard.js"];
+
 require '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
@@ -18,11 +19,9 @@ if(!isset($_SESSION['user_token']))
     <div class="intro">
         <h1>Dashboard</h1>
 
-        <div id="total_contacts"></div>
-
         <div class="contact">
             <div>
-                <img src="" alt="Show Contacts">
+                <img src="images/contacts.png" alt="Show Contacts">
                 <br>
                 <a href="show" target="_self">Show Contacts</a>
             </div>
@@ -32,13 +31,13 @@ if(!isset($_SESSION['user_token']))
                 <br>
                 <a href="add" target="_self">Add Contacts</a>
             </div>
-
+<!--
             <div>
                 <img src="images/edit.png" alt="Edit Contacts">
                 <br>
                 <a href="edit" target="_self">Edit Contacts</a>
             </div>
-    
+-->
             <div>
                 <img src="images/filter.png" alt="Filter Contacts">
                 <br>

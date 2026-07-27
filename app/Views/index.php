@@ -1,6 +1,8 @@
 <?php
 require '../app/Views/sessionstart.php';
-$css = "css/index.css";
+
+$css = ["css/index.css"];
+
 require '../app/Views/headerandnavbar.php';
 ?>
 

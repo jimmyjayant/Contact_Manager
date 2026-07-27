@@ -1,6 +1,8 @@
 <?php
 require '../app/Views/sessionstart.php';
-$css = "css/feedback.css";
+
+$css = ["css/feedback.css"];
+
 require '../app/Views/headerandnavbar.php';
 ?>
 
@@ -137,6 +139,7 @@ require '../app/Views/headerandnavbar.php';
                 ?>
             </div>
 
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
             <input type="submit" value="Submit">
             <input type="reset" value="Reset">
         </form>

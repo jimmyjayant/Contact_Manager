@@ -1,5 +1,6 @@
 <?php
 // PHP Script for getting details of a particular contact of logged in user
+// Edit.js script file function sends an ajax request to this php script
 require_once "../app/Views/sessionstart.php";
 require_once "../app/Config/Database_Connection.php";
 
@@ -9,10 +10,11 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if($_SERVER['REQUEST_METHOD'] !== 'GET')
 {
-    $data['status'] = 'error';
-    $data['data'] = "Request Method is not GET.";
-    echo json_encode($data);
+    $data['status'] = "error";
+    $data['data'] = "Request Method is not GET!";
+    $data = json_encode($data);
     header("Content-Type: application/json");
+    echo $data;
     exit();
 }
 else
@@ -31,8 +33,8 @@ else
     {
         $data['status'] = 'error';
         $data['data'] = "URL query parameter 'id' is not set!";
-        echo json_encode($data);
         header("Content-Type: application/json");
+        echo json_encode($data);
         exit();
     }
     else
@@ -76,14 +78,57 @@ else
 
                 if($result->num_rows == 1)
                 {
-                    ob_start();
+                    //ob_start();
 
-                    require_once "../app/Views/edit.php";
+                    while($row = $result->fetch_assoc())
+                    {
+                        $_SESSION['form_data']['form_number'] = $formNumber = $row['form_number'];
+                        $_SESSION['form_data']['first_name'] = $row['first_name'];
+                        $_SESSION['form_data']['middle_name'] = $row['middle_name'];
+                        $_SESSION['form_data']['last_name'] = $row['last_name'];
+                        $_SESSION['form_data']['nickname'] = $row['nickname'];
+                        $_SESSION['form_data']['gender'] = $row['gender'];
+                        $_SESSION['form_data']['mobile_number'] = $row['mobile_number'];
+                        $_SESSION['form_data']['landline_number'] = $row['landline_number'];
+                        $_SESSION['form_data']['addr'] = $row['addr'];
+                        $_SESSION['form_data']['relationship'] = $row['relationship'];
 
-                    //$html = file_get_contents("../app/Views/edit.php");
+                        $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
-                    $data['data'] = ob_get_contents();
-                    ob_end_clean();
+                        $result1 = $conn->query($sql);
+
+                        if($result1->num_rows > 0)
+                        {
+                            $row = $result1->fetch_assoc();
+                            if($row['total_fields'] != 0)
+                            {
+                                //$total_additional_fields = $row['total_fields'];
+                                //$total_additional_fields_pages = ceil($total_additional_fields / 10);
+
+                                // Pagination here must be created in the future
+
+                                $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+
+                                $result2 = $conn->query($sql);
+
+                                if($result2->num_rows > 0)
+                                {
+                                    $counter = 0;
+                                    while($row = $result2->fetch_assoc())
+                                    {
+                                        $counter++;
+                                        $_SESSION['additional_fields'][$counter]['field_name'] = $row['field_name'];
+                                        $_SESSION['additional_fields'][$counter]['field_value'] = $row['field_value'];
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //$data['data'] = ob_get_contents();
+                    //ob_end_clean();
+
+                    //var_dump($_SESSION['additional_fields']);
 
                     $data['status'] = 'success';
                     $data = json_encode($data);
@@ -113,7 +158,13 @@ else
         }
         catch(mysqli_sql_exception $e)
         {
-            // code here
+            error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
+            $data['status'] = "error";
+            $data['data'] = "Database server unavailable. Please try again later!";
+            $data = json_encode($data);
+            header("Content-Type: application/json");
+            echo $data;
+            exit();
         }
     }
 }

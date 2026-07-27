@@ -1,26 +1,7 @@
+var counter = 1;
+
 window.addEventListener("DOMContentLoaded", function() {
-    var add_contact_button = document.getElementById("add");
     var add_contact_div = document.getElementById("add_contact");
-    //console.log(display_add_contact_div);
-    
-    if(display_add_contact_div == 0)
-    {
-        add_contact_div.classList.add("hide");
-    }
-    else
-    {
-        add_contact_div.classList.remove("hide");
-    }
-    
-    add_contact_button.addEventListener("click", function() {
-        add_contact_div.classList.remove("hide");       
-    });
-
-    var add_cross_button = document.getElementById("add_cross_button");
-
-    add_cross_button.addEventListener("click", function() {
-        add_contact_div.classList.add("hide");
-    });
 
     var add_custom_fields_button = document.getElementById("add_custom_fields");
 

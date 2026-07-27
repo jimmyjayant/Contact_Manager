@@ -1,5 +1,8 @@
 var total_pages = 1;
 
+import { get_edit_contact_buttons } from "../script/edit.js";
+import {get_delete_contact_buttons} from "../script/delete.js";
+
 function get_user_contacts(pageNumber = 1)
 {
     var xhttp = new XMLHttpRequest();
@@ -20,6 +23,11 @@ function get_user_contacts(pageNumber = 1)
         {
             resultdiv.innerHTML = data.data;
             total_pages = Math.ceil(data.total_records / 10);
+            if(total_pages > 1)
+            {
+                var paginationDiv = document.getElementById("pagination");
+                paginationDiv.style.display = "flex";
+            }
             get_delete_contact_buttons();
             get_edit_contact_buttons();
         }

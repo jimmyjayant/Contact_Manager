@@ -1,7 +1,7 @@
 <?php
 require '../app/Views/sessionstart.php';
 
-$css = "css/add.css";
+$css = ["css/add.css"];
 
 function add_old(string $inputFieldName)
 {
@@ -27,7 +27,8 @@ function add_old(string $inputFieldName)
     }
 }
 
-$js = "script/add.js";
+$js = ["script/add.js"];
+
 require '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
@@ -273,6 +274,7 @@ if(!isset($_SESSION['user_token']))
                         <input type="hidden" id="custom_fields_number" name="custom_fields_number" value="0">
                     </div>
 
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     <input type="submit" value="Add">
                     <input type="reset" value="Reset">
                 </form>

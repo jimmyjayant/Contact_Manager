@@ -9,8 +9,10 @@ session_set_cookie_params([
     'samesite' => 'Strict'
 ]);
 
-
+// This PHP configuration directive forces to use session id supplied via cookies to the web server AND not via url.
 ini_set('session.use_only_cookies', '1');
+
+/* This PHP configuration directive forces to reject random session ids supplied via user to web server. And re-initialize one if the provided one is not on server. */
 ini_set('session.use_strict_mode', '1');
 
 if(session_status() !== PHP_SESSION_ACTIVE)
@@ -41,6 +43,4 @@ else
 {
     $_SESSION['last_activity'] = time();
 }
-
-
 ?>

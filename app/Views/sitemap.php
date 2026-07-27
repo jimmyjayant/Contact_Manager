@@ -1,6 +1,8 @@
 <?php
 require '../app/Views/sessionstart.php';
-$css = "css/sitemap.css";
+
+$css = ["css/sitemap.css"];
+
 require '../app/Views/headerandnavbar.php';
 ?>
 

@@ -55,6 +55,10 @@ label {
 }
 
 @media screen and (max-width:600px) {
+    form {
+        width:100%;
+    }
+
     form input {
         padding:0.3rem;
     }

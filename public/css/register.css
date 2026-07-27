@@ -54,6 +54,10 @@ label {
 }
 
 @media screen and (max-width:600px) {
+    form {
+        width:100%;
+    }
+
     .row {
         flex-direction:column;
     }

@@ -1,6 +1,8 @@
 <?php
 require '../app/Views/sessionstart.php';
-$css = "css/changepassword.css";
+
+$css = ["css/changepassword.css"];
+
 require '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage

@@ -1,7 +1,4 @@
-var counter = 1;
-var total_pages = 1;
-
-function get_delete_contact_buttons()
+export function get_delete_contact_buttons()
 {
     var delete_contact_button = Array.from(document.getElementsByClassName("delete_contact_btn"));
     console.log(delete_contact_button);
@@ -31,7 +28,7 @@ function get_delete_contact_buttons()
                 }
                 else if(data.status == 'success')
                 {
-                    window.location.href = "dashboard";
+                    window.location.reload();
                 }
             }
             xhttp.open("GET", "delete_user_contact?id=" + contact_id, true);

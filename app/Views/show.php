@@ -1,9 +1,10 @@
 <?php
 require '../app/Views/sessionstart.php';
 
-$css = "css/show.css";
+$css = ["css/show.css"];
 
-$js = "script/show.js";
+$js = ["script/show.js"];
+
 require '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
@@ -11,6 +12,11 @@ if(!isset($_SESSION['user_token']))
 {
     header("Location: login");
     exit();
+}
+
+if(isset($data) && $data['status'] == 'error')
+{
+    echo "<script>alert({$data['data']});</script>";
 }
 ?>
 

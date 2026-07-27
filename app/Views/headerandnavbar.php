@@ -11,14 +11,20 @@
         <link rel="stylesheet" href="css/footer.css">
         <script src="script/script.js"></script>
         <?php
-            if(isset($js))
+            if(isset($js) && (count($js) > 0))
             {
-                echo "<script src='{$js}'></script>";
+                foreach($js as $script)
+                {
+                    echo "<script type='module' src='{$script}'></script>";
+                }
             }
 
-            if(isset($css))
+            if(isset($css) && (count($css) > 0))
             {
-                echo "<link rel='stylesheet' href='{$css}'>";
+                foreach($css as $style)
+                {
+                    echo "<link rel='stylesheet' href='{$style}'>";
+                }
             }
         ?>
         <link rel="icon" href="images/favicon.ico">

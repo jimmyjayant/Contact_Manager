@@ -1,9 +1,10 @@
 <?php
 require '../app/Views/sessionstart.php';
 
-$css = "css/search.css";
+$css = ["css/search.css"];
 
-$js = "script/search.js";
+$js = ["script/search.js"];
+
 require '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
