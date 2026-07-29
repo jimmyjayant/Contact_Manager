@@ -22,6 +22,37 @@ function test_input($input)
     return $input;
 }
 
+function test_field_name($input, $length)
+{
+    if(empty($input))
+    {
+        $_SESSION['edit_contact_error'] = "Field Name cannot be empty!";
+        header("Location: edit");
+        exit();
+    }
+    else if(strlen($input) > $length)
+    {
+        $_SESSION['edit_contact_error'] = "Field Name cannot be more than $length characters!";
+        header("Location: edit");
+        exit();
+    }
+    else if(preg_match_all("/\d/", $input))
+    {
+        $_SESSION['edit_contact_error'] = "Field Name cannot contain digits!";
+        header("Location: edit");
+        exit();
+    }
+    else if(preg_match_all("/\W/", $input))
+    {
+        $_SESSION['edit_contact_error'] = "Field Name cannot contain special characters!";
+        header("Location: edit");
+        exit();
+    }
+
+    //return $input;
+}
+
+
 // Putting all form data in a session variable
 $_SESSION['edit_form_data']['edit_form_number'] = $_POST['edit_form_number'];
 $_SESSION['edit_form_data']['edit_firstname'] = $_POST['edit_firstname'];
@@ -34,6 +65,24 @@ $_SESSION['edit_form_data']['edit_landnum'] = $_POST['edit_landnum'];
 $_SESSION['edit_form_data']['edit_address'] = $_POST['edit_address'];
 $_SESSION['edit_form_data']['edit_relationship'] = $_POST['edit_relationship'];
 
+if(isset($_POST['custom_fields_present']) && $_POST['custom_fields_present'] == 1)
+{
+    if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
+    {
+        $custom_fields_number = (int)($_POST['custom_fields_number']);
+        $n = 1;
+        while($n <= $custom_fields_number)
+        {
+            $fieldName = "fieldName$n";
+            $_SESSION['edit_form_data']['additional_fields']["fieldName$n"] = $_POST[$fieldName];
+            
+            $fieldValue = "fieldValue$n";
+            $_SESSION['edit_form_data']['additional_fields']["fieldValue$n"] = $_POST[$fieldValue];
+
+            $n++;
+        }
+    }
+}
 
 $firstname = test_input($_POST['edit_firstname']);
 
@@ -215,6 +264,9 @@ if(strlen($relationship) > 100)
     exit();
 }
 
+// Form Number
+$formNumber = test_input($_POST['edit_form_number']);
+
 
 if(!isset($_SESSION['user_token']))
 {
@@ -292,72 +344,48 @@ try
     {
         if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
         {
-            $sql = "UPDATE additional_fields
-                    SET ";
-
-            try
+            $custom_fields_number = (int)($_POST['custom_fields_number']);
+            $n = 1;
+            while($n <= $custom_fields_number)
             {
-                $result = $conn->query($sql);
-                if($result->num_rows > 0)
+                $fieldName = "fieldName$n";
+                $_SESSION['edit_form_data']['additional_fields']["fieldName$n"] = $fieldName = $_POST[$fieldName];
+                test_field_name($fieldName, 100);
+                
+                $fieldValue = "fieldValue$n";
+                $_SESSION['edit_form_data']['additional_fields']["fieldValue$n"] = $_POST[$fieldValue];
+                $fieldValue = test_input($_POST[$fieldValue]);
+
+                $sql = "UPDATE additional_fields
+                        SET field_name='$fieldName',
+                            field_value='$fieldValue'
+                        WHERE userID={$id} AND form_no={$formNumber}";
+
+                try
                 {
-                    $row = $result->fetch_assoc();
-                    $formNumber = $row['form_number'];
+                    $result = $conn->query($sql);
+                    if($result === TRUE)
+                    {
+                        $n++;
+                    }
                 }
-            }
-            catch(mysqli_sql_exception $e)
-            {
-                $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
-                header("Location: add");
-                exit();
-            }
-
-            $custom_fields_number = (int)test_input($_POST['custom_fields_number']);
-            for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
-            {
-            $customFieldName = test_input($_POST['customInputElement' . $i]);
-            test_field_name($customFieldName, 100);
-            $customFieldValue = test_input($_POST['customInputElement' . $i+1]);
-            if(strlen($customFieldValue) > 500)
+                catch(mysqli_sql_exception $e)
                 {
-                    $_SESSION['add_contact_error'] = "Field Value cannot be more than 500 characters!";
-                    header("Location: add");
+                    $_SESSION['edit_contact_error'] = "Error Editing Contact. Please try again later!";
+                    header("Location: edit");
                     exit();
                 }
-
-                // sql statement to insert additional fields into additional_fields table in contact_manager_db database
-                $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value) 
-                        VALUES($id, $formNumber, '$customFieldName', '$customFieldValue')";
-
-            try
-            {
-                    $result = $conn->query($sql);
-            }
-            catch(mysqli_sql_exception $e)
-            {
-                    if($e->getCode() == 1062)
-                    {
-                        $_SESSION['add_contact_error'] = "Mobile or Landline Number Already Exists!";
-                        header("Location: add");
-                        exit();
-                    }
-                    else
-                    {
-                        $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later1!";
-                        header("Location: add");
-                        exit();
-                    }
-            }
             }
 
-            $_SESSION['add_contact_success'] = "Contact added successfully";
-            header("Location: add");
+            $_SESSION['edit_contact_success'] = "Contact edited successfully";
+            header("Location: edit");
             exit();
         }
     }
     else
     {
-        $_SESSION['add_contact_success'] = "Contact added successfully";
-        header("Location: add");
+        $_SESSION['edit_contact_success'] = "Contact edited successfully";
+        header("Location: edit");
         exit();
     }
 }

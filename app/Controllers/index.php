@@ -133,6 +133,11 @@ else if($_SERVER['REQUEST_METHOD'] === 'POST')
         case 'change_user_password.php':
             require '../app/Models/change_user_password.php';
             break;
+        
+        case 'edit_user_contact':
+        case 'edit_user_contact.php':
+            require '../app/Models/edit_user_contact.php';
+            break;
 
         case 'filter_user_contact':
         case 'filter_user_contact.php':

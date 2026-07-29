@@ -13,6 +13,12 @@ if(!isset($_SESSION['user_token']))
     header("Location: login");
     exit();
 }
+
+if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
+{
+    header("Location: show");
+    exit();
+}
 ?>
 
 <div class="content">
@@ -46,6 +52,11 @@ if(!isset($_SESSION['user_token']))
                                 echo $_SESSION['form_data']['first_name'];
                                 unset($_SESSION['form_data']['first_name']);
                             }
+                            else if(isset($_SESSION['edit_form_data']['edit_firstname']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_firstname'];
+                                unset($_SESSION['edit_form_data']['edit_firstname']);
+                            }
                         ?>" 
                         maxlength="100" required>
                     </div>
@@ -72,6 +83,11 @@ if(!isset($_SESSION['user_token']))
                             {
                                 echo $_SESSION['form_data']['middle_name'];
                                 unset($_SESSION['form_data']['middle_name']);
+                            }
+                            else if(isset($_SESSION['edit_form_data']['edit_middlename']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_middlename'];
+                                unset($_SESSION['edit_form_data']['edit_middlename']);
                             }
                         ?>" 
                         maxlength="100">
@@ -100,6 +116,11 @@ if(!isset($_SESSION['user_token']))
                                 echo $_SESSION['form_data']['last_name'];
                                 unset($_SESSION['form_data']['last_name']);
                             }
+                            else if(isset($_SESSION['edit_form_data']['edit_lastname']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_lastname'];
+                                unset($_SESSION['edit_form_data']['edit_lastname']);
+                            }
                         ?>" 
                         maxlength="100">
                     </div>
@@ -126,6 +147,11 @@ if(!isset($_SESSION['user_token']))
                             {
                                 echo $_SESSION['form_data']['nickname'];
                                 unset($_SESSION['form_data']['nickname']);
+                            }
+                            else if(isset($_SESSION['edit_form_data']['edit_nickname']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_nickname'];
+                                unset($_SESSION['edit_form_data']['edit_nickname']);
                             }
                         ?>" 
                         maxlength="100">
@@ -156,6 +182,12 @@ if(!isset($_SESSION['user_token']))
                                     echo " checked";
                                     unset($_SESSION['form_data']['gender']);
                                 }
+                                else if(isset($_SESSION['edit_form_data']['edit_gender']) &&
+                                    $_SESSION['edit_form_data']['edit_gender'] == 'male')
+                                {
+                                    echo " checked";
+                                    unset($_SESSION['edit_form_data']['edit_gender']);
+                                }
                             ?>
                             >
                             <label for="edit_male">Male</label>
@@ -168,6 +200,12 @@ if(!isset($_SESSION['user_token']))
                                 {
                                     echo " checked";
                                     unset($_SESSION['form_data']['gender']);
+                                }
+                                else if(isset($_SESSION['edit_form_data']['edit_gender']) &&
+                                    $_SESSION['edit_form_data']['edit_gender'] == 'female')
+                                {
+                                    echo " checked";
+                                    unset($_SESSION['edit_form_data']['edit_gender']);
                                 }
                             ?>
                             >
@@ -198,6 +236,11 @@ if(!isset($_SESSION['user_token']))
                                 echo $_SESSION['form_data']['mobile_number'];
                                 unset($_SESSION['form_data']['mobile_number']);
                             }
+                            else if(isset($_SESSION['edit_form_data']['edit_mobnum']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_mobnum'];
+                                unset($_SESSION['edit_form_data']['edit_mobnum']);
+                            }
                         ?>" 
                         pattern="[0-9]{10}">
                     </div>
@@ -224,6 +267,11 @@ if(!isset($_SESSION['user_token']))
                             {
                                 echo $_SESSION['form_data']['landline_number'];
                                 unset($_SESSION['form_data']['landline_number']);
+                            }
+                            else if(isset($_SESSION['edit_form_data']['edit_landnum']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_landnum'];
+                                unset($_SESSION['edit_form_data']['edit_landnum']);
                             }
                         ?>" 
                         pattern="[0-9]{8}">
@@ -252,6 +300,11 @@ if(!isset($_SESSION['user_token']))
                                 echo $_SESSION['form_data']['addr'];
                                 unset($_SESSION['form_data']['addr']);
                             }
+                            else if(isset($_SESSION['edit_form_data']['edit_address']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_address'];
+                                unset($_SESSION['edit_form_data']['edit_address']);
+                            }
                         ?>" 
                         maxlength="500">
                     </div>
@@ -279,6 +332,11 @@ if(!isset($_SESSION['user_token']))
                                 echo $_SESSION['form_data']['relationship'];
                                 unset($_SESSION['form_data']['relationship']);
                             }
+                            else if(isset($_SESSION['edit_form_data']['edit_relationship']))
+                            {
+                                echo $_SESSION['edit_form_data']['edit_relationship'];
+                                unset($_SESSION['edit_form_data']['edit_relationship']);
+                            }
                         ?>" 
                         maxlength="100">
                     </div>
@@ -296,10 +354,10 @@ if(!isset($_SESSION['user_token']))
 
 <?php
                     if(/*array_key_exists('1', $_SESSION['additional_fields'])*/
-                        !empty($_SESSION['additional_fields']))
+                        !empty($_SESSION['form_data']['additional_fields']))
                     {
 
-                        $counter = (int)array_key_last($_SESSION['additional_fields']);
+                        $counter = (int)array_key_last($_SESSION['form_data']['additional_fields']);
                         $n = 1;
 
                         $html = <<< EOT
@@ -316,18 +374,30 @@ echo $html;
 
                         while($n <= $counter)
                         {
+                            $fieldName = "fieldName$n";
+                            $fieldValue = "fieldValue$n";
+
+                            if(!empty($_SESSION['edit_form_data']['additional_fields']))
+                            {
+                                $inputFieldName = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$fieldName]);
+                                $inputFieldValue = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$fieldValue]);
+                            }
+                            else
+                            {
+                                $inputFieldName = htmlspecialchars($_SESSION['form_data']['additional_fields'][$n]['field_name']);
+                                $inputFieldValue = htmlspecialchars($_SESSION['form_data']['additional_fields'][$n]['field_value']);
+                            }
+
                             $html = <<< EOT
                             <div class="row">
                                 <div class="col25">
-                                    <input type="text" id="fieldName$n" name="fieldName$n" 
-                                    value="{$_SESSION['additional_fields'][$n]['field_name']}"
-                                    title="Field Name">
+                                    <input type="text" id="$fieldName" name="$fieldName" 
+                                    value="$inputFieldName" title="Field Name">
                                     </input>
                                 </div>
                                 <div class="col75">
-                                    <input type="text" id="fieldValue$n" name="fieldValue$n" 
-                                    value="{$_SESSION['additional_fields'][$n]['field_value']}"
-                                    title="Field Value">
+                                    <input type="text" id="$fieldValue" name="$fieldValue" 
+                                    value="$inputFieldValue" title="Field Value">
                                     </input>
                                 </div>
                             </div>
@@ -336,7 +406,8 @@ echo $html;
 $n++;
                         }
 
-                        unset($_SESSION['additional_fields']);
+                        unset($_SESSION['form_data']['additional_fields']);
+                        unset($_SESSION['edit_form_data']['additional_fields']);
                     }
 ?>
                 <input type="hidden" name="edit_form_number" 
