@@ -39,11 +39,14 @@ export function get_edit_contact_buttons()
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-    const [navigationEntry] = performance.getEntriesByType('navigation');
-
-    // if page is reloaded
-    if(navigationEntry && navigationEntry.type === 'reload')
+    if(window.location.href.includes("edit"))
     {
-        window.location.href = "show";
+        const [navigationEntry] = performance.getEntriesByType('navigation');
+
+        // if page is reloaded
+        if(navigationEntry && navigationEntry.type === 'reload')
+        {
+            window.location.href = "show";
+        }
     }
 });

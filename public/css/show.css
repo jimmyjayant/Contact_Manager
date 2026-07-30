@@ -79,3 +79,53 @@ input#page_number {
     background-color:darkgrey;
     border:1px solid grey;
 }
+
+@media screen and (max-width:600px) {
+    table {
+        border:none;
+        border-collapse:unset;
+    }
+
+    table tr:first-child {
+        display:none;
+    }
+
+    tr td:last-child {
+        margin-bottom:2rem;
+    }
+
+    th[data-id='hidden'] {
+        display:none;
+    }
+
+    td[data-label='edit'], td[data-label='delete'] {
+        text-align:center;
+        padding-left:0;
+    }
+
+    table td {
+        display:block;
+        position:relative; /* CRITICAL: Anchors the pseudo-element inside this box */
+        padding-left:50%; /* Room for data-id on the left side */
+        text-align:right; /* Aligns actual td cell data to the right side */
+        min-height:1.5rem; /* Prevents cell collapse if td has zero content */
+    }
+
+    table td::before {
+        content:attr(data-id);
+        position:absolute;
+        left:1rem;
+        top:50%;
+        transform:translateY(-50%);
+        width:50%;
+        padding-right:0.5rem;
+        padding-top:0.5rem;
+        padding-bottom:0.5rem;
+        text-align:left;
+        font-weight:bold;
+    }
+
+    table td:empty {
+        display:none;
+    }
+}

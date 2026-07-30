@@ -119,23 +119,23 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
                     {
                         $formNumber = $row['form_number'];
                         echo "<tr>";
-                        echo "<td>";
+                        echo "<td data-label='edit'>";
                         echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
                         echo "</td>";
-                        echo "<td>";
+                        echo "<td data-label='delete'>";
                         echo "<img src='public/images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
                         echo "</td>";
-                        echo "<td>" . $row['form_number'] ."</td>";
-                        echo "<td>" . $row['first_name'] ."</td>";
-                        echo "<td>" . $row['middle_name'] ."</td>";
-                        echo "<td>" . $row['last_name'] ."</td>";
-                        echo "<td>" . $row['nickname'] ."</td>";
-                        echo "<td>" . $row['gender'] ."</td>";
-                        echo "<td>" . $row['mobile_number'] ."</td>";
-                        echo "<td>" . $row['landline_number'] ."</td>";
-                        echo "<td>" . $row['addr'] ."</td>";
-                        echo "<td>" . $row['relationship'] ."</td>";
-                        echo "<td>" . $row['created_at'] ."</td>";
+                        echo "<td data-id='Serial Number'>" . $row['form_number'] ."</td>";
+                        echo "<td data-id='First Name'>" . $row['first_name'] ."</td>";
+                        echo "<td data-id='Middle Name'>" . $row['middle_name'] ."</td>";
+                        echo "<td data-id='Last Name'>" . $row['last_name'] ."</td>";
+                        echo "<td data-id='Nickname'>" . $row['nickname'] ."</td>";
+                        echo "<td data-id='Gender'>" . $row['gender'] ."</td>";
+                        echo "<td data-id='Mobile Number'>" . $row['mobile_number'] ."</td>";
+                        echo "<td data-id='Landline Number'>" . $row['landline_number'] ."</td>";
+                        echo "<td data-id='Address'>" . $row['addr'] ."</td>";
+                        echo "<td data-id='Relationship'>" . $row['relationship'] ."</td>";
+                        echo "<td data-id='Created At'>" . $row['created_at'] ."</td>";
 
                         $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
@@ -157,8 +157,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
                             {
                                 while($row = $result2->fetch_assoc())
                                 {
-                                    echo "<th>" . $row['field_name'] . "</th>";
-                                    echo "<td>" . $row['field_value'] . "</td>";
+                                    echo "<th data-id='hidden'>" . $row['field_name'] . "</th>";
+                                    echo "<td data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
                                 }
                             }
                         }
