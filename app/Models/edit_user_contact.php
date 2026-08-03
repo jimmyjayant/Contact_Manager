@@ -14,6 +14,13 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST')
     exit();
 }
 
+if($_SESSION['csrf_token'] != $_POST['csrf_token'])
+{
+    $_SESSION['edit_contact_error'] = "CSRF Token does not match!";
+    header("Location: edit");
+    exit();
+}
+
 function test_input($input)
 {
     $input = trim($input);
@@ -22,29 +29,35 @@ function test_input($input)
     return $input;
 }
 
-function test_field_name($input, $length)
+function test_field_name($input, $length, $n)
 {
+    $input = trim($input);
+
     if(empty($input))
     {
-        $_SESSION['edit_contact_error'] = "Field Name cannot be empty!";
+        $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
+        "Field Name cannot be empty!";
         header("Location: edit");
         exit();
     }
     else if(strlen($input) > $length)
     {
-        $_SESSION['edit_contact_error'] = "Field Name cannot be more than $length characters!";
+        $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
+        "Field Name cannot be more than $length characters!";
         header("Location: edit");
         exit();
     }
     else if(preg_match_all("/\d/", $input))
     {
-        $_SESSION['edit_contact_error'] = "Field Name cannot contain digits!";
+        $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
+        "Field Name cannot contain digits!";
         header("Location: edit");
         exit();
     }
     else if(preg_match_all("/\W/", $input))
     {
-        $_SESSION['edit_contact_error'] = "Field Name cannot contain special characters!";
+        $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
+        "Field Name cannot contain special characters!";
         header("Location: edit");
         exit();
     }
@@ -69,15 +82,18 @@ if(isset($_POST['custom_fields_present']) && $_POST['custom_fields_present'] == 
 {
     if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
     {
-        $custom_fields_number = (int)($_POST['custom_fields_number']);
+        $custom_fields_number = (int)test_input(($_POST['custom_fields_number']));
         $n = 1;
         while($n <= $custom_fields_number)
         {
             $fieldName = "fieldName$n";
-            $_SESSION['edit_form_data']['additional_fields']["fieldName$n"] = $_POST[$fieldName];
+            if(!empty($_POST[$fieldName]))
+            {
+                $_SESSION['edit_form_data']['additional_fields'][$n]['field_name'] = $_POST[$fieldName];
             
-            $fieldValue = "fieldValue$n";
-            $_SESSION['edit_form_data']['additional_fields']["fieldValue$n"] = $_POST[$fieldValue];
+                $fieldValue = "fieldValue$n";
+                $_SESSION['edit_form_data']['additional_fields'][$n]['field_value'] = $_POST[$fieldValue];
+            }
 
             $n++;
         }
@@ -316,7 +332,7 @@ try
             $result = $conn->query($sql);
         }
         catch(mysqli_sql_exception $e)
-        {
+        {/*
             if($e->getCode() == 1062)
             {
                 $_SESSION['edit_contact_error'] = "Mobile or Landline Number Already Exists!";
@@ -324,11 +340,11 @@ try
                 exit();
             }
             else
-            {
+            {*/
                 $_SESSION['edit_contact_error'] = "Error Editing Contact. Please try again later!";
                 header("Location: edit");
                 exit();
-            }
+            //}
         }
     }
     else
@@ -344,17 +360,34 @@ try
     {
         if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
         {
-            $custom_fields_number = (int)($_POST['custom_fields_number']);
+            $custom_fields_number = (int)test_input($_POST['custom_fields_number']);
             $n = 1;
             while($n <= $custom_fields_number)
             {
                 $fieldName = "fieldName$n";
-                $_SESSION['edit_form_data']['additional_fields']["fieldName$n"] = $fieldName = $_POST[$fieldName];
-                test_field_name($fieldName, 100);
-                
+                $fieldName = $_POST[$fieldName];
+                test_field_name($fieldName, 100, $n);
+
+
                 $fieldValue = "fieldValue$n";
-                $_SESSION['edit_form_data']['additional_fields']["fieldValue$n"] = $_POST[$fieldValue];
-                $fieldValue = test_input($_POST[$fieldValue]);
+                $fieldValue = $_POST[$fieldValue];
+                $fieldValue = test_input($fieldValue);
+
+                if(empty($fieldValue))
+                {
+                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'] = 
+                    "Field Value cannot be empty!";
+                    header("Location: edit");
+                    exit();
+                }
+                else if(strlen($fieldValue) > 500)
+                {
+                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'] = 
+                    "Field Value cannot be more than 500 characters!";
+                    header("Location: edit");
+                    exit();
+                }
+
 
                 $sql = "UPDATE additional_fields
                         SET field_name='$fieldName',

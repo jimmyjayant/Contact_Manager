@@ -354,10 +354,20 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
 <?php
                     if(/*array_key_exists('1', $_SESSION['additional_fields'])*/
-                        !empty($_SESSION['form_data']['additional_fields']))
+                        !empty($_SESSION['form_data']['additional_fields'])
+                        ||
+                        !empty($_SESSION['edit_form_data']['additional_fields']))
                     {
 
-                        $counter = (int)array_key_last($_SESSION['form_data']['additional_fields']);
+                        if(!empty($_SESSION['form_data']['additional_fields']))
+                        {
+                            $counter = (int)array_key_last($_SESSION['form_data']['additional_fields']);
+                        }
+                        else if(!empty($_SESSION['edit_form_data']['additional_fields']))
+                        {
+                            $counter = (int)array_key_last($_SESSION['edit_form_data']['additional_fields']);
+                        }
+                        
                         $n = 1;
 
                         $html = <<< EOT
@@ -379,8 +389,8 @@ echo $html;
 
                             if(!empty($_SESSION['edit_form_data']['additional_fields']))
                             {
-                                $inputFieldName = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$fieldName]);
-                                $inputFieldValue = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$fieldValue]);
+                                $inputFieldName = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_name']);
+                                $inputFieldValue = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_value']);
                             }
                             else
                             {
@@ -388,21 +398,48 @@ echo $html;
                                 $inputFieldValue = htmlspecialchars($_SESSION['form_data']['additional_fields'][$n]['field_value']);
                             }
 
+                            if(!empty($_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error']))
+                            {
+                                $formNameError = $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'];
+                                unset($_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error']);
+                            }
+
+                            if(!empty($_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error']))
+                            {
+                                $formValueError = $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'];
+                                unset($_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error']);
+                            }
+
+                            if(isset($formNameError))
+                            {
+                                echo "<div class='row'>";
+                                echo "<div><span class='red_font'>" . $formNameError . "</span></div>";
+                                echo "</div>";
+                            }
+
+                            if(isset($formValueError))
+                            {
+                                echo "<div class='row'>";
+                                echo "<div><span class='red_font'>" . $formValueError . "</span></div>";
+                                echo "</div>";
+                            }
+
                             $html = <<< EOT
                             <div class="row">
                                 <div class="col25">
                                     <input type="text" id="$fieldName" name="$fieldName" 
-                                    value="$inputFieldName" title="Field Name">
+                                    value="$inputFieldName" title="Field Name" required>
                                     </input>
                                 </div>
                                 <div class="col75">
                                     <input type="text" id="$fieldValue" name="$fieldValue" 
-                                    value="$inputFieldValue" title="Field Value">
+                                    value="$inputFieldValue" title="Field Value" required>
                                     </input>
                                 </div>
                             </div>
 EOT;
 echo $html;
+
 $n++;
                         }
 
@@ -417,6 +454,11 @@ $n++;
                             echo $_SESSION['form_data']['form_number'];
                             unset($_SESSION['form_data']['form_number']);
                         }
+                        else if(isset($_SESSION['edit_form_data']['edit_form_number']))
+                        {
+                            echo $_SESSION['edit_form_data']['edit_form_number'];
+                            unset($_SESSION['edit_form_data']['edit_form_number']);
+                        }
                       ?>">
 
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
@@ -430,3 +472,8 @@ $n++;
 </div>
 
 <?php require '../app/Views/footer.php'; ?>
+
+<?php
+    unset($_SESSION['form_data']);
+    unset($_SESSION['edit_form_data']);
+?>
