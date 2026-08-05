@@ -13,7 +13,7 @@
         exit();
     }
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
         $_SESSION['add_contact_error'] = "Request Method is not POST!";
         header("Location: add");

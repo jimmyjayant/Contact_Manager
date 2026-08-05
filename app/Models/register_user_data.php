@@ -6,7 +6,7 @@
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
         $_SESSION['registration_error'] = "Request Method is not POST!";
         header("Location: register");

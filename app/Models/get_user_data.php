@@ -9,9 +9,9 @@
     // Report MySQL Database errors
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
-        $_SESSION['email_error'] = "Request Method is not POST!";
+        $_SESSION['login_error'] = "Request Method is not POST!";
         header("Location: login");
         exit();
     }
@@ -29,7 +29,7 @@
     if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) || 
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
-        $_SESSION['email_error'] = "Session expired. Please refresh the webpage!";
+        $_SESSION['login_error'] = "Session expired. Please refresh the webpage!";
         header("Location: login");
         exit();
     }

@@ -21,7 +21,8 @@
         exit();
     }
 
-    if($_SESSION['csrf_token'] != $_POST['csrf_token'])
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
         $_SESSION['edit_contact_error'] = "CSRF Token does not match!";
         header("Location: edit");
