@@ -1,9 +1,9 @@
 <?php
-require '../app/Views/sessionstart.php';
+require_once '../app/Views/sessionstart.php';
 
 $css = ["css/docs.css"];
 
-require '../app/Views/headerandnavbar.php';
+require_once '../app/Views/headerandnavbar.php';
 ?>
 
 <div class="content">
@@ -14,4 +14,4 @@ require '../app/Views/headerandnavbar.php';
 </div>
 </div>
 
-<?php require '../app/Views/footer.php'; ?>
+<?php require_once '../app/Views/footer.php'; ?>

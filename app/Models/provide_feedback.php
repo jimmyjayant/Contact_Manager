@@ -1,14 +1,19 @@
 <?php
-// PHP Script for Feedback Page
-require"../app/Views/sessionstart.php";
-require_once("../app/Config/Database_Connection.php");
+    // PHP Script for Feedback Page
+    require_once "../app/Views/sessionstart.php";
+    require_once "../app/Config/Database_Connection.php";
 
-ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST')
-{
+    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        $_SESSION['feedback_error'] = "Request Method is not POST!";
+        header("Location: feedback");
+        exit();
+    }
+
     function test_input($input)
     {
         $input = trim($input);
@@ -188,5 +193,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: feedback");
         exit();
     }
-}
 ?>

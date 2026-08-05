@@ -1,6 +1,6 @@
 <?php
 
-require("../app/Config/Database_Connection.php");
+require_once "../app/Config/Database_Connection.php";
 
 $sql = "CREATE TABLE IF NOT EXISTS contacts(
 user_id INT(6) UNSIGNED,

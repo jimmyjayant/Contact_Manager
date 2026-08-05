@@ -1,11 +1,11 @@
 <?php
-require '../app/Views/sessionstart.php';
+require_once '../app/Views/sessionstart.php';
 
 $css = ["css/edit.css"];
 
 $js = ["script/edit.js"];
 
-require '../app/Views/headerandnavbar.php';
+require_once '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
 if(!isset($_SESSION['user_token']))
@@ -14,10 +14,30 @@ if(!isset($_SESSION['user_token']))
     exit();
 }
 
-if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
+if(empty($_SESSION['edit_form_data']))
 {
     header("Location: show");
     exit();
+}
+
+function sanitize($input)
+{
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
+
+function edit_old(string $inputFieldName)
+{
+    if(isset($_SESSION['edit_form_data']))
+    {
+        if(array_key_exists($inputFieldName, $_SESSION['edit_form_data']))
+        {
+            $value = sanitize($_SESSION['edit_form_data'][$inputFieldName]);    
+            return $value;
+        }
+    }
 }
 ?>
 
@@ -39,26 +59,14 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
                 }
             ?>
 
-            <form method="post" action="edit_user_contact">
+            <form method="post" action="edit_user_contact" id="editForm">
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_firstname">First Name*</label>
+                        <label for="first_name">First Name*</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="edit_firstname" name="edit_firstname" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['first_name']))
-                            {
-                                echo $_SESSION['form_data']['first_name'];
-                                unset($_SESSION['form_data']['first_name']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_firstname']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_firstname'];
-                                unset($_SESSION['edit_form_data']['edit_firstname']);
-                            }
-                        ?>" 
-                        maxlength="100" required>
+                        <input type="text" id="first_name" name="first_name" 
+                        value="<?= edit_old('first_name'); ?>" maxlength="100" required>
                     </div>
                 </div>
 
@@ -74,23 +82,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_middlename">Middle Name</label>
+                        <label for="middle_name">Middle Name</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="edit_middlename" name="edit_middlename" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['middle_name']))
-                            {
-                                echo $_SESSION['form_data']['middle_name'];
-                                unset($_SESSION['form_data']['middle_name']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_middlename']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_middlename'];
-                                unset($_SESSION['edit_form_data']['edit_middlename']);
-                            }
-                        ?>" 
-                        maxlength="100">
+                        <input type="text" id="middle_name" name="middle_name" 
+                        value="<?= edit_old('middle_name'); ?>" maxlength="100">
                     </div>
                 </div>
 
@@ -106,23 +102,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_lastname">Last Name</label>
+                        <label for="last_name">Last Name</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="edit_lastname" name="edit_lastname" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['last_name']))
-                            {
-                                echo $_SESSION['form_data']['last_name'];
-                                unset($_SESSION['form_data']['last_name']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_lastname']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_lastname'];
-                                unset($_SESSION['edit_form_data']['edit_lastname']);
-                            }
-                        ?>" 
-                        maxlength="100">
+                        <input type="text" id="last_name" name="last_name" 
+                        value="<?= edit_old('last_name'); ?>" maxlength="100">
                     </div>
                 </div>
 
@@ -138,23 +122,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_nickname">Nickname</label>
+                        <label for="nickname">Nickname</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="edit_nickname" name="edit_nickname" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['nickname']))
-                            {
-                                echo $_SESSION['form_data']['nickname'];
-                                unset($_SESSION['form_data']['nickname']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_nickname']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_nickname'];
-                                unset($_SESSION['edit_form_data']['edit_nickname']);
-                            }
-                        ?>" 
-                        maxlength="100">
+                        <input type="text" id="nickname" name="nickname" 
+                        value="<?= edit_old('nickname'); ?>" maxlength="100">
                     </div>
                 </div>
 
@@ -174,42 +146,34 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
                     </div>
                     <div class="col75 radio">
                         <div>
-                            <input type="radio" id="edit_male" name="edit_gender" value="male"
+                            <input type="radio" id="male" name="gender" value="male"
                             <?php
-                                if(isset($_SESSION['form_data']['gender']) && 
-                                    $_SESSION['form_data']['gender'] == 'male')
+                                $value = edit_old('gender');
+                                if($value == 'male')
                                 {
                                     echo " checked";
-                                    unset($_SESSION['form_data']['gender']);
                                 }
-                                else if(isset($_SESSION['edit_form_data']['edit_gender']) &&
-                                    $_SESSION['edit_form_data']['edit_gender'] == 'male')
+                                else
                                 {
-                                    echo " checked";
-                                    unset($_SESSION['edit_form_data']['edit_gender']);
+                                    echo "";
                                 }
-                            ?>
-                            >
-                            <label for="edit_male">Male</label>
+                            ?>>
+                            <label for="male">Male</label>
                         </div>
                         <div>
-                            <input type="radio" id="edit_female" name="edit_gender" value="female"
+                            <input type="radio" id="female" name="gender" value="female" 
                             <?php
-                                if(isset($_SESSION['form_data']['gender']) && 
-                                    $_SESSION['form_data']['gender'] == 'female')
+                                $value = edit_old('gender');
+                                if($value == 'female')
                                 {
                                     echo " checked";
-                                    unset($_SESSION['form_data']['gender']);
                                 }
-                                else if(isset($_SESSION['edit_form_data']['edit_gender']) &&
-                                    $_SESSION['edit_form_data']['edit_gender'] == 'female')
+                                else
                                 {
-                                    echo " checked";
-                                    unset($_SESSION['edit_form_data']['edit_gender']);
+                                    echo "";
                                 }
-                            ?>
-                            >
-                            <label for="edit_female">Female</label>
+                            ?>>
+                            <label for="female">Female</label>
                         </div>
                     </div>
                 </div>
@@ -226,23 +190,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_mobnum">Mobile Number</label>
+                        <label for="mobile_number">Mobile Number</label>
                     </div>
                     <div class="col75">
-                        <input type="tel" id="edit_mobnum" name="edit_mobnum" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['mobile_number']))
-                            {
-                                echo $_SESSION['form_data']['mobile_number'];
-                                unset($_SESSION['form_data']['mobile_number']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_mobnum']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_mobnum'];
-                                unset($_SESSION['edit_form_data']['edit_mobnum']);
-                            }
-                        ?>" 
-                        pattern="[0-9]{10}">
+                        <input type="tel" id="mobile_number" name="mobile_number" 
+                        value="<?= edit_old('mobile_number'); ?>" pattern="[0-9]{10}">
                     </div>
                 </div>
 
@@ -258,23 +210,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_landnum">Landline Number</label>
+                        <label for="landline_number">Landline Number</label>
                     </div>
                     <div class="col75">
-                        <input type="tel" id="edit_landnum" name="edit_landnum" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['landline_number']))
-                            {
-                                echo $_SESSION['form_data']['landline_number'];
-                                unset($_SESSION['form_data']['landline_number']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_landnum']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_landnum'];
-                                unset($_SESSION['edit_form_data']['edit_landnum']);
-                            }
-                        ?>" 
-                        pattern="[0-9]{8}">
+                        <input type="tel" id="landline_number" name="landline_number" 
+                        value="<?= edit_old('landline_number'); ?>" pattern="[0-9]{8}">
                     </div>
                 </div>
 
@@ -290,23 +230,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_address">Address</label>
+                        <label for="addr">Address</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="edit_address" name="edit_address" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['addr']))
-                            {
-                                echo $_SESSION['form_data']['addr'];
-                                unset($_SESSION['form_data']['addr']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_address']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_address'];
-                                unset($_SESSION['edit_form_data']['edit_address']);
-                            }
-                        ?>" 
-                        maxlength="500">
+                        <input type="text" id="addr" name="addr" 
+                        value="<?= edit_old('addr'); ?>" maxlength="500">
                     </div>
                 </div>
 
@@ -322,23 +250,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
 
                 <div class="row">
                     <div class="col25">
-                        <label for="edit_relationship">Relationship</label>
+                        <label for="relationship">Relationship</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="edit_relationship" name="edit_relationship" 
-                        value="<?php
-                            if(isset($_SESSION['form_data']['relationship']))
-                            {
-                                echo $_SESSION['form_data']['relationship'];
-                                unset($_SESSION['form_data']['relationship']);
-                            }
-                            else if(isset($_SESSION['edit_form_data']['edit_relationship']))
-                            {
-                                echo $_SESSION['edit_form_data']['edit_relationship'];
-                                unset($_SESSION['edit_form_data']['edit_relationship']);
-                            }
-                        ?>" 
-                        maxlength="100">
+                        <input type="text" id="relationship" name="relationship" 
+                        value="<?= edit_old('relationship'); ?>" maxlength="100">
                     </div>
                 </div>
 
@@ -352,22 +268,11 @@ if(empty($_SESSION['form_data']) && empty($_SESSION['edit_form_data']))
                     ?>
                 </div>
 
-<?php
-                    if(/*array_key_exists('1', $_SESSION['additional_fields'])*/
-                        !empty($_SESSION['form_data']['additional_fields'])
-                        ||
-                        !empty($_SESSION['edit_form_data']['additional_fields']))
+                <?php
+                    if(!empty($_SESSION['edit_form_data']['additional_fields']))
                     {
+                        $counter = (int)array_key_last($_SESSION['edit_form_data']['additional_fields']);
 
-                        if(!empty($_SESSION['form_data']['additional_fields']))
-                        {
-                            $counter = (int)array_key_last($_SESSION['form_data']['additional_fields']);
-                        }
-                        else if(!empty($_SESSION['edit_form_data']['additional_fields']))
-                        {
-                            $counter = (int)array_key_last($_SESSION['edit_form_data']['additional_fields']);
-                        }
-                        
                         $n = 1;
 
                         $html = <<< EOT
@@ -387,26 +292,24 @@ echo $html;
                             $fieldName = "fieldName$n";
                             $fieldValue = "fieldValue$n";
 
-                            if(!empty($_SESSION['edit_form_data']['additional_fields']))
-                            {
-                                $inputFieldName = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_name']);
-                                $inputFieldValue = htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_value']);
-                            }
-                            else
-                            {
-                                $inputFieldName = htmlspecialchars($_SESSION['form_data']['additional_fields'][$n]['field_name']);
-                                $inputFieldValue = htmlspecialchars($_SESSION['form_data']['additional_fields'][$n]['field_value']);
-                            }
+
+                            $inputFieldName = 
+                            htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_name']);
+                            $inputFieldValue = 
+                            htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_value']);
+
 
                             if(!empty($_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error']))
                             {
-                                $formNameError = $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'];
+                                $formNameError = 
+                                $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'];
                                 unset($_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error']);
                             }
 
                             if(!empty($_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error']))
                             {
-                                $formValueError = $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'];
+                                $formValueError = 
+                                $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'];
                                 unset($_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error']);
                             }
 
@@ -443,37 +346,23 @@ echo $html;
 $n++;
                         }
 
-                        unset($_SESSION['form_data']['additional_fields']);
                         unset($_SESSION['edit_form_data']['additional_fields']);
                     }
-?>
-                <input type="hidden" name="edit_form_number" 
-                value="<?php 
-                        if(isset($_SESSION['form_data']['form_number']))
-                        {
-                            echo $_SESSION['form_data']['form_number'];
-                            unset($_SESSION['form_data']['form_number']);
-                        }
-                        else if(isset($_SESSION['edit_form_data']['edit_form_number']))
-                        {
-                            echo $_SESSION['edit_form_data']['edit_form_number'];
-                            unset($_SESSION['edit_form_data']['edit_form_number']);
-                        }
-                      ?>">
+                ?>
+                <input type="hidden" name="form_number" value="<?= edit_old('form_number'); ?>">
 
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
 
                 <input type="submit" value="Edit">
-                <input type="reset" value="Reset">
+                <input type="reset" value="Reset" form="editForm">
             </form>
         </div>
     </div>
 </div>
 </div>
 
-<?php require '../app/Views/footer.php'; ?>
+<?php require_once '../app/Views/footer.php'; ?>
 
 <?php
-    unset($_SESSION['form_data']);
     unset($_SESSION['edit_form_data']);
 ?>

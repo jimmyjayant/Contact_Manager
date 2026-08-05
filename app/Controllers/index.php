@@ -19,104 +19,104 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
         case 'index.php':
         case '/':
         case 'home.php':
-            require '../app/Views/index.php';
+            require_once '../app/Views/index.php';
             break;
 
         case 'add':
         case 'add.php':
-            require '../app/Views/add.php';
+            require_once '../app/Views/add.php';
             break;
 
         case 'edit':
         case 'edit.php':
-            require '../app/Views/edit.php';
+            require_once '../app/Views/edit.php';
             break;
 
         case 'filter':
         case 'filter.php':
-            require '../app/Views/filter.php';
+            require_once '../app/Views/filter.php';
             break;
 
         case 'changepassword':
         case 'changepassword.php':
-            require '../app/Views/changepassword.php';
+            require_once '../app/Views/changepassword.php';
             break;
         
         case 'dashboard':
         case 'dashboard.php':
-            require '../app/Views/dashboard.php';
+            require_once '../app/Views/dashboard.php';
             break;
 
         case 'register':
         case 'register.php':
-            require '../app/Views/register.php';
+            require_once '../app/Views/register.php';
             break;
 
         case 'login':
         case 'login.php':
-            require '../app/Views/login.php';
+            require_once '../app/Views/login.php';
             break;
 
         case 'logout':
         case 'logout.php':
-            require '../app/Views/logout.php';
+            require_once '../app/Views/logout.php';
             break;
 
         case 'feedback':
         case 'feedback.php':
-            require '../app/Views/feedback.php';
+            require_once '../app/Views/feedback.php';
             break;
         
         case 'docs':
         case 'docs.php':
-            require '../app/Views/docs.php';
+            require_once '../app/Views/docs.php';
             break;
 
         case 'sitemap':
         case 'sitemap.php':
-            require '../app/Views/sitemap.php';
+            require_once '../app/Views/sitemap.php';
             break;
 
         case 'show':
         case 'show.php':
-            require '../app/Views/show.php';
+            require_once '../app/Views/show.php';
             break;
 
         case 'search':
         case 'search.php':
-            require '../app/Views/search.php';
+            require_once '../app/Views/search.php';
             break;
 
         case 'get_user_contacts':
         case 'get_user_contacts.php':
-            require '../app/Models/get_user_contacts.php';
+            require_once '../app/Models/get_user_contacts.php';
             break;
 
         case 'delete_user_contact':
         case 'delete_user_contact.php':
-            require '../app/Models/delete_user_contact.php';
+            require_once '../app/Models/delete_user_contact.php';
             break;
 
         case 'search_user_contacts':
         case 'search_user_contacts.php':
-            require '../app/Models/search_user_contacts.php';
+            require_once '../app/Models/search_user_contacts.php';
             break;
 
         case 'get_particular_user_contact_data':
         case 'get_particular_user_contact_data.php':
-            require '../app/Models/get_particular_user_contact_data.php';
+            require_once '../app/Models/get_particular_user_contact_data.php';
             break;
 
         /*
         case 'createusertable':
-            require '../app/Config/Database_Connection.php';
+            require_once '../app/Config/Database_Connection.php';
             break;
         */
 
         default:
             // Send 404 status header
             http_response_code(404);
-            require '../app/Views/404.php';
+            require_once '../app/Views/404.php';
             break;
     }
 }
@@ -126,43 +126,43 @@ else if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
         case 'add_user_contact':
         case 'add_user_contact.php':
-            require '../app/Models/add_user_contact.php';
+            require_once '../app/Models/add_user_contact.php';
             break;
 
         case 'change_user_password':
         case 'change_user_password.php':
-            require '../app/Models/change_user_password.php';
+            require_once '../app/Models/change_user_password.php';
             break;
         
         case 'edit_user_contact':
         case 'edit_user_contact.php':
-            require '../app/Models/edit_user_contact.php';
+            require_once '../app/Models/edit_user_contact.php';
             break;
 
         case 'filter_user_contact':
         case 'filter_user_contact.php':
-            require '../app/Models/filter_user_contact.php';
+            require_once '../app/Models/filter_user_contact.php';
             break;
 
         case 'get_user_data':
         case 'get_user_data.php':
-            require '../app/Models/get_user_data.php';
+            require_once '../app/Models/get_user_data.php';
             break;
 
         case 'provide_feedback':
         case 'provide_feedback.php':
-            require '../app/Models/provide_feedback.php';
+            require_once '../app/Models/provide_feedback.php';
             break;
 
         case 'register_user_data':
         case 'register_user_data.php':
-            require '../app/Models/register_user_data.php';
+            require_once '../app/Models/register_user_data.php';
             break;
 
         default:
             // Send 404 status header
             http_response_code(404);
-            require '../app/Views/404.php';
+            require_once '../app/Views/404.php';
             break;
     }
 }

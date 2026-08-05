@@ -1,20 +1,25 @@
 <?php
-require '../app/Views/sessionstart.php';
-require_once("../app/Config/Database_Connection.php");
+    require_once '../app/Views/sessionstart.php';
+    require_once "../app/Config/Database_Connection.php";
 
-ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-// Block direct access to this webpage
-if(!isset($_SESSION['user_token']))
-{
-    header("Location: login");
-    exit();
-}
+    // Block direct access to this webpage
+    if(!isset($_SESSION['user_token']))
+    {
+        header("Location: login");
+        exit();
+    }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST')
-{
+    if($_SERVER['REQUEST_METHOD'] !== 'POST')
+    {
+        $_SESSION['change_password_error'] = "Request Method is not POST!";
+        header("Location: changepassword");
+        exit();
+    }
+
     function test_input($input)
     {
         $input = trim($input);
@@ -111,5 +116,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: changepassword");
         exit();
     }
-}
 ?>

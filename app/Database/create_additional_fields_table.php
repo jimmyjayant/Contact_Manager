@@ -1,5 +1,5 @@
 <?php
-require("../app/Config/Database_Connection.php");
+require_once "../app/Config/Database_Connection.php";
 
 $sql = "CREATE TABLE IF NOT EXISTS additional_fields(
 userID INT(6) UNSIGNED,

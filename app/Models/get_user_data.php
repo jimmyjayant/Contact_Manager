@@ -1,16 +1,21 @@
 <?php
-// PHP Script for Login Page
-require '../app/Views/sessionstart.php';
-require_once("../app/Config/Database_Connection.php");
+    // PHP Script for Login Page
+    require_once '../app/Views/sessionstart.php';
+    require_once "../app/Config/Database_Connection.php";
 
-// Do not display the error to the user
-ini_set("display_errors", 0);
+    // Do not display the error to the user
+    ini_set("display_errors", 0);
 
-// Report MySQL Database errors
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    // Report MySQL Database errors
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST')
-{
+    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        $_SESSION['email_error'] = "Request Method is not POST!";
+        header("Location: login");
+        exit();
+    }
+
     // If the user is already logged in, then
     if(isset($_SESSION['user_token']))
     {
@@ -114,5 +119,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: login");
         exit();
     }
-}
 ?>

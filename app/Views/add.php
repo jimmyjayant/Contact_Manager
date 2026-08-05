@@ -1,42 +1,45 @@
 <?php
-require '../app/Views/sessionstart.php';
+    require_once '../app/Views/sessionstart.php';
 
-$css = ["css/add.css"];
+    $css = ["css/add.css"];
 
-function add_old(string $inputFieldName)
-{
-    if(isset($_SESSION['add_form_data']))
+    function sanitize($input)
     {
-        if(array_key_exists($inputFieldName, $_SESSION['add_form_data']))
-        {
-            $value = $_SESSION['add_form_data'][$inputFieldName];
-            unset($_SESSION['add_form_data'][$inputFieldName]);
-            return $value;
-        }
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;
     }
-    else
+
+    function add_old(string $inputFieldName)
     {
-        if($inputFieldName == 'gender')
+        if(isset($_SESSION['add_form_data']))
         {
-            return "male";
+            if(array_key_exists($inputFieldName, $_SESSION['add_form_data']))
+            {
+                $value = sanitize($_SESSION['add_form_data'][$inputFieldName]);
+                return $value;
+            }
         }
         else
         {
-            return "";
+            if($inputFieldName == 'gender')
+            {
+                return "male";
+            }
         }
     }
-}
 
-$js = ["script/add.js"];
+    $js = ["script/add.js"];
 
-require '../app/Views/headerandnavbar.php';
+    require_once '../app/Views/headerandnavbar.php';
 
-// Block direct access to this webpage
-if(!isset($_SESSION['user_token']))
-{
-    header("Location: login");
-    exit();
-}
+    // Block direct access to this webpage
+    if(!isset($_SESSION['user_token']))
+    {
+        header("Location: login");
+        exit();
+    }
 ?>
 
 <div class="content">
@@ -59,7 +62,7 @@ if(!isset($_SESSION['user_token']))
                     }
                 ?>
 
-                <form method="post" action="add_user_contact">
+                <form method="post" action="add_user_contact" id="addForm">
                     <div class="row">
                         <div class="col25">
                             <label for="firstname">First Name*</label>
@@ -276,7 +279,7 @@ if(!isset($_SESSION['user_token']))
 
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     <input type="submit" value="Add">
-                    <input type="reset" value="Reset">
+                    <input type="reset" value="Reset" form="addForm">
                 </form>
             </div>
         </div>
@@ -284,7 +287,7 @@ if(!isset($_SESSION['user_token']))
 </div>
 </div>
 
-<?php require '../app/Views/footer.php'; ?>
+<?php require_once '../app/Views/footer.php'; ?>
 <?php 
     unset($_SESSION['add_form_data']); 
 ?>

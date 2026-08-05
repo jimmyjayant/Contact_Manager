@@ -165,36 +165,6 @@ function filter_user_contacts(filterText, page = 1)
     xhttp.send("filterData =" + filterData);
 }
 
-window.addEventListener("DOMContentLoaded", function() {
-    var filter_contact_button = document.getElementById("filter");
-    var filter_contact_div = document.getElementById("filter_contact");
-
-    if(display_filter_contact_div == 0)
-    {
-        filter_contact_div.classList.add("hide");
-    }
-    else
-    {
-        filter_contact_div.classList.remove("hide");
-    }
-    
-    filter_contact_button.addEventListener("click", function() {
-        filter_contact_div.classList.remove("hide");       
-    });
-
-    var filter_cross_button = document.getElementById("filter_cross_button");
-
-    filter_cross_button.addEventListener("click", function() {
-        filter_contact_div.classList.add("hide");
-    });
-
-    var submit_filter_data_button = document.getElementById("submit_filter_data_button");
-
-    submit_filter_data_button.addEventListener("click", function(e) {
-        e.preventDefault();
-        filter_user_contacts(filterText, 1);
-    });
-});
 
 window.addEventListener("DOMContentLoaded", function() {
     var previous_page_button = document.getElementById("previous_page");

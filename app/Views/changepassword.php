@@ -1,9 +1,9 @@
 <?php
-require '../app/Views/sessionstart.php';
+require_once '../app/Views/sessionstart.php';
 
 $css = ["css/changepassword.css"];
 
-require '../app/Views/headerandnavbar.php';
+require_once '../app/Views/headerandnavbar.php';
 
 // Block direct access to this webpage
 if(!isset($_SESSION['user_token']))
@@ -72,4 +72,4 @@ if(!isset($_SESSION['user_token']))
 </div>
 </div>
 
-<?php require '../app/Views/footer.php'; ?>
+<?php require_once '../app/Views/footer.php'; ?>

@@ -1,15 +1,23 @@
 <?php
-// Search User Contacts
+    // Search User Contacts
 
-require_once "../app/Views/sessionstart.php";
-require_once "../app/Config/Database_Connection.php";
+    require_once "../app/Views/sessionstart.php";
+    require_once "../app/Config/Database_Connection.php";
 
-ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if($_SERVER['REQUEST_METHOD'] === 'GET')
-{
+    if($_SERVER['REQUEST_METHOD'] !== 'GET')
+    {
+        $data['status'] = "error";
+        $data['data'] = "Request Method is not GET!";
+        $data = json_encode($data);
+        header("Content-Type: application/json");
+        echo $data;
+        exit();
+    }
+
     if(!isset($_SESSION['user_token']))
     {
         $data['status'] = "error";
@@ -238,5 +246,4 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
         echo $data;
         exit();
     }
-}
 ?>

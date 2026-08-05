@@ -1,5 +1,5 @@
 <?php
-require '../app/Views/sessionstart.php';
+require_once '../app/Views/sessionstart.php';
 
 session_unset();
 session_destroy();

@@ -1,14 +1,22 @@
 <?php
-// PHP Script for fetching contact list of logged in user
-require_once "../app/Views/sessionstart.php";
-require_once "../app/Config/Database_Connection.php";
+    // PHP Script for fetching contact list of logged in user
+    require_once "../app/Views/sessionstart.php";
+    require_once "../app/Config/Database_Connection.php";
 
-ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if($_SERVER['REQUEST_METHOD'] === 'GET')
-{
+    if($_SERVER['REQUEST_METHOD'] === 'GET')
+    {
+        $data['status'] = "error";
+        $data['data'] = "Request Method is not GET!";
+        $data = json_encode($data);
+        header("Content-Type: application/json");
+        echo $data;
+        exit();
+    }
+
     if(!isset($_SESSION['user_token']))
     {
         $data['status'] = "error";
@@ -92,8 +100,6 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
                 $sql = "SELECT * FROM contacts WHERE user_id=$id LIMIT $startingIndex, 10";
 
                 $result = $conn->query($sql);
-                //$row = $result->fetch_assoc();
-                //print_r($row);
                 
                 if($result->num_rows > 0)
                 {
@@ -195,5 +201,4 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
         echo $data;
         exit();
     }
-}
 ?>

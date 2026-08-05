@@ -1,13 +1,34 @@
 <?php
-require '../app/Views/sessionstart.php';
-require_once("../app/Config/Database_Connection.php");
+    require_once '../app/Views/sessionstart.php';
+    require_once "../app/Config/Database_Connection.php";
 
-ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST')
-{
+    // If the user is not logged in, then
+    if(!isset($_SESSION['user_token']))
+    {
+        header("Location: login");
+        exit();
+    }
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        $_SESSION['add_contact_error'] = "Request Method is not POST!";
+        header("Location: add");
+        exit();
+    }
+
+    // Checking CSRF Token
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
+    {
+        $_SESSION['add_contact_error'] = "Session expired. Please refresh the webpage!";
+        header("Location: login");
+        exit();
+    }
+
     function test_input($input)
     {
         $input = trim($input);
@@ -311,7 +332,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                     exit();
                 }
 
-                $custom_fields_number = (int)test_input($_POST['custom_fields_number']);
+                $custom_fields_number = test_input($_POST['custom_fields_number']);
                 for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
                 {
                 $customFieldName = test_input($_POST['customInputElement' . $i]);
@@ -368,5 +389,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         header("Location: add");
         exit();
     }
-}
 ?>
