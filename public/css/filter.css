@@ -83,67 +83,6 @@ div.radio {
     line-height:2;
 }
 
-table {
-    width:100%;
-    border-collapse:collapse;
-    border:2px solid grey;
-}
-
-table th {
-    text-align:center;
-    padding:0.5rem;
-    border:1px solid grey;
-}
-
-table tr {
-    text-align:center;
-    padding:0.5rem;
-    border:1px solid grey;
-}
-
-table td {
-    text-align:center;
-    padding:0.3rem;
-    border:1px solid grey;
-}
-
-.edit_contact_btn, .delete_contact_btn {
-    width:1.5rem;
-    height:1.5rem;
-}
-
-.edit_contact_btn:hover, .delete_contact_btn:hover {
-    cursor:pointer;
-    background-color:darkgrey;
-    border:1px solid grey;
-}
-
-#pagination {
-    text-align:center;
-    padding:1rem;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-}
-
-input#page_number {
-    width:5rem;
-    max-width:fit-content;
-    margin:0 1rem;
-    text-align:center;
-}
-
-#previous_page, #next_page {
-    padding:0 1rem;
-    border-radius:1rem;
-    font-size:1.5rem;
-    cursor:pointer;
-}
-
-#previous_page:hover, #next_page:hover {
-    background-color:darkgrey;
-}
-
 @media screen and (max-width:600px) {
     .row {
         flex-direction:column;

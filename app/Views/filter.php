@@ -1,31 +1,7 @@
 <?php
 require_once '../app/Views/sessionstart.php';
 
-$css = ["css/filter.css"];
-
-function filter_old(string $inputFieldName)
-{
-    if(isset($_SESSION['filter_form_data']))
-    {
-        if(array_key_exists($inputFieldName, $_SESSION['filter_form_data']))
-        {
-            $value = $_SESSION['filter_form_data'][$inputFieldName];
-            unset($_SESSION['filter_form_data'][$inputFieldName]);
-            return $value;
-        }
-    }
-    else
-    {
-        if($inputFieldName == 'filter_gender')
-        {
-            return "male";
-        }
-        else
-        {
-            return "";
-        }
-    }
-}
+$css = ["css/filter.css", "css/table.css"];
 
 $js = ["script/filter.js"];
 
@@ -46,10 +22,11 @@ if(!isset($_SESSION['user_token']))
         <div class="contact">
             <!-- Filter Contacts -->
             <div id="filter_contact">
-                <div id="filter_contact_error" class="red"></div>
-                <div id="filter_contact_success" class="green"></div>
 
-                <form>
+                <div id="filter_contact_error" class="center red"></div>
+                <div id="filter_contact_success" class="center green"></div>
+
+                <form id="filter_form">
                     <div class="row">
                         <div class="col25">
                             <label for="filter_firstname">First Name</label>
@@ -59,7 +36,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_firstname_error" class="red"></div>
+                   <!-- <div id="filter_firstname_error" class="row"></div> -->
 
                     <div class="row">
                         <div class="col25">
@@ -70,7 +47,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_middlename_error" class="red"></div>
+                    <!--<div id="filter_middlename_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -81,7 +58,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_lastname_error" class="red"></div>
+                    <!--<div id="filter_lastname_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -92,7 +69,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_nickname_error" class="red"></div>
+                    <!--<div id="filter_nickname_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -110,7 +87,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_gender_error" class="red"></div>
+                    <!--<div id="filter_gender_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -121,7 +98,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_mobile_error" class="red"></div>
+                    <!--<div id="filter_mobnum_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -132,7 +109,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_landline_error" class="red"></div>
+                    <!--<div id="filter_landnum_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -143,7 +120,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_address_error" class="red"></div>
+                    <!--<div id="filter_address_error" class="row"></div>-->
 
                     <div class="row">
                         <div class="col25">
@@ -154,7 +131,7 @@ if(!isset($_SESSION['user_token']))
                         </div>
                     </div>
 
-                    <div id="filter_relationship_error" class="red"></div>
+                    <!--<div id="filter_relationship_error" class="row"></div>-->
 
                     <!--
                     <div class="row" id="add_custom_fields_div">
@@ -172,9 +149,9 @@ if(!isset($_SESSION['user_token']))
                     </div>
                     -->
 
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
-                    <input type="submit" value="Filter" id="submit_filter_data_button">
-                    <input type="reset" value="Reset">
+                    <input type="hidden" name="csrf_token" id="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
+                    <input type="submit" value="Filter" id="filter_submit_button">
+                    <input type="reset" value="Reset" id="filter_reset_button">
                 </form>
             </div>
 
@@ -192,6 +169,3 @@ if(!isset($_SESSION['user_token']))
 </div>
 
 <?php require_once '../app/Views/footer.php'; ?>
-<?php
-    unset($_SESSION['filter_form_data']); 
-?>

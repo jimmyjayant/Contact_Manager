@@ -8,7 +8,11 @@
 
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
-        // code here
+        $data['status'] = "error";
+        $data['data'] = "Request Method is not POST!";
+        header("Content-Type: application/json");
+        echo json_encode($data);
+        exit();
     }
 
     if(!isset($_SESSION['user_token']))
@@ -29,7 +33,8 @@
         return $input;
     }
 
-    parse_str($_POST['filterData_'], $data);
+    $jsonData = file_get_contents('php://input');
+    $data = json_decode($jsonData, true);
 
     $filter_firstname = test_input($data['filter_firstname']);
 
@@ -42,7 +47,7 @@
             $data = json_encode($data);
             header("Content-Type: application/json");
             echo $data;
-            exit();
+            exit();            
         }
         else if(preg_match_all("/\d/", $filter_firstname))
         {
@@ -468,6 +473,7 @@
 
                     echo "<table>";
                     echo "<tr>";
+                    echo "<th colspan='2'>Action</th>";
                     echo "<th>Serial Number</th>";
                     echo "<th>First Name</th>";
                     echo "<th>Middle Name</th>";
@@ -485,17 +491,23 @@
                     {
                         $formNumber = $row['form_number'];
                         echo "<tr>";
-                        echo "<td>" . $row['form_number'] ."</td>";
-                        echo "<td>" . $row['first_name'] ."</td>";
-                        echo "<td>" . $row['middle_name'] ."</td>";
-                        echo "<td>" . $row['last_name'] ."</td>";
-                        echo "<td>" . $row['nickname'] ."</td>";
-                        echo "<td>" . $row['gender'] ."</td>";
-                        echo "<td>" . $row['mobile_number'] ."</td>";
-                        echo "<td>" . $row['landline_number'] ."</td>";
-                        echo "<td>" . $row['addr'] ."</td>";
-                        echo "<td>" . $row['relationship'] ."</td>";
-                        echo "<td>" . $row['created_at'] ."</td>";
+                        echo "<td data-label='edit'>";
+                        echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
+                        echo "</td>";
+                        echo "<td data-label='delete'>";
+                        echo "<img src='public/images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
+                        echo "</td>";
+                        echo "<td data-id='Serial Number'>" . $row['form_number'] ."</td>";
+                        echo "<td data-id='First Name'>" . $row['first_name'] ."</td>";
+                        echo "<td data-id='Middle Name'>" . $row['middle_name'] ."</td>";
+                        echo "<td data-id='Last Name'>" . $row['last_name'] ."</td>";
+                        echo "<td data-id='Nickname'>" . $row['nickname'] ."</td>";
+                        echo "<td data-id='Gender'>" . $row['gender'] ."</td>";
+                        echo "<td data-id='Mobile Number'>" . $row['mobile_number'] ."</td>";
+                        echo "<td data-id='Landline Number'>" . $row['landline_number'] ."</td>";
+                        echo "<td data-id='Address'>" . $row['addr'] ."</td>";
+                        echo "<td data-id='Relationship'>" . $row['relationship'] ."</td>";
+                        echo "<td data-id='Created At'>" . $row['created_at'] ."</td>";
 
                         $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
@@ -517,8 +529,8 @@
                             {
                                 while($row = $result2->fetch_assoc())
                                 {
-                                    echo "<th>" . $row['field_name'] . "</th>";
-                                    echo "<td>" . $row['field_value'] . "</td>";
+                                    echo "<th data-id='hidden'>" . $row['field_name'] . "</th>";
+                                    echo "<td data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
                                 }
                             }
                         }

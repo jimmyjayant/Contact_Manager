@@ -1,7 +1,7 @@
 <?php
 require_once '../app/Views/sessionstart.php';
 
-$css = ["css/show.css"];
+$css = ["css/show.css", "css/table.css"];
 
 $js = ["script/show.js"];
 

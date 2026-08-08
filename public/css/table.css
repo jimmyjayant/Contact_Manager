@@ -1,0 +1,115 @@
+#result {
+    padding:1rem;
+    overflow-x:auto;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    border:2px solid grey;
+}
+
+table th {
+    text-align:center;
+    padding:0.5rem;
+    border:1px solid grey;
+}
+
+table tr {
+    text-align:center;
+    padding:0.5rem;
+    border:1px solid grey;
+}
+
+table td {
+    text-align:center;
+    padding:0.3rem;
+    border:1px solid grey;
+}
+
+#pagination {
+    text-align:center;
+    padding:1rem;
+    display:none;
+    flex-direction:row;
+    justify-content:center;
+}
+
+input#page_number {
+    width:5rem;
+    max-width:fit-content;
+    margin:0 1rem;
+    text-align:center;
+}
+
+#previous_page, #next_page {
+    padding:0 1rem;
+    border-radius:1rem;
+    font-size:1.5rem;
+    cursor:pointer;
+}
+
+#previous_page:hover, #next_page:hover {
+    background-color:darkgrey;
+}
+
+.edit_contact_btn, .delete_contact_btn {
+    width:1.5rem;
+    height:1.5rem;
+}
+
+.edit_contact_btn:hover, .delete_contact_btn:hover {
+    cursor:pointer;
+    background-color:darkgrey;
+    border:1px solid grey;
+}
+
+@media screen and (max-width:600px) {
+    table {
+        border:none;
+        border-collapse:unset;
+    }
+
+    table tr:first-child {
+        display:none;
+    }
+
+    tr td:last-child {
+        margin-bottom:2rem;
+    }
+
+    th[data-id='hidden'] {
+        display:none;
+    }
+
+    td[data-label='edit'], td[data-label='delete'] {
+        text-align:center;
+        padding-left:0;
+    }
+
+    table td {
+        display:block;
+        position:relative; /* CRITICAL: Anchors the pseudo-element inside this box */
+        padding-left:50%; /* Room for data-id on the left side */
+        text-align:right; /* Aligns actual td cell data to the right side */
+        min-height:1.5rem; /* Prevents cell collapse if td has zero content */
+    }
+
+    table td::before {
+        content:attr(data-id);
+        position:absolute;
+        left:1rem;
+        top:50%;
+        transform:translateY(-50%);
+        width:50%;
+        padding-right:0.5rem;
+        padding-top:0.5rem;
+        padding-bottom:0.5rem;
+        text-align:left;
+        font-weight:bold;
+    }
+
+    table td:empty {
+        display:none;
+    }
+}
