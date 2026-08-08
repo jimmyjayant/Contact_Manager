@@ -97,11 +97,6 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
             require_once '../app/Models/delete_user_contact.php';
             break;
 
-        case 'search_user_contacts':
-        case 'search_user_contacts.php':
-            require_once '../app/Models/search_user_contacts.php';
-            break;
-
         case 'get_particular_user_contact_data':
         case 'get_particular_user_contact_data.php':
             require_once '../app/Models/get_particular_user_contact_data.php';
@@ -157,6 +152,11 @@ else if($_SERVER['REQUEST_METHOD'] === 'POST')
         case 'register_user_data':
         case 'register_user_data.php':
             require_once '../app/Models/register_user_data.php';
+            break;
+
+        case 'search_user_contacts':
+        case 'search_user_contacts.php':
+            require_once '../app/Models/search_user_contacts.php';
             break;
 
         default:

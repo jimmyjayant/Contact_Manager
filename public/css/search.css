@@ -47,6 +47,12 @@ h1 {
     padding:1rem;
 }
 
+#search_contact_error {
+    padding:1rem;
+    text-align:center;
+    color:red;
+}
+
 .row {
     display:flex;
     flex-direction:column;

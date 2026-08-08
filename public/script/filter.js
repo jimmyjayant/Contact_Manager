@@ -70,22 +70,22 @@ function filter_user_contacts(filterData, page = 1)
     xhttp.onload = function() {
         //console.log(this.responseText);
         var data = JSON.parse(this.responseText);
+        var filter_contact_error_div = document.getElementById("filter_contact_error");
+        var filter_contact_success_div = document.getElementById("filter_contact_success");
+        var contact_data_div = document.getElementById("contact_data");
+        var resultdiv = document.getElementById("result");
+
         if(data.status == 'error')
         {
-            var filter_contact_error_div = document.getElementById("filter_contact_error");
             filter_contact_error_div.innerHTML = data.data;
-            //alert(data.data);
             filterData = "";
         }
         else if(data.status == 'success')
         {
-            var filter_contact_success_div = document.getElementById("filter_contact_success");
+            filter_contact_error_div.innerHTML = "";
             filter_contact_success_div.innerHTML = data.data;
-
-            var contact_data_div = document.getElementById("contact_data");
             contact_data_div.classList.remove("hide");
 
-            var resultdiv = document.getElementById("result");
             resultdiv.innerHTML = "";
             resultdiv.innerHTML = data.data;
             total_pages = data.total_pages;

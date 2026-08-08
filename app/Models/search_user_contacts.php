@@ -8,10 +8,10 @@
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] !== 'GET')
+    if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
         $data['status'] = "error";
-        $data['data'] = "Request Method is not GET!";
+        $data['data'] = "Request Method is not POST!";
         $data = json_encode($data);
         header("Content-Type: application/json");
         echo $data;
@@ -36,9 +36,9 @@
         return $input;
     }
 
-    $searchText = test_input($_GET['searchText']);
+    $firstname = test_input($_POST['firstname']);
 
-    if(empty($searchText))
+    if(empty($firstname))
     {
         $data['status'] = "error";
         $data['data'] = "Firstname cannot be empty!";
@@ -47,7 +47,7 @@
         echo $data;
         exit();
     }
-    else if(strlen($searchText) > 100)
+    else if(strlen($firstname) > 100)
     {
         $data['status'] = "error";
         $data['data'] = "Firstname cannot be more than 100 characters!";
@@ -56,7 +56,7 @@
         echo $data;
         exit();
     }
-    else if(preg_match_all("/\d/", $searchText))
+    else if(preg_match_all("/\d/", $firstname))
     {
         $data['status'] = "error";
         $data['data'] = "Firstname cannot contain digits!";
@@ -65,7 +65,7 @@
         echo $data;
         exit();
     }
-    else if(preg_match_all("/\s/", $searchText))
+    else if(preg_match_all("/\s/", $firstname))
     {
         $data['status'] = "error";
         $data['data'] = "Firstname cannot contain whitespaces!";
@@ -74,7 +74,7 @@
         echo $data;
         exit();
     }
-    else if(preg_match_all("/\W/", $searchText))
+    else if(preg_match_all("/\W/", $firstname))
     {
         $data['status'] = "error";
         $data['data'] = "Firstname cannot contain special characters!";
@@ -107,7 +107,7 @@
             $row = $result->fetch_assoc();
             $id = $row['id'];
 
-            $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id} AND first_name='$searchText'";
+            $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id} AND first_name='$firstname'";
 
             $result = $conn->query($sql);
 
@@ -129,7 +129,7 @@
 
                 $total_pages = ceil($data['total_records'] / 10);
 
-                $page = $_GET['page'] ?? 1;
+                $page = $_POST['page'] ?? 1;
 
                 $page = test_input($page);
 
@@ -147,7 +147,7 @@
 
                 $startingIndex = (($page - 1) * 10);
 
-                $sql = "SELECT * FROM contacts WHERE user_id=$id AND first_name='$searchText' LIMIT $startingIndex, 10";
+                $sql = "SELECT * FROM contacts WHERE user_id=$id AND first_name='$firstname' LIMIT $startingIndex, 10";
 
                 $result = $conn->query($sql);
 
@@ -157,6 +157,7 @@
 
                     echo "<table>";
                     echo "<tr>";
+                    echo "<th colspan='2'>Action</th>";
                     echo "<th>Serial Number</th>";
                     echo "<th>First Name</th>";
                     echo "<th>Middle Name</th>";
@@ -174,17 +175,23 @@
                     {
                         $formNumber = $row['form_number'];
                         echo "<tr>";
-                        echo "<td>" . $row['form_number'] ."</td>";
-                        echo "<td>" . $row['first_name'] ."</td>";
-                        echo "<td>" . $row['middle_name'] ."</td>";
-                        echo "<td>" . $row['last_name'] ."</td>";
-                        echo "<td>" . $row['nickname'] ."</td>";
-                        echo "<td>" . $row['gender'] ."</td>";
-                        echo "<td>" . $row['mobile_number'] ."</td>";
-                        echo "<td>" . $row['landline_number'] ."</td>";
-                        echo "<td>" . $row['addr'] ."</td>";
-                        echo "<td>" . $row['relationship'] ."</td>";
-                        echo "<td>" . $row['created_at'] ."</td>";
+                        echo "<td data-label='edit'>";
+                        echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
+                        echo "</td>";
+                        echo "<td data-label='delete'>";
+                        echo "<img src='public/images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
+                        echo "</td>";
+                        echo "<td data-id='Serial Number'>" . $row['form_number'] ."</td>";
+                        echo "<td data-id='First Name'>" . $row['first_name'] ."</td>";
+                        echo "<td data-id='Middle Name'>" . $row['middle_name'] ."</td>";
+                        echo "<td data-id='Last Name'>" . $row['last_name'] ."</td>";
+                        echo "<td data-id='Nickname'>" . $row['nickname'] ."</td>";
+                        echo "<td data-id='Gender'>" . $row['gender'] ."</td>";
+                        echo "<td data-id='Mobile Number'>" . $row['mobile_number'] ."</td>";
+                        echo "<td data-id='Landline Number'>" . $row['landline_number'] ."</td>";
+                        echo "<td data-id='Address'>" . $row['addr'] ."</td>";
+                        echo "<td data-id='Relationship'>" . $row['relationship'] ."</td>";
+                        echo "<td data-id='Created At'>" . $row['created_at'] ."</td>";
 
                         $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
 
@@ -206,8 +213,8 @@
                             {
                                 while($row = $result2->fetch_assoc())
                                 {
-                                    echo "<th>" . $row['field_name'] . "</th>";
-                                    echo "<td>" . $row['field_value'] . "</td>";
+                                    echo "<th data-id='hidden'>" . $row['field_name'] . "</th>";
+                                    echo "<td data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
                                 }
                             }
                         }
@@ -219,6 +226,7 @@
                     ob_end_clean();
 
                     $data['status'] = "success";
+                    $data['total_pages'] = $total_pages;
                     $data = json_encode($data);
                     header("Content-Type: application/json");
                     echo $data;

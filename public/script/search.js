@@ -1,47 +1,61 @@
 var searchText = "";
 var total_pages = 1;
 
+import { get_edit_contact_buttons } from "../script/edit.js";
+import {get_delete_contact_buttons} from "../script/delete.js";
+
 function search_user_contacts(searchText, page = 1)
 {
+    searchText = "firstname=" + searchText + "&page=" + page;
+    //searchText = encodeURIComponent(searchText);
+    console.log(searchText);
+
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         //console.log(this.responseText);
         var data = JSON.parse(this.responseText);
+        var search_contact_error_div = document.getElementById("search_contact_error");
+        var contact_data_div = document.getElementById("contact_data");
+
         if(data.status == 'error')
         {
-            alert(data.data);
-            searchActive = 0;
+            contact_data_div.classList.add("hide");
+            search_contact_error_div.innerHTML = data.data;
         }
         else if(data.status == 'success')
         {
+            contact_data_div.classList.remove("hide");
+            search_contact_error_div.innerHTML = "";
+
             var resultdiv = document.getElementById("result");
             resultdiv.innerHTML = "";
             resultdiv.innerHTML = data.data;
             total_pages = Math.ceil(data.total_records / 10);
-            searchActive = 1;
-            console.log(searchActive);
+
+            get_delete_contact_buttons();
+            get_edit_contact_buttons();
         }
     }
-    xhttp.open("GET", 
-                    "search_user_contacts?searchText=" + searchText + "&page=" + page, 
-                    true);
-    xhttp.send();
+    xhttp.open("POST", "search_user_contacts", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send(searchText);
 }
 
 window.addEventListener("DOMContentLoaded", function() {
     var searchButton = document.getElementById("search");
-    searchButton.addEventListener("click", function() {
-        searchText = document.getElementById("searchtext");
+    var search_contact_error_div = document.getElementById("search_contact_error");
 
-        searchText = searchText.value.trim();
-        console.log(searchText);
+    searchButton.addEventListener("click", function() {
+        searchText = document.getElementById("searchtext").value.trim();
+        //console.log(searchText);
+
         if(searchText == '')
         {
-            alert("Please enter firstname!");
+            search_contact_error_div.innerHTML = "Please enter firstname!";
         }
         else if(searchText.length > 100)
         {
-            alert("Firstname cannot be more than 100 characters!");
+            search_contact_error_div.innerHTML = "Firstname cannot be more than 100 characters!";
         }
         else
         {

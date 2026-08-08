@@ -1,7 +1,7 @@
 <?php
 require_once '../app/Views/sessionstart.php';
 
-$css = ["css/search.css"];
+$css = ["css/search.css", "css/table.css"];
 
 $js = ["script/search.js"];
 
@@ -32,6 +32,8 @@ if(!isset($_SESSION['user_token']))
                     -->
                 </div>                
             </div>
+
+            <div id="search_contact_error"></div>
 
             <div id="contact_data" class="hide">
                 <div id="result"></div>
