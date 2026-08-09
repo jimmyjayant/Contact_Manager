@@ -157,7 +157,7 @@
 
     // sql statement to insert new user into user table in contact_manager_db database
     $sql = "INSERT INTO user(firstname, lastname, email, user_password, contact, token) 
-            VALUES('$fname', '$lname', '$email', '$pass', $contact, '$token')";
+            VALUES('$fname', '$lname', '$email', '$pass', $contact)";
 
     try
     {

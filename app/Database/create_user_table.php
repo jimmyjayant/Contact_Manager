@@ -10,7 +10,7 @@ email VARCHAR(200) NOT NULL UNIQUE,
 user_password VARCHAR(255) NOT NULL,
 contact INT(10) NOT NULL,
 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-token VARCHAR(100) NOT NULL UNIQUE
+token VARCHAR(100) NULL UNIQUE
 )";
 
 $result = $conn->query($sql);

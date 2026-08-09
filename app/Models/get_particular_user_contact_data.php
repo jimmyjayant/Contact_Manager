@@ -115,8 +115,10 @@
                                         while($row = $result2->fetch_assoc())
                                         {
                                             $counter++;
-                                            $_SESSION['edit_form_data']['additional_fields'][$counter]['field_name'] = $row['field_name'];
-                                            $_SESSION['edit_form_data']['additional_fields'][$counter]['field_value'] = $row['field_value'];
+                                            $_SESSION['edit_form_data']['additional_fields'][$counter]['field_name'] 
+                                            = $row['field_name'];
+                                            $_SESSION['edit_form_data']['additional_fields'][$counter]['field_value'] 
+                                            = $row['field_value'];
                                         }
                                     }
                                 }
