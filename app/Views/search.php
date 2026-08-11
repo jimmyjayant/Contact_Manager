@@ -23,7 +23,11 @@ if(!isset($_SESSION['user_token']))
         <div class="contact">
             <div id="searchdiv">
                 <div id="firstchild">
-                    <input type="text" name="searchtext" id="searchtext" placeholder="Enter the firstname of your contact" maxlength="100">
+                    <div id="input-wrapper">
+                        <input type="text" name="searchtext" id="searchtext" placeholder="Enter the firstname of your contact" maxlength="100">
+                        <button type="button" id="clearSearch" class="hide">X</button>
+                    </div>
+                    
                     <button type="button" id="search">Search</button>
                     <!--
                     <button type="button" id="searchimg">

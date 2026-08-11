@@ -42,11 +42,13 @@ function search_user_contacts(searchText, page = 1)
 }
 
 window.addEventListener("DOMContentLoaded", function() {
+    // JS Code related to searching of input firstname in input field
     var searchButton = document.getElementById("search");
     var search_contact_error_div = document.getElementById("search_contact_error");
+    var searchInputField = document.getElementById("searchtext");
 
     searchButton.addEventListener("click", function() {
-        searchText = document.getElementById("searchtext").value.trim();
+        searchText = searchInputField.value.trim();
         //console.log(searchText);
 
         if(searchText == '')
@@ -62,10 +64,8 @@ window.addEventListener("DOMContentLoaded", function() {
             search_user_contacts(searchText, 1);
         }
     });
-});
 
-
-window.addEventListener("DOMContentLoaded", function() {
+    // JS Code related to pagination of search results
     var previous_page_button = document.getElementById("previous_page");
     var next_page_button = document.getElementById("next_page");
 
@@ -95,5 +95,25 @@ window.addEventListener("DOMContentLoaded", function() {
         }
 
         search_user_contacts(searchText, page_number.value);
+    });
+
+    // JS code related to showing and hiding of X button in input search field
+    var clearSearchButton = document.getElementById("clearSearch");
+
+    searchInputField.addEventListener("change", function() {
+        if(searchInputField.value.trim() !== '')
+        {
+            clearSearchButton.classList.remove("hide");
+        }
+        else
+        {
+            clearSearchButton.classList.add("hide");
+        }
+    });
+
+    // JS code related to X button in input search field
+    clearSearchButton.addEventListener("click", function() {
+        searchInputField.value = "";
+        searchInputField.focus();
     });
 });

@@ -26,19 +26,43 @@ h1 {
     gap:1rem;
 }
 
-#firstchild input {
+#input-wrapper {
+    position:relative;
     flex:0 0 75%;
+}
+
+#input-wrapper input {
+    width:100%;
     border-radius:1rem;
     padding:1rem;
     font-size:1rem;
+    padding-right:3rem;
 }
 
-#firstchild button {
+#clearSearch {
+    position:absolute;
+    font-weight:bold;
+    right:0.2rem;
+    top:0.8rem;
+    transform:translateY(-1rem);
+    font-size:1.5rem;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    color:#666;
+    padding:1rem;
+}
+
+#clearSearch:hover {
+    color:#000;
+}
+
+#firstchild #search {
     font-size:1rem;
     border-radius:1rem;
 }
 
-#firstchild button:hover {
+#firstchild #search:hover {
     cursor:pointer;
     background-color:grey;
 }
