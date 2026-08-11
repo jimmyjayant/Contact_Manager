@@ -1,5 +1,11 @@
 <?php
-require_once '../app/Views/sessionstart.php';
+//require_once '../app/Views/sessionstart.php';
+
+if(session_status() !== PHP_SESSION_ACTIVE)
+{
+    session_start();
+}
+
 require_once "../app/Config/Database_Connection.php";
 
 ini_set("display_errors", 0);
@@ -51,11 +57,30 @@ try
 
         if($result === TRUE)
         {
+            // Delete all session variables
             session_unset();
-            session_destroy();
 
-            // Delete the cookie
-            setcookie("PHPSESSID", "", time() - 3600, "/");
+            // Delete the session cookie from the user's browser
+            //setcookie("PHPSESSID", "", time() - 3600, "/");
+
+            // session.use_cookies specifies whether the session will be stored in cookie on client side. Default is true
+            if(ini_get("session.use_cookies"))
+            {
+                $params = session_get_cookie_params();
+
+                setcookie(
+                    session_name(),
+                    "",
+                    time() - 42000,
+                    $params['path'],
+                    $params['domain'],
+                    $params['secure'],
+                    $params['httponly']
+                );
+            }
+
+            // Delete the physical session file from server's temporary location
+            session_destroy();
 
             header("Location: index");
             exit();
