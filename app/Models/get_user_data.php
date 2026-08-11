@@ -73,26 +73,69 @@
         exit();
     }
 
-    // sql statement to insert new user into user table in contact_manager_db database
+    // sql statement to get particular user record from user table in contact_manager_db database
     $sql = "SELECT * FROM user WHERE email='{$email}'";
 
     try
     {
         $result = $conn->query($sql);
 
-        if($result->num_rows > 0)
+        if($result->num_rows == 1)
         {
-            //var_dump($result);
             $row = $result->fetch_assoc();
-            //var_dump($row);
 
             // Verify the password
             if(password_verify($pass, $row['user_password']))
-            {           
-                $_SESSION['user_token'] = $row['token'];
-                $_SESSION['username'] = $row['firstname'];
-                header("Location: dashboard");
-                exit();
+            {
+                // Update the token field of the respective user id with a new one
+                $token = bin2hex(random_bytes(32));
+                $UpdateTokenQuery = "UPDATE user SET token='{$token}' WHERE email='{$email}'";
+
+                try
+                {
+                    $result = $conn->query($UpdateTokenQuery);
+
+                    if($result === TRUE)
+                    {
+                        // Again retrieve that particular user record with newly inserted token
+                        $RetrieveUserRecordWithToken = "SELECT * FROM user WHERE email='{$email}' AND token='{$token}'";
+
+                        try
+                        {
+                            $result = $conn->query($RetrieveUserRecordWithToken);
+
+                            if($result->num_rows == 1)
+                            {
+                                $row = $result->fetch_assoc();
+
+                                $_SESSION['user_token'] = $row['token'];
+                                $_SESSION['username'] = $row['firstname'];
+                                header("Location: dashboard");
+                                exit();
+                            }
+                        }
+                        catch(mysqli_sql_exception $e)
+                        {
+                            error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
+                            $_SESSION['login_error'] = "Database server unavailable. Please try again later!";
+                            header("Location: login");
+                            exit();
+                        }
+                    }
+                    else
+                    {
+                        $_SESSION['login_error'] = "Database server unavailable. Please try again later!";
+                        header("Location: login");
+                        exit();
+                    }
+                }
+                catch(mysqli_sql_exception $e)
+                {
+                    error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
+                    $_SESSION['login_error'] = "Database server unavailable. Please try again later!";
+                    header("Location: login");
+                    exit();
+                }
             }
             else
             {
@@ -107,10 +150,6 @@
             header("Location: login");
             exit();
         }
-
-        $_SESSION['login_error'] = "Error Logging User. Please try again later!";
-        header("Location: login");
-        exit();
     }
     catch(mysqli_sql_exception $e)
     {
