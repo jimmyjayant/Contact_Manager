@@ -21,7 +21,7 @@
     }
 
     // Checking CSRF Token
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) ||
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
         $_SESSION['add_contact_error'] = "Session expired. Please refresh the webpage!";
@@ -268,7 +268,7 @@
 
         $result = $conn->query($sql);
 
-        if($result->num_rows > 0)
+        if($result->num_rows == 1)
         {
             $row = $result->fetch_assoc();
             $id = $row['id'];
@@ -319,7 +319,7 @@
                 try
                 {
                     $result = $conn->query($sql);
-                    if($result->num_rows > 0)
+                    if($result->num_rows == 1)
                     {
                         $row = $result->fetch_assoc();
                         $formNumber = $row['form_number'];

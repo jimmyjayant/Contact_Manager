@@ -308,7 +308,7 @@
 
         $result = $conn->query($sql);
 
-        if($result->num_rows > 0)
+        if($result->num_rows == 1)
         {
             $row = $result->fetch_assoc();
             $id = $row['id'];
@@ -532,7 +532,7 @@
 
                             // Pagination here must be created in the future
 
-                            $sql = "SELECT * FROM additional_fields WHERE form_no=$formNumber";
+                            $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
 
                             $result2 = $conn->query($sql);
 

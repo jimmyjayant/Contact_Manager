@@ -26,7 +26,7 @@
     /* If the session variable csrf_token and post variable csrf_token are not set OR 
         both of these variables are not equal to one another, then 
     */
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) || 
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) && 
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
         $_SESSION['login_error'] = "Session expired. Please refresh the webpage!";
@@ -50,8 +50,7 @@
         header("Location: login");
         exit();
     }
-
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         $_SESSION['email_error'] = "Invalid Email Address!";
         header("Location: login");
@@ -74,7 +73,8 @@
     }
 
     // sql statement to get particular user record from user table in contact_manager_db database
-    $sql = "SELECT * FROM user WHERE email='{$email}'";
+    //$sql = "SELECT * FROM user WHERE email='{$email}'";
+    $sql = "SELECT user_password FROM user WHERE email='{$email}'";
 
     try
     {
@@ -98,7 +98,9 @@
                     if($result === TRUE)
                     {
                         // Again retrieve that particular user record with newly inserted token
-                        $RetrieveUserRecordWithToken = "SELECT * FROM user WHERE email='{$email}' AND token='{$token}'";
+                        //$RetrieveUserRecordWithToken = "SELECT * FROM user WHERE email='{$email}' AND token='{$token}'";
+                        $RetrieveUserRecordWithToken = "SELECT firstname, token FROM user WHERE email='{$email}' 
+                                                        AND token='{$token}'";
 
                         try
                         {

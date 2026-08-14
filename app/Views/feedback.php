@@ -14,13 +14,13 @@ require_once '../app/Views/headerandnavbar.php';
             if(isset($_SESSION['feedback_error']))
             {
                 echo "<div class='center'><span class='red_font'>" . $_SESSION['feedback_error'] . "</span></div>";
-                $_SESSION['feedback_error'] = NULL;
+                unset($_SESSION['feedback_error']);
             }
 
             if(isset($_SESSION['feedback_success']))
             {
                 echo "<div class='center'><span class='green_font'>" . $_SESSION['feedback_success'] . "</span></div>";
-                $_SESSION['feedback_success'] = NULL;
+                unset($_SESSION['feedback_success']);
             }
         ?>
 
@@ -39,7 +39,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['fname_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['fname_error'] . "</span></div>";
-                        $_SESSION['fname_error'] = NULL;
+                        unset($_SESSION['fname_error']);
                     }
                 ?>
             </div>
@@ -58,7 +58,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['lname_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['lname_error'] . "</span></div>";
-                        $_SESSION['lname_error'] = NULL;
+                        unset($_SESSION['lname_error']);
                     }
                 ?>
             </div>
@@ -77,7 +77,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['contact_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['contact_error'] . "</span></div>";
-                        $_SESSION['contact_error'] = NULL;
+                        unset($_SESSION['contact_error']);
                     }
                 ?>
             </div>
@@ -96,7 +96,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['email_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['email_error'] . "</span></div>";
-                        $_SESSION['email_error'] = NULL;
+                        unset($_SESSION['email_error']);
                     }
                 ?>
             </div>
@@ -115,7 +115,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['subject_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['subject_error'] . "</span></div>";
-                        $_SESSION['subject_error'] = NULL;
+                        unset($_SESSION['subject_error']);
                     }
                 ?>
             </div>
@@ -134,7 +134,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['msg_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['msg_error'] . "</span></div>";
-                        $_SESSION['msg_error'] = NULL;
+                        unset($_SESSION['msg_error']);
                     }
                 ?>
             </div>

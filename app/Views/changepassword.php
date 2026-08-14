@@ -21,19 +21,21 @@ if(!isset($_SESSION['user_token']))
             if(isset($_SESSION['change_password_error']))
             {
                 echo "<div class='center'><span class='red_font'>" . $_SESSION['change_password_error'] . "</span></div>";
-                $_SESSION['change_password_error'] = NULL;
+                unset($_SESSION['change_password_error']);
             }
             else if(isset($_SESSION['change_password_success']))
             {
                 echo "<div class='center'><span class='green_font'>" . $_SESSION['change_password_success'] . "</span></div>";
-                $_SESSION['change_password_success'] = NULL;
+                unset($_SESSION['change_password_success']);
             }
         ?>
 
         <form method="post" action="change_user_password">
             <div class="row">
                 <div class="col25"><label for="oldpass">Old Password</label></div>
-                <div class="col75"><input type="password" id="oldpass" name="oldpass" minlength="6" maxlength="12" required></div>
+                <div class="col75">
+                    <input type="password" id="oldpass" name="oldpass" minlength="6" maxlength="12" required>
+                </div>
             </div>
 
             <div class="row">
@@ -41,7 +43,7 @@ if(!isset($_SESSION['user_token']))
                     if(isset($_SESSION['oldpass_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['oldpass_error'] . "</span></div>";
-                        $_SESSION['oldpass_error'] = NULL;
+                        unset($_SESSION['oldpass_error']);
                     }
                 ?>
             </div>
@@ -59,7 +61,7 @@ if(!isset($_SESSION['user_token']))
                     if(isset($_SESSION['newpass_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['newpass_error'] . "</span></div>";
-                        $_SESSION['newpass_error'] = NULL;
+                        unset($_SESSION['newpass_error']);
                     }
                 ?>
             </div>

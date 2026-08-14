@@ -14,7 +14,7 @@ require_once '../app/Views/headerandnavbar.php';
             if(isset($_SESSION['registration_error']))
             {
                 echo "<div class='center'><span class='red_font'>" . $_SESSION['registration_error'] . "</span></div>";
-                $_SESSION['registration_error'] = NULL;
+                unset($_SESSION['registration_error']);
             }
         ?>
 
@@ -33,7 +33,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['fname_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['fname_error'] . "</span></div>";
-                        $_SESSION['fname_error'] = NULL;
+                        unset($_SESSION['fname_error']);
                     }
                 ?>
             </div>
@@ -52,7 +52,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['lname_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['lname_error'] . "</span></div>";
-                        $_SESSION['lname_error'] = NULL;
+                        unset($_SESSION['lname_error']);
                     }
                 ?>
             </div>
@@ -71,7 +71,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['email_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['email_error'] . "</span></div>";
-                        $_SESSION['email_error'] = NULL;
+                        unset($_SESSION['email_error']);
                     }
                 ?>
             </div>
@@ -90,7 +90,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['pass_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['pass_error'] . "</span></div>";
-                        $_SESSION['pass_error'] = NULL;
+                        unset($_SESSION['pass_error']);
                     }
                 ?>
             </div>
@@ -110,7 +110,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['contact_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['contact_error'] . "</span></div>";
-                        $_SESSION['contact_error'] = NULL;
+                        unset($_SESSION['contact_error']);
                     }
                 ?>
             </div>

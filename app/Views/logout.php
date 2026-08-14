@@ -22,6 +22,7 @@ if(!isset($_SESSION['user_token']))
     echo $data;
     */
     echo "<script>alert('Please login!');</script>";
+    header("Location: login");
     exit();
 }
 

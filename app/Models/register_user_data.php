@@ -13,7 +13,7 @@
         exit();
     }
 
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) ||
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
         $_SESSION['registration_error'] = "Session expired. Please refresh the webpage!";
@@ -37,29 +37,25 @@
         header("Location: register");
         exit();
     }
-
-    if(strlen($fname) > 100)
+    else if(strlen($fname) > 100)
     {
         $_SESSION['fname_error'] = "First Name cannot be more than 100 characters!";
         header("Location: register");
         exit();
     }
-
-    if(preg_match_all("/\d/", $fname))
+    else if(preg_match_all("/\d/", $fname))
     {
         $_SESSION['fname_error'] = "First Name cannot contain digits!";
         header("Location: register");
         exit();
     }
-
-    if(preg_match_all("/\s/", $fname))
+    else if(preg_match_all("/\s/", $fname))
     {
         $_SESSION['fname_error'] = "First Name cannot contain whitespaces!";
         header("Location: register");
         exit();
     }
-
-    if(preg_match_all("/\W/", $fname))
+    else if(preg_match_all("/\W/", $fname))
     {
         $_SESSION['fname_error'] = "First Name cannot contain special characters!";
         header("Location: register");
@@ -74,29 +70,25 @@
         header("Location: register");
         exit();
     }
-
-    if(strlen($lname) > 100)
+    else if(strlen($lname) > 100)
     {
         $_SESSION['lname_error'] = "Last Name cannot be more than 100 characters!";
         header("Location: register");
         exit();
     }
-
-    if(preg_match_all("/\d/", $lname))
+    else if(preg_match_all("/\d/", $lname))
     {
         $_SESSION['lname_error'] = "Last Name cannot contain digits!";
         header("Location: register");
         exit();
     }
-
-    if(preg_match_all("/\s/", $lname))
+    else if(preg_match_all("/\s/", $lname))
     {
         $_SESSION['lname_error'] = "Last Name cannot contain whitespaces!";
         header("Location: register");
         exit();
     }
-
-    if(preg_match_all("/\W/", $lname))
+    else if(preg_match_all("/\W/", $lname))
     {
         $_SESSION['lname_error'] = "Last Name cannot contain special characters!";
         header("Location: register");
@@ -111,8 +103,7 @@
         header("Location: register");
         exit();
     }
-
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         $_SESSION['email_error'] = "Invalid Email Address!";
         header("Location: register");

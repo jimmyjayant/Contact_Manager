@@ -30,29 +30,25 @@
         header("Location: feedback");
         exit();
     }
-
-    if(strlen($fname) > 100)
+    else if(strlen($fname) > 100)
     {
         $_SESSION['fname_error'] = "First Name cannot be more than 100 characters!";
         header("Location: feedback");
         exit();
     }
-
-    if(preg_match_all("/\d/", $fname))
+    else if(preg_match_all("/\d/", $fname))
     {
         $_SESSION['fname_error'] = "First Name cannot contain digits!";
         header("Location: feedback");
         exit();
     }
-
-    if(preg_match_all("/\s/", $fname))
+    else if(preg_match_all("/\s/", $fname))
     {
         $_SESSION['fname_error'] = "First Name cannot contain whitespaces!";
         header("Location: feedback");
         exit();
     }
-
-    if(preg_match_all("/\W/", $fname))
+    else if(preg_match_all("/\W/", $fname))
     {
         $_SESSION['fname_error'] = "First Name cannot contain special characters!";
         header("Location: feedback");
@@ -67,29 +63,25 @@
         header("Location: feedback");
         exit();
     }
-
-    if(strlen($lname) > 100)
+    else if(strlen($lname) > 100)
     {
         $_SESSION['lname_error'] = "Last Name cannot be more than 100 characters!";
         header("Location: feedback");
         exit();
     }
-
-    if(preg_match_all("/\d/", $lname))
+    else if(preg_match_all("/\d/", $lname))
     {
         $_SESSION['lname_error'] = "Last Name cannot contain digits!";
         header("Location: feedback");
         exit();
     }
-
-    if(preg_match_all("/\s/", $lname))
+    else if(preg_match_all("/\s/", $lname))
     {
         $_SESSION['lname_error'] = "Last Name cannot contain whitespaces!";
         header("Location: feedback");
         exit();
     }
-
-    if(preg_match_all("/\W/", $lname))
+    else if(preg_match_all("/\W/", $lname))
     {
         $_SESSION['lname_error'] = "Last Name cannot contain special characters!";
         header("Location: feedback");
@@ -125,8 +117,7 @@
         header("Location: feedback");
         exit();
     }
-
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         $_SESSION['email_error'] = "Invalid Email Address!";
         header("Location: feedback");
@@ -141,8 +132,7 @@
         header("Location: feedback");
         exit();
     }
-
-    if(strlen($subject) > 150)
+    else if(strlen($subject) > 150)
     {
         $_SESSION['subject_error'] = "Subject cannot be more than 150 characters!";
         header("Location: feedback");
@@ -157,8 +147,7 @@
         header("Location: feedback");
         exit();
     }
-
-    if(strlen($msg) > 5000)
+    else if(strlen($msg) > 5000)
     {
         $_SESSION['msg_error'] = "Message cannot be more than 5000 characters!";
         header("Location: feedback");

@@ -61,7 +61,7 @@
     $token = $_SESSION['user_token'];
 
     // sql query
-    $sql = "SELECT * FROM user WHERE token='{$token}'";
+    $sql = "SELECT user_password FROM user WHERE token='{$token}'";
 
     try
     {

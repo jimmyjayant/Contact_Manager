@@ -14,7 +14,7 @@ require_once '../app/Views/headerandnavbar.php';
             if(isset($_SESSION['login_error']))
             {
                 echo "<div class='center'><span class='red_font'>" . $_SESSION['login_error'] . "</span></div>";
-                $_SESSION['login_error'] = NULL;
+                unset($_SESSION['login_error']);
             }
         ?>
 
@@ -29,7 +29,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['email_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['email_error'] . "</span></div>";
-                        $_SESSION['email_error'] = NULL;
+                        unset($_SESSION['email_error']);
                     }
                 ?>
             </div>
@@ -47,7 +47,7 @@ require_once '../app/Views/headerandnavbar.php';
                     if(isset($_SESSION['pass_error']))
                     {
                         echo "<div><span class='red_font'>" . $_SESSION['pass_error'] . "</span></div>";
-                        $_SESSION['pass_error'] = NULL;
+                        unset($_SESSION['pass_error']);
                     }
                 ?>
             </div>
