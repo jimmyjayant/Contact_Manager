@@ -55,6 +55,7 @@
 
             try
             {
+                $conn = $GLOBALS['conn'];
                 if(!$conn)
                 {
                     $data['status'] = "error";

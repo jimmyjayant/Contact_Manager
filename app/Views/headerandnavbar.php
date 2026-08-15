@@ -11,18 +11,18 @@
         <link rel="stylesheet" href="css/footer.css">
         <script src="script/script.js"></script>
         <?php
-            global $js, $css;
-            if(isset($js) && (count($js) > 0))
+            //print_r($GLOBALS['css']);
+            if(isset($GLOBALS['js']) && (count($GLOBALS['js']) > 0))
             {
-                foreach($js as $script)
+                foreach($GLOBALS['js'] as $script)
                 {
                     echo "<script type='module' src='{$script}'></script>";
                 }
             }
 
-            if(isset($css) && (count($css) > 0))
+            if(isset($GLOBALS['css']) && (count($GLOBALS['css']) > 0))
             {
-                foreach($css as $style)
+                foreach($GLOBALS['css'] as $style)
                 {
                     echo "<link rel='stylesheet' href='{$style}'>";
                 }

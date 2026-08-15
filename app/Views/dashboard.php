@@ -1,7 +1,7 @@
 <?php
 requireFile('../app/Views/sessionstart.php');
 
-$css = ["css/dashboard.css"];
+$GLOBALS['css'] = ["css/dashboard.css"];
 
 //$js = ["script/dashboard.js"];
 

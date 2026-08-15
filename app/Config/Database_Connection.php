@@ -8,7 +8,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try
 {
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $GLOBALS['conn'] = new mysqli($servername, $username, $password, $dbname);
+
     /*
     if($conn->connect_error)
     {
@@ -16,7 +17,7 @@ try
     }
     */
     //echo "Database Connection Successful";
-    return $conn;
+    return $GLOBALS['conn'];
 }
 catch(mysqli_sql_exception $e)
 {

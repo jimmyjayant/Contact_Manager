@@ -65,6 +65,7 @@
 
     try
     {
+        $conn = $GLOBALS['conn'];
         if(!$conn)
         {
             $_SESSION['change_password_error'] = "Database server unavailable. Please try again later!";

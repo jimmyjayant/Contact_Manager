@@ -259,6 +259,7 @@
 
     try
     {
+        $conn = $GLOBALS['conn'];
         if(!$conn)
         {
             $_SESSION['add_contact_error'] = "Database server unavailable. Please try again later!";

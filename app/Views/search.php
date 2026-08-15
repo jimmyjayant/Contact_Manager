@@ -1,9 +1,9 @@
 <?php
 requireFile('../app/Views/sessionstart.php');
 
-$css = ["css/search.css", "css/table.css"];
+$GLOBALS['css'] = ["css/search.css", "css/table.css"];
 
-$js = ["script/search.js"];
+$GLOBALS['js'] = ["script/search.js"];
 
 requireFile('../app/Views/headerandnavbar.php');
 

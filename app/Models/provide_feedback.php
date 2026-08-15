@@ -160,6 +160,7 @@
 
     try
     {
+        $conn = $GLOBALS['conn'];
         if(!$conn)
         {
             $_SESSION['feedback_error'] = "Database server unavailable. Please try again later!";

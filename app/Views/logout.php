@@ -32,6 +32,7 @@ $sql = "SELECT id FROM user WHERE token='{$token}'";
 
 try
 {
+    $conn = $GLOBALS['conn'];
     if(!$conn)
     {
         /*

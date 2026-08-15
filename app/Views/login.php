@@ -1,7 +1,7 @@
 <?php
 requireFile('../app/Views/sessionstart.php');
 
-$css = ["css/login.css"];
+$GLOBALS['css'] = ["css/login.css"];
 
 requireFile('../app/Views/headerandnavbar.php');
 ?>

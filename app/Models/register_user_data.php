@@ -152,6 +152,7 @@
 
     try
     {
+        $conn = $GLOBALS['conn'];
         if(!$conn)
         {
             $_SESSION['registration_error'] = "Database server unavailable. Please try again later!";

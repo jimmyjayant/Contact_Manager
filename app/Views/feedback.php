@@ -1,7 +1,7 @@
 <?php
 requireFile('../app/Views/sessionstart.php');
 
-$css = ["css/feedback.css"];
+$GLOBALS['css'] = ["css/feedback.css"];
 
 requireFile('../app/Views/headerandnavbar.php');
 ?>

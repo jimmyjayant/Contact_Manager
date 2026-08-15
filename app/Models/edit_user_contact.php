@@ -298,6 +298,7 @@
 
     try
     {
+        $conn = $GLOBALS['conn'];
         if(!$conn)
         {
             $_SESSION['edit_contact_error'] = "Database server unavailable. Please try again later!";

@@ -16,13 +16,13 @@
         exit();
     }
 
-    // If the user is already logged in, then
+    /* If the user is already logged in, then
     if(isset($_SESSION['user_token']))
     {
         header("Location: logout");
         exit();
     }
-
+*/
     /* If the session variable csrf_token and post variable csrf_token are not set OR 
         both of these variables are not equal to one another, then 
     */
@@ -78,6 +78,17 @@
 
     try
     {
+        //global $conn;
+        $conn = $GLOBALS['conn'];
+        if(!$conn)
+        {
+            $_SESSION['login_error'] = "Database server unavailable. Please try again later!";
+            header("Location: login");
+            exit();
+        }
+
+        //var_dump($conn);
+        //exit();
         $result = $conn->query($sql);
 
         if($result->num_rows == 1)

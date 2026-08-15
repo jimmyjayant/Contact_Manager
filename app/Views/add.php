@@ -1,7 +1,7 @@
 <?php
     requireFile('../app/Views/sessionstart.php');
 
-    $css = ["css/add.css"];
+    $GLOBALS['css'] = ["css/add.css"];
 
     function sanitize($input)
     {
@@ -30,7 +30,7 @@
         }
     }
 
-    $js = ["script/add.js"];
+    $GLOBALS['js'] = ["script/add.js"];
 
     requireFile('../app/Views/headerandnavbar.php');
 
