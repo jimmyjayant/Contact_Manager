@@ -1,11 +1,11 @@
 <?php
-require_once '../app/Views/sessionstart.php';
+requireFile('../app/Views/sessionstart.php');
 
 $css = ["css/dashboard.css"];
 
 //$js = ["script/dashboard.js"];
 
-require_once '../app/Views/headerandnavbar.php';
+requireFile('../app/Views/headerandnavbar.php');
 
 // Block direct access to this webpage
 if(!isset($_SESSION['user_token']))
@@ -54,4 +54,4 @@ if(!isset($_SESSION['user_token']))
 </div>
 </div>
 
-<?php require_once '../app/Views/footer.php'; ?>
+<?php requireFile('../app/Views/footer.php'); ?>

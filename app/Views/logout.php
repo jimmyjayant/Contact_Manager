@@ -6,7 +6,7 @@ if(session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 }
 
-require_once "../app/Config/Database_Connection.php";
+requireFile("../app/Config/Database_Connection.php");
 
 ini_set("display_errors", 0);
 

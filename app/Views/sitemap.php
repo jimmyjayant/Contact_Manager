@@ -1,9 +1,9 @@
 <?php
-require_once '../app/Views/sessionstart.php';
+requireFile('../app/Views/sessionstart.php');
 
 $css = ["css/sitemap.css"];
 
-require_once '../app/Views/headerandnavbar.php';
+requireFile('../app/Views/headerandnavbar.php');
 ?>
 
 <div class="content">
@@ -39,4 +39,4 @@ require_once '../app/Views/headerandnavbar.php';
 </div>
 </div>
 
-<?php require_once '../app/Views/footer.php'; ?>
+<?php requireFile('../app/Views/footer.php'); ?>

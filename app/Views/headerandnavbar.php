@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="css/footer.css">
         <script src="script/script.js"></script>
         <?php
+            global $js, $css;
             if(isset($js) && (count($js) > 0))
             {
                 foreach($js as $script)

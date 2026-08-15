@@ -1,8 +1,8 @@
 <?php
     // PHP Script for getting details of a particular contact of logged in user
     // Edit.js script file function sends an ajax request to this php script
-    require_once "../app/Views/sessionstart.php";
-    require_once "../app/Config/Database_Connection.php";
+    requireFile("../app/Views/sessionstart.php");
+    requireFile("../app/Config/Database_Connection.php");
 
     ini_set("display_errors", 0);
 

@@ -1,5 +1,5 @@
 <?php
-    require_once '../app/Views/sessionstart.php';
+    requireFile('../app/Views/sessionstart.php');
 
     $css = ["css/add.css"];
 
@@ -32,7 +32,7 @@
 
     $js = ["script/add.js"];
 
-    require_once '../app/Views/headerandnavbar.php';
+    requireFile('../app/Views/headerandnavbar.php');
 
     // Block direct access to this webpage
     if(!isset($_SESSION['user_token']))
@@ -287,7 +287,7 @@
 </div>
 </div>
 
-<?php require_once '../app/Views/footer.php'; ?>
+<?php requireFile('../app/Views/footer.php'); ?>
 <?php 
     unset($_SESSION['add_form_data']); 
 ?>

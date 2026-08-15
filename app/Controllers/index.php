@@ -3,6 +3,23 @@
 define('BASE_URL', '/Projects/Contact_Manager/Website/public/');
 define('BASE_DIR', '/Projects/Contact_Manager/Website');
 
+function requireFile(string $pathToFile)
+{
+    if(!file_exists($pathToFile))
+    {
+        $errorMsg = "File is not present at " . $pathToFile;
+        error_log($errorMsg, 3, "../writable/logs/file_error_log.txt");
+        // Send 404 status header
+        http_response_code(503);
+        require_once '../app/Views/503.php';
+        exit();
+    }
+    else
+    {
+        require_once "$pathToFile";
+    }
+}
+
 $getURL = isset($_GET['url']) ? rtrim($_GET['url'], '/') : 'index';
 //echo $getURL;
 
