@@ -1,7 +1,9 @@
 var total_pages = 1;
+var additional_fields_row = 2;
 
 import { get_edit_contact_buttons } from "../script/edit.js";
-import {get_delete_contact_buttons} from "../script/delete.js";
+import { get_delete_contact_buttons } from "../script/delete.js";
+import { get_additional_fields_buttons } from "../script/additional_fields.js";
 
 function get_user_contacts(pageNumber = 1)
 {
@@ -23,6 +25,7 @@ function get_user_contacts(pageNumber = 1)
         {
             resultdiv.innerHTML = data.data;
             total_pages = Math.ceil(data.total_records / 10);
+            console.log(total_pages);
             if(total_pages > 1)
             {
                 var paginationDiv = document.getElementById("pagination");
@@ -30,6 +33,7 @@ function get_user_contacts(pageNumber = 1)
             }
             get_delete_contact_buttons();
             get_edit_contact_buttons();
+            get_additional_fields_buttons();
         }
     }
     xhttp.open("GET", "get_user_contacts?page=" + pageNumber, true);

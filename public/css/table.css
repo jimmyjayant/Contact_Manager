@@ -1,9 +1,11 @@
 #result {
     padding:1rem;
     overflow-x:auto;
+    position:relative;
 }
 
 table {
+    position:relative;
     width:100%;
     border-collapse:collapse;
     border:2px solid grey;
@@ -63,6 +65,22 @@ input#page_number {
     background-color:darkgrey;
     border:1px solid grey;
 }
+
+/* CSS for additional fields table */
+.additional_fields {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    text-align:center;
+    border-collapse:collapse;
+    border:2px solid grey;
+    z-index:2;
+    background-color:lightgrey;
+}
+
+
 
 @media screen and (max-width:600px) {
     table {

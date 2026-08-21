@@ -120,11 +120,18 @@
                     echo "<th>Address</th>";
                     echo "<th>Relationship</th>";
                     echo "<th>Created At</th>";
+                    echo "<th>Additional Fields</th>";
                     echo "</tr>";
+
+                    // For pagination button in additional_fields in table
+                    $additional_fields_row = 2;
+
+                    // Fetching the form number from $_GET['form_number']
+                    //$formNumber = test_input($_GET['form_number']);
 
                     while($row = $result->fetch_assoc())
                     {
-                        $formNumber = $row['form_number'];
+                        $formNumber = /*$formNumber ?? */$row['form_number'];
                         echo "<tr>";
                         echo "<td data-label='edit'>";
                         echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
@@ -154,20 +161,66 @@
                             $total_additional_fields = $row['total_fields'];
                             $total_additional_fields_pages = ceil($total_additional_fields / 10);
 
-                            // Pagination here must be created in the future
+                            if($total_additional_fields_pages == 0)
+                            {
+                                echo "<td data-id='Additional Fields'></td>";
+                            }
+                            else if($total_additional_fields_pages >= 1)
+                            {   
+                                echo "<td data-id='Additional Fields'>";
+                                echo "<button class='additional_fields_btn' data-additionalpage='1' 
+                                data-form='{$formNumber}'>Show</button>";
+                                echo "</td>";
 
-                            $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
+                                //$additional_fields_page = $_GET['additional_fields_page'] ?? 1;
+/*
+                                $additional_fields_page = test_input($additional_fields_page);
 
+                                $additional_fields_page = floor((int)$additional_fields_page);
+
+                                if(($additional_fields_page < 1) || ($additional_fields_page > $total_additional_fields_pages))
+                                {
+                                    $data['status'] = "error";
+                                    $data['data'] = "Page Number must be between 1-$total_additional_fields_pages";
+                                    $data = json_encode($data);
+                                    header("Content-Type: application/json");
+                                    echo $data;
+                                    exit();
+                                }
+
+                                $starting_index_of_additional_fields = (($additional_fields_page - 1) * 10);
+
+                                $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber LIMIT $starting_index_of_additional_fields, 10";
+                                */
+
+                                //$sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber LIMIT 0, 10";
+                            }/*
+                            else if($total_additional_fields_pages == 1)
+                            {
+                                $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
+                            }   */                        
+/*
                             $result2 = $conn->query($sql);
 
                             if($result2->num_rows > 0)
                             {
                                 while($row = $result2->fetch_assoc())
                                 {
-                                    echo "<th data-id='hidden'>" . $row['field_name'] . "</th>";
-                                    echo "<td data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
+                                    echo "<th data-group='additional-fields' data-id='hidden'>" . $row['field_name'] . "</th>";
+                                    echo "<td data-group='additional-fields' data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
                                 }
-                            }
+
+                                if($total_additional_fields_pages > 1)
+                                {
+                                    $additional_page = $additional_fields_page + 1;
+                                    echo "<td data-label='&gt;&gt;'>";
+                                    echo "<button class='additional_fields_btn' data-mainpage='{$page}' data-additionalpage='{$additional_page}' 
+                                    data-row='{$additional_fields_row}' data-form='{$formNumber}'>&gt;&gt;</button>";
+                                    echo "</td>";
+                                }
+
+                                $additional_fields_row++;
+                            }*/
                         }
                     }
                     echo "</tr>";

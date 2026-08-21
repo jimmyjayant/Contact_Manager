@@ -119,6 +119,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET')
             requireFile('../app/Models/get_particular_user_contact_data.php');
             break;
 
+        case 'get_additional_fields':
+        case 'get_additional_fields.php':
+            requireFile('../app/Models/get_additional_fields.php');
+            break;
+
         /*
         case 'createusertable':
             requireFile('../app/Config/Database_Connection.php';
