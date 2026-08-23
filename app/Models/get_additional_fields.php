@@ -98,8 +98,8 @@
                 {
                     ob_start();
                     
-                    echo "<table class='additional_fields'>";
-                    echo "<th colspan=2>Additional Fields Table</th>";
+                    //echo "<table class='additional_fields'>";
+                    //echo "<th colspan=2>Additional Fields Table</th>";
 
                     while($row = $result->fetch_assoc())
                     {
@@ -114,8 +114,8 @@
                         $next_page = $page + 1;
                         echo "<tr>";
                         echo "<td colspan=2>";
-                        echo "<button class='additional_fields_btn' data-additionalpage='{$next_page}' 
-                        data-form='{$formNumber}'>Show</button>";
+                        echo "<button class='show_more_additional_fields_btn' data-additionalpage='{$next_page}' 
+                        data-form='{$form_number}'>Show More</button>";
                         echo "</td>";
                         echo "</tr>";
                     }

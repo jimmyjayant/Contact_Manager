@@ -9,10 +9,15 @@ function get_user_contacts(pageNumber = 1)
 {
     var xhttp = new XMLHttpRequest();
     var resultdiv = document.getElementById("result");
+    var table_with_contacts = document.getElementById("table_with_contacts");
+
     xhttp.onload = function() {
         var data = JSON.parse(this.responseText);
+
         if(data.status == 'error')
         {
+            table_with_contacts.classList.add("hide");
+            
             var newDivElement = document.createElement("div");
             newDivElement.classList.add("center");
             var newSpanElement = document.createElement("span");
@@ -23,14 +28,21 @@ function get_user_contacts(pageNumber = 1)
         }
         else if(data.status == 'success')
         {
-            resultdiv.innerHTML = data.data;
+            //resultdiv.innerHTML = data.data;
+            table_with_contacts.classList.remove("hide");
+
+            var tbody = table_with_contacts.querySelector("table tbody");
+            tbody.innerHTML = data.data;
+
             total_pages = Math.ceil(data.total_records / 10);
             console.log(total_pages);
+
             if(total_pages > 1)
             {
                 var paginationDiv = document.getElementById("pagination");
                 paginationDiv.style.display = "flex";
             }
+
             get_delete_contact_buttons();
             get_edit_contact_buttons();
             get_additional_fields_buttons();

@@ -105,7 +105,7 @@
                 if($result->num_rows > 0)
                 {
                     ob_start();
-
+/*
                     echo "<table>";
                     echo "<tr>";
                     echo "<th colspan='2'>Action</th>";
@@ -122,7 +122,7 @@
                     echo "<th>Created At</th>";
                     echo "<th>Additional Fields</th>";
                     echo "</tr>";
-
+*/
                     // For pagination button in additional_fields in table
                     $additional_fields_row = 2;
 

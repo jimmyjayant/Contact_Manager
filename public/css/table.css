@@ -5,7 +5,6 @@
 }
 
 table {
-    position:relative;
     width:100%;
     border-collapse:collapse;
     border:2px solid grey;
@@ -66,21 +65,40 @@ input#page_number {
     border:1px solid grey;
 }
 
+#table_with_contacts {
+    position:relative;
+}
+
 /* CSS for additional fields table */
-.additional_fields {
+#additional_fields_table {
     position:absolute;
+    text-align:center;
     top:0;
     left:0;
     right:0;
-    bottom:0;
-    text-align:center;
+    /*bottom:0;*/
+    width:100%;
     border-collapse:collapse;
     border:2px solid grey;
     z-index:2;
     background-color:lightgrey;
 }
 
+#additional_fields_table > div:first-child {
+    text-align:right;
+}
 
+#close_additional_fields_table {
+    margin:0.1rem;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#close_additional_fields_table:hover {
+    border:2px solid black;
+    background-color:darkgrey;
+    color:white;
+}
 
 @media screen and (max-width:600px) {
     table {

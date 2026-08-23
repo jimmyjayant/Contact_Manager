@@ -139,6 +139,10 @@ body {
     text-align:center;
 }
 
+.hide {
+    display:none;
+}
+
 @media screen and (max-width:600px) {
     #hambergurmenu {
         display:block;

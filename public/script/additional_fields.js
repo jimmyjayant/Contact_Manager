@@ -1,3 +1,5 @@
+import { get_show_more_additional_fields_buttons } from "../script/show_more_additional_fields.js";
+
 export function get_additional_fields_buttons()
 {
     var additional_fields_button = Array.from(document.getElementsByClassName("additional_fields_btn"));
@@ -24,9 +26,14 @@ export function get_additional_fields_buttons()
             //var target_row = document.querySelector(`table tr:nth-child(${additional_fields_row})`);
             //console.log(target_row);
 
+            var resultdiv = document.getElementById("result");
+
+            var additional_fields_table = document.getElementById("additional_fields_table");
+
             xhttp.onload = function() {
                 var data = JSON.parse(this.responseText);
                 console.log(data);
+
                 if(data.status == 'error')
                 {
                     var newTableElement = document.createElement("table");
@@ -50,9 +57,21 @@ export function get_additional_fields_buttons()
                 }
                 else if(data.status == 'success')
                 {
-                    var resultdiv = document.getElementById("result");
-                    resultdiv.innerHTML += data.data;
                     
+                    //resultdiv.innerHTML += data.data;
+
+                    additional_fields_table.classList.remove("hide");
+                    
+                    var additional_fields_tbody = additional_fields_table.querySelector("table tbody");
+                    additional_fields_tbody.innerHTML = data.data;
+
+                    var close_additional_fields_table_button = document.getElementById("close_additional_fields_table");
+                    close_additional_fields_table_button.addEventListener("click", function() {
+                        additional_fields_table.classList.add("hide");
+                    });
+
+                    get_show_more_additional_fields_buttons();
+
                     /*
                    var newthElement = document.createElement("th");
                    newthElement.dataset.id = "hidden";
