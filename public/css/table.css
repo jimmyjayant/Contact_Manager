@@ -38,6 +38,8 @@ table td {
 
 input#page_number {
     width:5rem;
+    max-width:-webkit-fit-content;
+    max-width:-moz-fit-content;
     max-width:fit-content;
     margin:0 1rem;
     text-align:center;

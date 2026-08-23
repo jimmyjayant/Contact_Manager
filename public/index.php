@@ -1,4 +1,4 @@
 <?php
 // Front Controller
-require "../app/Controllers/index.php";
+require "../app/Config/Routes.php";
 ?>
