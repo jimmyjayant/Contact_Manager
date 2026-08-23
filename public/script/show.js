@@ -1,5 +1,4 @@
 var total_pages = 1;
-var additional_fields_row = 2;
 
 import { get_edit_contact_buttons } from "../script/edit.js";
 import { get_delete_contact_buttons } from "../script/delete.js";
@@ -28,14 +27,13 @@ function get_user_contacts(pageNumber = 1)
         }
         else if(data.status == 'success')
         {
-            //resultdiv.innerHTML = data.data;
             table_with_contacts.classList.remove("hide");
 
             var tbody = table_with_contacts.querySelector("table tbody");
             tbody.innerHTML = data.data;
 
             total_pages = Math.ceil(data.total_records / 10);
-            console.log(total_pages);
+            //console.log(total_pages);
 
             if(total_pages > 1)
             {

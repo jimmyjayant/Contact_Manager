@@ -18,6 +18,16 @@ h1 {
     display:block;
 }
 
+.error {
+    text-align:center;
+    color:red;
+}
+
+.success {
+    text-align:center;
+    color:green;
+}
+
 #result {
     padding:1rem;
     overflow-x:auto;

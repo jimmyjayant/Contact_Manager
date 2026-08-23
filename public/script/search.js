@@ -3,6 +3,7 @@ var total_pages = 1;
 
 import { get_edit_contact_buttons } from "../script/edit.js";
 import {get_delete_contact_buttons} from "../script/delete.js";
+import { get_additional_fields_buttons } from "../script/additional_fields.js";
 
 function search_user_contacts(searchText, page = 1)
 {
@@ -16,6 +17,7 @@ function search_user_contacts(searchText, page = 1)
         var data = JSON.parse(this.responseText);
         var search_contact_error_div = document.getElementById("search_contact_error");
         var contact_data_div = document.getElementById("contact_data");
+        var table_with_contacts = document.getElementById("table_with_contacts");
 
         if(data.status == 'error')
         {
@@ -26,14 +28,26 @@ function search_user_contacts(searchText, page = 1)
         {
             contact_data_div.classList.remove("hide");
             search_contact_error_div.innerHTML = "";
+            
+            contact_data_div.classList.remove("hide");
+            
+            table_with_contacts.classList.remove("hide");
+            
+            var tbody = table_with_contacts.querySelector("table tbody");
+            tbody.innerHTML = data.data;
 
-            var resultdiv = document.getElementById("result");
-            resultdiv.innerHTML = "";
-            resultdiv.innerHTML = data.data;
-            total_pages = Math.ceil(data.total_records / 10);
+            total_pages = data.total_pages;
+            //console.log(total_pages);
+
+            if(total_pages > 1)
+            {
+                var paginationDiv = document.getElementById("pagination");
+                paginationDiv.style.display = "flex";
+            }
 
             get_delete_contact_buttons();
             get_edit_contact_buttons();
+            get_additional_fields_buttons();
         }
     }
     xhttp.open("POST", "search_user_contacts", true);

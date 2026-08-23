@@ -108,7 +108,7 @@
             $row = $result->fetch_assoc();
             $id = $row['id'];
 
-            $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id} AND first_name='$firstname'";
+            $sql = "SELECT COUNT(*) AS total FROM contacts WHERE user_id={$id} AND first_name LIKE '%{$firstname}%'";
 
             $result = $conn->query($sql);
 
@@ -148,29 +148,13 @@
 
                 $startingIndex = (($page - 1) * 10);
 
-                $sql = "SELECT * FROM contacts WHERE user_id=$id AND first_name='$firstname' LIMIT $startingIndex, 10";
+                $sql = "SELECT * FROM contacts WHERE user_id=$id AND first_name LIKE '%{$firstname}%' LIMIT $startingIndex, 10";
 
                 $result = $conn->query($sql);
 
                 if($result->num_rows > 0)
                 {
                     ob_start();
-
-                    echo "<table>";
-                    echo "<tr>";
-                    echo "<th colspan='2'>Action</th>";
-                    echo "<th>Serial Number</th>";
-                    echo "<th>First Name</th>";
-                    echo "<th>Middle Name</th>";
-                    echo "<th>Last Name</th>";
-                    echo "<th>Nickname</th>";
-                    echo "<th>Gender</th>";
-                    echo "<th>Mobile Number</th>";
-                    echo "<th>Landline Number</th>";
-                    echo "<th>Address</th>";
-                    echo "<th>Relationship</th>";
-                    echo "<th>Created At</th>";
-                    echo "</tr>";
 
                     while($row = $result->fetch_assoc())
                     {
@@ -204,19 +188,16 @@
                             $total_additional_fields = $row['total_fields'];
                             $total_additional_fields_pages = ceil($total_additional_fields / 10);
 
-                            // Pagination here must be created in the future
-
-                            $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
-
-                            $result2 = $conn->query($sql);
-
-                            if($result2->num_rows > 0)
+                            if($total_additional_fields_pages == 0)
                             {
-                                while($row = $result2->fetch_assoc())
-                                {
-                                    echo "<th data-id='hidden'>" . $row['field_name'] . "</th>";
-                                    echo "<td data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
-                                }
+                                echo "<td data-id='Additional Fields'></td>";
+                            }
+                            else if($total_additional_fields_pages >= 1)
+                            {   
+                                echo "<td data-id='Additional Fields'>";
+                                echo "<button class='additional_fields_btn' data-additionalpage='1' 
+                                data-form='{$formNumber}'>Show</button>";
+                                echo "</td>";
                             }
                         }
                     }

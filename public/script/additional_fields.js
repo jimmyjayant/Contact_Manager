@@ -8,23 +8,14 @@ export function get_additional_fields_buttons()
     additional_fields_button.forEach(function(button) {
         button.addEventListener("click", function(event) {
             //console.log(event.srcElement.alt);
-/*
-            var main_page = Number(event.target.dataset.mainpage);
-            console.log(main_page);
-*/
-            var additional_fields_page = 1/*Number(event.target.dataset.additionalpage)*/;
-            console.log(additional_fields_page);
 
-            //var additional_fields_row = Number(event.target.dataset.row);
-            //console.log(additional_fields_row);
+            var additional_fields_page = 1;
+            console.log(additional_fields_page);
 
             var form_number = Number(event.target.dataset.form);
             console.log(form_number);
 
             var xhttp = new XMLHttpRequest();
-
-            //var target_row = document.querySelector(`table tr:nth-child(${additional_fields_row})`);
-            //console.log(target_row);
 
             var resultdiv = document.getElementById("result");
 
@@ -44,22 +35,9 @@ export function get_additional_fields_buttons()
                     newDataElement.innerHTML = data.data;
                     newRowElement.appendChild(newDataElement);
                     newTableElement.appendChild(newRowElement);
-
-                    /*
-                    var newDivElement = document.createElement("div");
-                    newDivElement.classList.add("center");
-                    var newSpanElement = document.createElement("span");
-                    newSpanElement.classList.add("red_font");
-                    newSpanElement.innerHTML = data.data;
-                    newDivElement.appendChild(newSpanElement);
-                    resultdiv.appendChild(newDivElement);
-                    */
                 }
                 else if(data.status == 'success')
                 {
-                    
-                    //resultdiv.innerHTML += data.data;
-
                     additional_fields_table.classList.remove("hide");
                     
                     var additional_fields_tbody = additional_fields_table.querySelector("table tbody");
@@ -71,14 +49,9 @@ export function get_additional_fields_buttons()
                     });
 
                     get_show_more_additional_fields_buttons();
-
-                    /*
-                   var newthElement = document.createElement("th");
-                   newthElement.dataset.id = "hidden";
-                   newthElement.innerHTML = "";
-                   */
                 }
             }
+
             xhttp.open("GET", 
         "get_additional_fields?additional_fields_page=" + additional_fields_page + 
         "&form_number=" + form_number

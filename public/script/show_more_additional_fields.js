@@ -36,6 +36,8 @@ export function get_show_more_additional_fields_buttons()
 
                     // Append the data to the tbody element of the additional fields table
                     additional_fields_tbody.innerHTML += data.data;
+
+                    get_show_more_additional_fields_buttons();
                 }
             }
             xhttp.open("GET", 

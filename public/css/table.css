@@ -67,6 +67,7 @@ input#page_number {
 
 #table_with_contacts {
     position:relative;
+    overflow-x:auto;
 }
 
 /* CSS for additional fields table */
@@ -100,18 +101,36 @@ input#page_number {
     color:white;
 }
 
+#additional_fields_table table {
+    background-color:#f1f1f1;
+}
+
+.additional_fields_btn:hover {
+    cursor:pointer;
+    background-color:#d3d3d3;
+    font-weight:bold;
+}
+
+.show_more_additional_fields_btn:hover {
+    cursor:pointer;
+    background-color:#d3d3d3;
+    font-weight:bold;
+}
+
 @media screen and (max-width:600px) {
     table {
         border:none;
         border-collapse:unset;
     }
 
-    table tr:first-child {
+    table thead {
         display:none;
     }
 
-    tr td:last-child {
-        margin-bottom:2rem;
+    tbody tr {
+        margin:1rem 0;
+        display:block;
+        border:unset;
     }
 
     th[data-id='hidden'] {
@@ -129,6 +148,7 @@ input#page_number {
         padding-left:50%; /* Room for data-id on the left side */
         text-align:right; /* Aligns actual td cell data to the right side */
         min-height:1.5rem; /* Prevents cell collapse if td has zero content */
+        word-break:break-word;
     }
 
     table td::before {
@@ -147,5 +167,26 @@ input#page_number {
 
     table td:empty {
         display:none;
+    }
+
+    #additional_fields_table thead {
+        display:block;
+    }
+
+    #additional_fields_table thead tr {
+        border:none;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    #additional_fields_table thead th {
+        border:none;
+        text-align:center;
+    }
+
+    #additional_fields_table tr {
+        margin:0;
+        padding:0;
+        border-collapse:collapse;
     }
 }

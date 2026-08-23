@@ -2,63 +2,11 @@ var total_pages = 1;
 var filterData = "";
 
 import { get_edit_contact_buttons } from "../script/edit.js";
-import {get_delete_contact_buttons} from "../script/delete.js";
+import { get_delete_contact_buttons } from "../script/delete.js";
+import { get_additional_fields_buttons } from "../script/additional_fields.js";
 
 function filter_user_contacts(filterData, page = 1)
 {
-    /*
-    var filter_contact_error = document.getElementById("filter_contact_error");
-    var filter_contact_success = document.getElementById("filter_contact_success");
-
-    var filter_firstname = document.getElementById("filter_firstname");
-    var filter_firstname_error = document.getElementById("filter_firstname_error");
-
-    var filter_middlename = document.getElementById("filter_middlename");
-    var filter_middlename_error = document.getElementById("filter_middlename_error");
-
-    var filter_lastname = document.getElementById("filter_lastname");
-    var filter_lastname_error = document.getElementById("filter_lastname_error");
-
-    var filter_nickname = document.getElementById("filter_nickname");
-    var filter_nickname_error = document.getElementById("filter_nickname_error");
-
-    var filter_gender = document.querySelector("input[name=filter_gender]:checked");
-    var filter_gender_error = document.getElementById("filter_gender_error");
-
-    var filter_mobnum = document.getElementById("filter_mobnum");
-    var filter_mobnum_error = document.getElementById("filter_mobnum_error");
-
-    var filter_landnum = document.getElementById("filter_landnum");
-    var filter_landnum_error = document.getElementById("filter_landnum_error");
-
-    var filter_address = document.getElementById("filter_address");
-    var filter_address_error = document.getElementById("filter_address_error");
-
-    var filter_relationship = document.getElementById("filter_relationship");
-    var filter_relationship_error = document.getElementById("filter_relationship_error");
-
-    // Get the filterText variable data
-    if(filterText == '')
-    {
-        filterText = "filter_firstname=" + filter_firstname.value + 
-                     "&filter_middlename=" + filter_middlename.value + 
-                     "&filter_lastname=" + filter_lastname.value + 
-                     "&filter_nickname=" + filter_nickname.value + 
-                     "&filter_gender=" + filter_gender.value + 
-                     "&filter_mobile=" + filter_mobile.value + 
-                     "&filter_landline=" + filter_landline.value + 
-                     "&filter_address=" + filter_address.value + 
-                     "&filter_relationship=" + filter_relationship.value;
-        
-    }
-    
-    console.log(filterText);
-    var filterData = "";
-    filterData += filterText;
-    */
-    //filterData = encodeURIComponent(filterData);
-
-    //page = JSON.stringify(page);
     filterData = JSON.parse(filterData);
     filterData.page = page;
     filterData = JSON.stringify(filterData);
@@ -74,25 +22,38 @@ function filter_user_contacts(filterData, page = 1)
         var filter_contact_success_div = document.getElementById("filter_contact_success");
         var contact_data_div = document.getElementById("contact_data");
         var resultdiv = document.getElementById("result");
+        var table_with_contacts = document.getElementById("table_with_contacts");
 
         if(data.status == 'error')
         {
+            filter_contact_success_div.innerHTML = "";
             filter_contact_error_div.innerHTML = data.data;
             filterData = "";
+            table_with_contacts.classList.add("hide");
         }
         else if(data.status == 'success')
         {
             filter_contact_error_div.innerHTML = "";
-            filter_contact_success_div.innerHTML = data.data;
+            filter_contact_success_div.innerHTML = "Data filtered successfully!";
             contact_data_div.classList.remove("hide");
 
-            resultdiv.innerHTML = "";
-            resultdiv.innerHTML = data.data;
-            total_pages = data.total_pages;
+            table_with_contacts.classList.remove("hide");
+            
+            var tbody = table_with_contacts.querySelector("table tbody");
+            tbody.innerHTML = data.data;
+
+            total_pages = Math.ceil(data.total_pages / 10);
             //console.log(total_pages);
+
+            if(total_pages > 1)
+            {
+                var paginationDiv = document.getElementById("pagination");
+                paginationDiv.style.display = "flex";
+            }
 
             get_delete_contact_buttons();
             get_edit_contact_buttons();
+            get_additional_fields_buttons();
         }
     }
     xhttp.open("POST", "filter_user_contact",true);

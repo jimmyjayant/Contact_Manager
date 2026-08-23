@@ -73,7 +73,6 @@
     }
 
     // sql statement to get particular user record from user table in contact_manager_db database
-    //$sql = "SELECT * FROM user WHERE email='{$email}'";
     $sql = "SELECT user_password FROM user WHERE email='{$email}'";
 
     try
@@ -87,8 +86,6 @@
             exit();
         }
 
-        //var_dump($conn);
-        //exit();
         $result = $conn->query($sql);
 
         if($result->num_rows == 1)
@@ -109,7 +106,6 @@
                     if($result === TRUE)
                     {
                         // Again retrieve that particular user record with newly inserted token
-                        //$RetrieveUserRecordWithToken = "SELECT * FROM user WHERE email='{$email}' AND token='{$token}'";
                         $RetrieveUserRecordWithToken = "SELECT firstname, token FROM user WHERE email='{$email}' 
                                                         AND token='{$token}'";
 

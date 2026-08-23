@@ -74,7 +74,8 @@
             if($totalPageResult->num_rows > 0)
             {
                 $row = $totalPageResult->fetch_assoc();
-                $total_pages = $row['total'];
+                $total_records = $row['total'];
+                $total_pages = ceil($total_records / 10);
 
                 if($page < 1 || $page > $total_pages)
                 {
@@ -97,9 +98,6 @@
                 if($result->num_rows > 0)
                 {
                     ob_start();
-                    
-                    //echo "<table class='additional_fields'>";
-                    //echo "<th colspan=2>Additional Fields Table</th>";
 
                     while($row = $result->fetch_assoc())
                     {
@@ -109,7 +107,7 @@
                         echo "</tr>";
                     }
 
-                    if($total_pages > 1)
+                    if($page <= $total_pages - 1)
                     {
                         $next_page = $page + 1;
                         echo "<tr>";

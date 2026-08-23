@@ -320,7 +320,6 @@
 
             if(!empty($filter_firstname))
             {
-                //$parameter .= "first_name = '{$filter_firstname}' ";
                 $parameter .= "first_name LIKE '%{$filter_firstname}%' ";
             }
 
@@ -328,12 +327,10 @@
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    //$parameter .= "middle_name = '{$filter_middlename}'";
                     $parameter .= "middle_name LIKE '%{$filter_middlename}%'";
                 }
                 else
                 {
-                    //$parameter .= "AND middle_name = '{$filter_middlename}'";
                     $parameter .= "AND middle_name LIKE '%{$filter_middlename}%'";
                 }
             }
@@ -342,12 +339,10 @@
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    //$parameter .= "last_name = '{$filter_lastname}'";
                     $parameter .= "last_name LIKE '%{$filter_lastname}%'";
                 }
                 else
                 {
-                    //$parameter .= " AND last_name = '{$filter_lastname}'";
                     $parameter .= " AND last_name LIKE '%{$filter_lastname}%'";
                 }
             }
@@ -356,12 +351,10 @@
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    //$parameter .= "nickname = '{$filter_nickname}'";
                     $parameter .= "nickname LIKE '%{$filter_nickname}%'";
                 }
                 else
                 {
-                    //$parameter .= "AND nickname = '{$filter_nickname}'";
                     $parameter .= "AND nickname LIKE '%{$filter_nickname}%'";
                 }
             }
@@ -406,12 +399,10 @@
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    //$parameter .= "addr = '{$filter_address}'";
                     $parameter .= "addr LIKE '%{$filter_address}%'";
                 }
                 else
                 {
-                    //$parameter .= "AND addr = '{$filter_address}'";
                     $parameter .= "AND addr LIKE '%{$filter_address}%'";
                 }
             }
@@ -420,12 +411,10 @@
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    //$parameter .= "relationship = '{$filter_relationship}'";
                     $parameter .= "relationship LIKE '%{$filter_relationship}%'";
                 }
                 else
                 {
-                    //$parameter .= "AND relationship = '{$filter_relationship}'";
                     $parameter .= "AND relationship LIKE '%{$filter_relationship}%'";
                 }
             }
@@ -483,22 +472,6 @@
                 {
                     ob_start();
 
-                    echo "<table>";
-                    echo "<tr>";
-                    echo "<th colspan='2'>Action</th>";
-                    echo "<th>Serial Number</th>";
-                    echo "<th>First Name</th>";
-                    echo "<th>Middle Name</th>";
-                    echo "<th>Last Name</th>";
-                    echo "<th>Nickname</th>";
-                    echo "<th>Gender</th>";
-                    echo "<th>Mobile Number</th>";
-                    echo "<th>Landline Number</th>";
-                    echo "<th>Address</th>";
-                    echo "<th>Relationship</th>";
-                    echo "<th>Created At</th>";
-                    echo "</tr>";
-
                     while($row = $result->fetch_assoc())
                     {
                         $formNumber = $row['form_number'];
@@ -531,19 +504,16 @@
                             $total_additional_fields = $row['total_fields'];
                             $total_additional_fields_pages = ceil($total_additional_fields / 10);
 
-                            // Pagination here must be created in the future
-
-                            $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
-
-                            $result2 = $conn->query($sql);
-
-                            if($result2->num_rows > 0)
+                            if($total_additional_fields_pages == 0)
                             {
-                                while($row = $result2->fetch_assoc())
-                                {
-                                    echo "<th data-id='hidden'>" . $row['field_name'] . "</th>";
-                                    echo "<td data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
-                                }
+                                echo "<td data-id='Additional Fields'></td>";
+                            }
+                            else if($total_additional_fields_pages >= 1)
+                            {   
+                                echo "<td data-id='Additional Fields'>";
+                                echo "<button class='additional_fields_btn' data-additionalpage='1' 
+                                data-form='{$formNumber}'>Show</button>";
+                                echo "</td>";
                             }
                         }
                     }
