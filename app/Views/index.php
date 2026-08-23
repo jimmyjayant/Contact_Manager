@@ -30,6 +30,19 @@ requireFile('../app/Views/headerandnavbar.php');
 
         <div>
             <div>
+                <h4>Dashboard</h4>
+
+                <p>
+                    The dashboard provides a nice interface to show, add, filter, search, edit and delete the contacts. 
+                </p>
+            </div>
+            <div>
+                <img src="images/dashboard.png" alt="Dashboard">
+            </div>
+        </div>
+
+        <div>
+            <div>
                 <h4>Well Organised Representation</h4>
 
                 <p>
@@ -37,7 +50,20 @@ requireFile('../app/Views/headerandnavbar.php');
                 </p>
             </div>
             <div>
-                <img src="" alt="Well Organised">
+                <img src="images/well_organised.png" alt="Well Organised">
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h4>Adding New Contacts</h4>
+
+                <p>
+                    You can add new contact information very easily. 
+                </p>
+            </div>
+            <div>
+                <img src="images/adding.png" alt="Adding New Contacts">
             </div>
         </div>
 
@@ -50,20 +76,46 @@ requireFile('../app/Views/headerandnavbar.php');
                 </p>
             </div>
             <div>
-                <img src="" alt="Custom Fields Setup">
+                <img src="images/custom_fields.png" alt="Custom Fields Setup">
             </div>
         </div>
 
         <div>
             <div>
-                <h4>Sorting, Searching & Filtering</h4>
+                <h4>Filtering of Contacts</h4>
 
                 <p>
-                    You can do sorting, searching and filtering of the contacts. 
+                    You can filter the contacts in an easy manner.  
                 </p>
             </div>
             <div>
-                <img src="" alt="Sorting, Searching, Filtering">
+                <img src="images/filtering.png" alt="Filtering">
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h4>Searching of Contacts</h4>
+
+                <p>
+                    You can search the contacts in an easy manner.  
+                </p>
+            </div>
+            <div>
+                <img src="images/searching.png" alt="Searching">
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h4>Editing & Deleting of Contacts</h4>
+
+                <p>
+                    You can edit and delete the contacts in an easy manner.
+                </p>
+            </div>
+            <div>
+                <img src="images/edit_delete.png" alt="Editing & Deleting of Contacts">
             </div>
         </div>
     </div>

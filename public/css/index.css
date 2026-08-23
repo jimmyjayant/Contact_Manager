@@ -30,11 +30,14 @@
 }
 
 #feature > div {
-    display:flex;
-    flex-direction:row;
-    justify-content:space-around;
     padding:1rem;
     font-size:1.2rem;
+}
+
+#feature img {
+    min-width:200px;
+    max-width:800px;
+    width:100%;
 }
 
 @media screen and (max-width:600px) {
