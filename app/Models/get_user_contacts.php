@@ -3,6 +3,7 @@
     // Used by show.php webpage
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     ini_set("display_errors", 0);
 
@@ -73,17 +74,9 @@
                 }
                 $total_pages = ceil($data['total_records'] / 10);
 
-                function test_input($input)
-                {
-                    $input = trim($input);
-                    $input = stripslashes($input);
-                    $input = htmlspecialchars($input);
-                    return $input;
-                }
-
                 $page = $_GET['page'] ?? 1;
 
-                $page = test_input($page);
+                $page = sanitize_input($page);
 
                 $page = floor((int)$page);
 

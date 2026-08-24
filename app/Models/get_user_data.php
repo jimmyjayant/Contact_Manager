@@ -2,6 +2,7 @@
     // PHP Script for Login Page
     requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     // Do not display the error to the user
     ini_set("display_errors", 0);
@@ -34,16 +35,10 @@
         exit();
     }
 
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
+    $email = sanitize_input($_POST['email']);
+    $pass = sanitize_input($_POST['pass']);
 
-    $email = test_input($_POST['email']);
-
+    // Validate email
     if(empty($email))
     {
         $_SESSION['email_error'] = "Email cannot be empty!";
@@ -57,8 +52,8 @@
         exit();
     }
 
-    $pass = test_input($_POST['pass']);
 
+    // Validate password
     if(empty($pass))
     {
         $_SESSION['pass_error'] = "Password cannot be empty!";

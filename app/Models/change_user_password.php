@@ -1,6 +1,8 @@
 <?php
     requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile("../app/Filters/validationFilters.php");
 
     ini_set("display_errors", 0);
 
@@ -20,43 +22,13 @@
         exit();
     }
 
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
+    // Check and sanitize the user input that is form data
+    $old_password = sanitize_input($_POST['oldpass']);
+    $new_password = sanitize_input($_POST['newpass']);
 
-    $old_password = test_input($_POST['oldpass']);
-
-    $new_password = test_input($_POST['newpass']);
-
-    if(empty($old_password))
-    {
-        $_SESSION['oldpass_error'] = "Old Password cannot be empty!";
-        header("Location: changepassword");
-        exit();
-    }
-    else if(strlen($old_password) < 6 || strlen($old_password) > 12)
-    {
-        $_SESSION['oldpass_error'] = "Old Password must be 6-12 characters long!";
-        header("Location: changepassword");
-        exit();
-    }
-
-    if(empty($new_password))
-    {
-        $_SESSION['newpass_error'] = "New Password cannot be empty!";
-        header("Location: changepassword");
-        exit();
-    }
-    else if(strlen($new_password) < 6 || strlen($new_password) > 12)
-    {
-        $_SESSION['newpass_error'] = "New Password must be 6-12 characters long!";
-        header("Location: changepassword");
-        exit();
-    }
+    // Validate user provided form data
+    validate_password($old_password, 'changepassword', 'oldpass');
+    validate_password($new_password, 'changepassword', 'newpass');
 
     $token = $_SESSION['user_token'];
 

@@ -1,6 +1,8 @@
 <?php
     requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile("../app/Filters/validationFilters.php");
 
     ini_set("display_errors", 0);
 
@@ -25,192 +27,45 @@
         exit();
     }
 
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
-
     $jsonData = file_get_contents('php://input');
     $data = json_decode($jsonData, true);
 
-    $filter_firstname = test_input($data['filter_firstname']);
+    // Check and sanitize the user input that is form data
+    $filter_firstname = sanitize_input($data['filter_firstname']);
+    $filter_middlename = sanitize_input($data['filter_middlename']);
+    $filter_lastname = sanitize_input($data['filter_lastname']);
+    $filter_nickname = sanitize_input($data['filter_nickname']);
+    $filter_gender = sanitize_input($data['filter_gender']);
+    $filter_mobile = sanitize_input($data['filter_mobile']);
+    $filter_landline = sanitize_input($data['filter_landline']);
+    $filter_address = sanitize_input($data['filter_address']);
+    $filter_relationship = sanitize_input($data['filter_relationship']);
+
 
     if(!empty($filter_firstname))
     {
-        if(strlen($filter_firstname) > 100)
-        {
-            $data['status'] = "error";
-            $data['data'] = "First Name cannot be more than 100 characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();            
-        }
-        else if(preg_match_all("/\d/", $filter_firstname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "First Name cannot contain digits!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\s/", $filter_firstname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "First Name cannot contain whitespaces!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\W/", $filter_firstname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "First Name cannot contain special characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
+        validate_firstname($filter_firstname, 100, '', false, true);
     }
-
-
-    $filter_middlename = test_input($data['filter_middlename']);
 
     if(!empty($filter_middlename))
     {
-        if(strlen($filter_middlename) > 100)
-        {
-            $data['status'] = "error";
-            $data['data'] = "Middle Name cannot be more than 100 characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\d/", $filter_middlename))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Middle Name cannot contain digits!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\s/", $filter_middlename))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Middle Name cannot contain whitespaces!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\W/", $filter_middlename))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Middle Name cannot contain special characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
+        validate_middlename($filter_middlename, 100, '', false, true);
     }
-
-    $filter_lastname = test_input($data['filter_lastname']);
 
     if(!empty($filter_lastname))
     {
-        if(strlen($filter_lastname) > 100)
-        {
-            $data['status'] = "error";
-            $data['data'] = "Last Name cannot be more than 100 characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\d/", $filter_lastname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Last Name cannot contain digits!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\s/", $filter_lastname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Last Name cannot contain whitespaces!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\W/", $filter_lastname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Last Name cannot contain special characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
+        validate_lastname($filter_lastname, 100, '', false, true);
     }
-
-
-    $filter_nickname = test_input($data['filter_nickname']);
 
     if(!empty($filter_nickname))
     {
-        if(strlen($filter_nickname) > 100)
-        {
-            $data['status'] = "error";
-            $data['data'] = "Nick Name cannot be more than 100 characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\d/", $filter_nickname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Nick Name cannot contain digits!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\s/", $filter_nickname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Nick Name cannot contain whitespaces!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-        else if(preg_match_all("/\W/", $filter_nickname))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Nick Name cannot contain special characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
+        validate_nickname($filter_nickname, 100, '', false, true);
     }
-
-
-    $filter_gender = test_input($data['filter_gender']);
 
     if(!empty($filter_gender))
     {
+        validate_gender($filter_gender, '', true);
+        /*
         if(($filter_gender != 'male') && ($filter_gender != 'female'))
         {
             $data['status'] = "error";
@@ -220,11 +75,11 @@
             echo $data;
             exit();
         }
+            */
     }
 
-
-    $filter_mobile = test_input($data['filter_mobile']);
-
+    validate_mobile_number($filter_mobile, '', true);
+    /*
     if(!empty($filter_mobile) && !preg_match("/^\d{10}$/", $filter_mobile))
     {
         $data['status'] = "error";
@@ -233,10 +88,10 @@
         header("Content-Type: application/json");
         echo $data;
         exit();
-    }
+    }*/
 
-    $filter_landline = test_input($data['filter_landline']);
-
+    validate_landline_number($filter_landline, '', true);
+    /*
     if(!empty($filter_landline) && !preg_match("/^\d{8}$/", $filter_landline))
     {
         $data['status'] = "error";
@@ -245,9 +100,7 @@
         header("Content-Type: application/json");
         echo $data;
         exit();
-    }
-
-    $filter_address = test_input($data['filter_address']);
+    }*/
 
     if(!empty($filter_address))
     {
@@ -261,9 +114,6 @@
             exit();
         }
     }
-
-
-    $filter_relationship = test_input($data['filter_relationship']);
 
     if(!empty($filter_relationship))
     {

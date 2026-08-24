@@ -3,6 +3,8 @@
 
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile("../app/Filters/validationFilters.php");
 
     ini_set("display_errors", 0);
 
@@ -28,61 +30,9 @@
         exit();
     }
 
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
+    $firstname = sanitize_input($_POST['firstname']);
 
-    $firstname = test_input($_POST['firstname']);
-
-    if(empty($firstname))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Firstname cannot be empty!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
-    else if(strlen($firstname) > 100)
-    {
-        $data['status'] = "error";
-        $data['data'] = "Firstname cannot be more than 100 characters!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
-    else if(preg_match_all("/\d/", $firstname))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Firstname cannot contain digits!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
-    else if(preg_match_all("/\s/", $firstname))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Firstname cannot contain whitespaces!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
-    else if(preg_match_all("/\W/", $firstname))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Firstname cannot contain special characters!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
+    validate_firstname($firstname, 100, '', false, true);
 
     $token = $_SESSION['user_token'];
     // sql query
@@ -132,7 +82,7 @@
 
                 $page = $_POST['page'] ?? 1;
 
-                $page = test_input($page);
+                $page = sanitize_input($page);
 
                 $page = floor((int)$page);
 

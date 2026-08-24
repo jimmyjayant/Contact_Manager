@@ -2,6 +2,8 @@
     // PHP Script for deleting contact of a logged in user
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile("../app/Filters/validationFilters.php");
 
     ini_set("display_errors", 0);
 
@@ -27,14 +29,6 @@
         $_SESSION['edit_contact_error'] = "CSRF Token does not match!";
         header("Location: edit");
         exit();
-    }
-
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
     }
 
     function test_field_name($input, $length, $n)
@@ -90,17 +84,19 @@
     {
         if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
         {
-            $custom_fields_number = test_input(($_POST['custom_fields_number']));
+            $custom_fields_number = sanitize_input(($_POST['custom_fields_number']));
             $n = 1;
             while($n <= $custom_fields_number)
             {
                 $fieldName = "fieldName$n";
                 if(!empty($_POST[$fieldName]))
                 {
-                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_name'] = $_POST[$fieldName];
+                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_name'] = 
+                    sanitize_input($_POST[$fieldName]);
                 
                     $fieldValue = "fieldValue$n";
-                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_value'] = $_POST[$fieldValue];
+                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_value'] = 
+                    sanitize_input($_POST[$fieldValue]);
                 }
 
                 $n++;
@@ -108,126 +104,30 @@
         }
     }
 
-    $firstname = test_input($_POST['first_name']);
-
-    if(empty($firstname))
-    {
-        $_SESSION['edit_firstname_error'] = "Firstname cannot be empty!";
-        header("Location: edit");
-        exit();
-    }
-    else if(strlen($firstname) > 100)
-    {
-        $_SESSION['edit_firstname_error'] = "First Name cannot be more than 100 characters!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $firstname))
-    {
-        $_SESSION['edit_firstname_error'] = "First Name cannot contain digits!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $firstname))
-    {
-        $_SESSION['edit_firstname_error'] = "First Name cannot contain whitespaces!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $firstname))
-    {
-        $_SESSION['edit_firstname_error'] = "First Name cannot contain special characters!";
-        header("Location: edit");
-        exit();
-    }
+    // Check and sanitize the user input that is form data
+    $firstname = sanitize_input($_POST['first_name']);
+    $middlename = sanitize_input($_POST['middle_name']);
+    $lastname = sanitize_input($_POST['last_name']);
+    $nickname = sanitize_input($_POST['nickname']);
+    $gender = sanitize_input($_POST['gender']);
+    $mobnum = sanitize_input($_POST['mobile_number']);
+    $landnum = sanitize_input($_POST['landline_number']);
+    $address = sanitize_input($_POST['addr']);
+    $relationship = sanitize_input($_POST['relationship']);
+    // Form Number
+    $formNumber = sanitize_input($_POST['form_number']);
 
 
-    $middlename = test_input($_POST['middle_name']);
+    // Validate user provided form data
+    validate_firstname($firstname, 100, 'edit', false, false);
+    validate_middlename($middlename, 100, 'edit', true, false);
+    validate_lastname($lastname, 100, 'edit', true, false);
+    validate_nickname($nickname, 100, 'edit', true, false);
+    validate_gender($gender, 'edit', false);
+    validate_mobile_number($mobnum, 'edit', false);    
+    validate_landline_number($landnum, 'edit', false);
 
-    if(strlen($middlename) > 100)
-    {
-        $_SESSION['edit_middlename_error'] = "Middle Name cannot be more than 100 characters!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $middlename))
-    {
-        $_SESSION['edit_middlename_error'] = "Middle Name cannot contain digits!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $middlename))
-    {
-        $_SESSION['edit_middlename_error'] = "Middle Name cannot contain whitespaces!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $middlename))
-    {
-        $_SESSION['edit_middlename_error'] = "Middle Name cannot contain special characters!";
-        header("Location: edit");
-        exit();
-    }
-
-
-    $lastname = test_input($_POST['last_name']);
-
-    if(strlen($lastname) > 100)
-    {
-        $_SESSION['edit_lastname_error'] = "Last Name cannot be more than 100 characters!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $lastname))
-    {
-        $_SESSION['edit_lastname_error'] = "Last Name cannot contain digits!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $lastname))
-    {
-        $_SESSION['edit_lastname_error'] = "Last Name cannot contain whitespaces!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $lastname))
-    {
-        $_SESSION['edit_lastname_error'] = "Last Name cannot contain special characters!";
-        header("Location: edit");
-        exit();
-    }
-
-
-    $nickname = test_input($_POST['nickname']);
-
-    if(strlen($nickname) > 100)
-    {
-        $_SESSION['edit_nickname_error'] = "Nick Name cannot be more than 100 characters!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $nickname))
-    {
-        $_SESSION['edit_nickname_error'] = "Nick Name cannot contain digits!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $nickname))
-    {
-        $_SESSION['edit_nickname_error'] = "Nick Name cannot contain whitespaces!";
-        header("Location: edit");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $nickname))
-    {
-        $_SESSION['edit_nickname_error'] = "Nick Name cannot contain special characters!";
-        header("Location: edit");
-        exit();
-    }
-
-
-    $gender = test_input($_POST['gender']);
-
+/*
     if(empty($gender))
     {
         $_SESSION['edit_gender_error'] = "Gender cannot be empty!";
@@ -241,8 +141,6 @@
         exit();
     }
 
-    $mobnum = test_input($_POST['mobile_number']);
-
     if(!empty($mobnum) && !preg_match("/^\d{10}$/", $mobnum))
     {
         $_SESSION['edit_mobile_error'] = "Mobile Number must contain 10 digits!";
@@ -250,15 +148,14 @@
         exit();
     }
 
-
-    $landnum = test_input($_POST['landline_number']);
-
     if(!empty($landnum) && !preg_match("/^\d{8}$/", $landnum))
     {
         $_SESSION['edit_landline_error'] = "Landline Number must contain 8 digits!";
         header("Location: edit");
         exit();
     }
+*/
+
 
     if(empty($mobnum) && empty($landnum))
     {
@@ -270,7 +167,6 @@
     $mobnum = empty($mobnum) ? "NULL" : "'$mobnum'";
     $landnum = empty($landnum) ? "NULL" : "'$landnum'";
 
-    $address = test_input($_POST['addr']);
 
     if(strlen($address) > 500)
     {
@@ -279,7 +175,6 @@
         exit();
     }
 
-    $relationship = test_input($_POST['relationship']);
 
     if(strlen($relationship) > 100)
     {
@@ -288,13 +183,10 @@
         exit();
     }
 
-    // Form Number
-    $formNumber = test_input($_POST['form_number']);
 
     $token = $_SESSION['user_token'];
     // sql query
     $sql = "SELECT id FROM user WHERE token='{$token}'";
-
 
     try
     {
@@ -360,17 +252,17 @@
         {
             if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
             {
-                $custom_fields_number = test_input($_POST['custom_fields_number']);
+                $custom_fields_number = sanitize_input($_POST['custom_fields_number']);
                 $n = 1;
                 while($n <= $custom_fields_number)
                 {
                     $fieldName = "fieldName$n";
-                    $fieldName = $_POST[$fieldName];
+                    $fieldName = sanitize_input($_POST[$fieldName]);
                     test_field_name($fieldName, 100, $n);
 
 
                     $fieldValue = "fieldValue$n";
-                    $fieldValue = $_POST[$fieldValue];
+                    $fieldValue = sanitize_input($_POST[$fieldValue]);
                     $fieldValue = test_input($fieldValue);
 
                     if(empty($fieldValue))

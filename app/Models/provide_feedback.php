@@ -2,6 +2,7 @@
     // PHP Script for Feedback Page
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     ini_set("display_errors", 0);
 
@@ -14,145 +15,22 @@
         exit();
     }
 
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
+    // Check and sanitize the user input that is form data
+    $fname = sanitize_input($_POST['fname']);
+    $lname = sanitize_input($_POST['lname']);
+    $mob = sanitize_input($_POST['mob']);
+    $email = sanitize_input($_POST['email']);
+    $subject = sanitize_input($_POST['subject']);
+    $msg = sanitize_input($_POST['msg']);
 
-    $fname = test_input($_POST['fname']);
+    // Validate user provided form data
+    validate_firstname($fname, 100, 'feedback', false, false);
+    validate_lastname($lname, 100, 'feedback', true, false);
+    validate_mobile_number($mob, 'feedback', false);
+    validate_email($email, 'feedback', false, false);
+    validate_message($subject, 'feedback', false, false, 'Subject');
+    validate_message($msg, 'feedback', false, false, 'Message');
 
-    if(empty($fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot be empty!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(strlen($fname) > 100)
-    {
-        $_SESSION['fname_error'] = "First Name cannot be more than 100 characters!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot contain digits!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot contain whitespaces!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot contain special characters!";
-        header("Location: feedback");
-        exit();
-    }
-
-    $lname = test_input($_POST['lname']);
-
-    if(empty($lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot be empty!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(strlen($lname) > 100)
-    {
-        $_SESSION['lname_error'] = "Last Name cannot be more than 100 characters!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot contain digits!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot contain whitespaces!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot contain special characters!";
-        header("Location: feedback");
-        exit();
-    }
-
-    $mob = test_input($_POST['mob']);
-
-    if(empty($mob))
-    {
-        $_SESSION['contact_error'] = "Contact cannot be empty!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(strlen($mob) < 10)
-    {
-        $_SESSION['contact_error'] = "Contact must be of 10 digits!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(!preg_match("/^\d{10}$/", $mob))
-    {
-        $_SESSION['contact_error'] = "Contact must contain digits!";
-        header("Location: feedback");
-        exit();
-    }
-
-    $email = test_input($_POST['email']);
-
-    if(empty($email))
-    {
-        $_SESSION['email_error'] = "Email cannot be empty!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
-        $_SESSION['email_error'] = "Invalid Email Address!";
-        header("Location: feedback");
-        exit();
-    }
-
-    $subject = test_input($_POST['subject']);
-
-    if(empty($subject))
-    {
-        $_SESSION['subject_error'] = "Subject cannot be empty!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(strlen($subject) > 150)
-    {
-        $_SESSION['subject_error'] = "Subject cannot be more than 150 characters!";
-        header("Location: feedback");
-        exit();
-    }
-
-    $msg = test_input($_POST['msg']);
-
-    if(empty($msg))
-    {
-        $_SESSION['msg_error'] = "Message cannot be empty!";
-        header("Location: feedback");
-        exit();
-    }
-    else if(strlen($msg) > 5000)
-    {
-        $_SESSION['msg_error'] = "Message cannot be more than 5000 characters!";
-        header("Location: feedback");
-        exit();
-    }
 
     // sql statement to insert feedback into feedback table in contact_manager_db database
     $sql = "INSERT INTO feedback(firstname, lastname, contact, email, subject, msg) 

@@ -2,6 +2,7 @@
     // PHP Script for fetching additional fields of a particular contact list of logged in user
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     ini_set("display_errors", 0);
 
@@ -51,19 +52,11 @@
             $row = $result->fetch_assoc();
             $id = $row['id'];
 
-            function test_input($input)
-            {
-                $input = trim($input);
-                $input = stripslashes($input);
-                $input = htmlspecialchars($input);
-                return $input;
-            }
-
-            $form_number = test_input($_GET['form_number']);
+            $form_number = sanitize_input($_GET['form_number']);
 
             $page = $_GET['additional_fields_page'] ?? 1;
 
-            $page = test_input($page);
+            $page = sanitize_input($page);
 
             $page = floor((int)$page);
 

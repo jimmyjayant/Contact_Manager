@@ -2,6 +2,7 @@
     // PHP Script for deleting contact of a logged in user
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     ini_set("display_errors", 0);
 
@@ -51,15 +52,7 @@
             $row = $result->fetch_assoc();
             $user_id = $row['id'];
 
-            function test_input($input)
-            {
-                $input = trim($input);
-                $input = stripslashes($input);
-                $input = htmlspecialchars($input);
-                return $input;
-            }
-
-            $contact_id = test_input($_GET['id']);
+            $contact_id = sanitize_input($_GET['id']);
             
             $sql = "DELETE FROM contacts WHERE user_id={$user_id} AND form_number={$contact_id}";
 

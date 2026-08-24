@@ -3,6 +3,7 @@
     // Edit.js script file function sends an ajax request to this php script
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     ini_set("display_errors", 0);
 
@@ -39,15 +40,7 @@
         }
         else
         {
-            function test_input($input)
-            {
-                $input = trim($input);
-                $input = stripslashes($input);
-                $input = htmlspecialchars($input);
-                return $input;
-            }
-
-            $id = test_input($_GET['id']);
+            $id = sanitize_input($_GET['id']);
             
             $token = $_SESSION['user_token'];
             // sql query

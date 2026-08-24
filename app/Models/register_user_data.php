@@ -1,6 +1,8 @@
 <?php
     requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
+    requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile("../app/Filters/validationFilters.php");
 
     ini_set("display_errors", 0);
 
@@ -21,124 +23,20 @@
         exit();
     }
 
-    function test_input($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
+    // Check and sanitize the user input that is form data
+    $fname = sanitize_input($_POST['fname']);
+    $lname = sanitize_input($_POST['lname']);
+    $email = sanitize_input($_POST['email']);
+    $pass = sanitize_input($_POST['pass']);
+    $contact = sanitize_input($_POST['contact']);
 
-    $fname = test_input($_POST['fname']);
+    // Validate user provided form data
+    validate_firstname($fname, 100, 'register', false, false);
+    validate_lastname($lname, 100, 'register', false, false);
+    validate_email($email, 'register', false, false);
+    validate_mobile_number($contact, 'register', false);
+    validate_password($pass, 'register', 'pass');
 
-    if(empty($fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot be empty!";
-        header("Location: register");
-        exit();
-    }
-    else if(strlen($fname) > 100)
-    {
-        $_SESSION['fname_error'] = "First Name cannot be more than 100 characters!";
-        header("Location: register");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot contain digits!";
-        header("Location: register");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot contain whitespaces!";
-        header("Location: register");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $fname))
-    {
-        $_SESSION['fname_error'] = "First Name cannot contain special characters!";
-        header("Location: register");
-        exit();
-    }
-
-    $lname = test_input($_POST['lname']);
-
-    if(empty($lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot be empty!";
-        header("Location: register");
-        exit();
-    }
-    else if(strlen($lname) > 100)
-    {
-        $_SESSION['lname_error'] = "Last Name cannot be more than 100 characters!";
-        header("Location: register");
-        exit();
-    }
-    else if(preg_match_all("/\d/", $lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot contain digits!";
-        header("Location: register");
-        exit();
-    }
-    else if(preg_match_all("/\s/", $lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot contain whitespaces!";
-        header("Location: register");
-        exit();
-    }
-    else if(preg_match_all("/\W/", $lname))
-    {
-        $_SESSION['lname_error'] = "Last Name cannot contain special characters!";
-        header("Location: register");
-        exit();
-    }
-
-    $email = test_input($_POST['email']);
-
-    if(empty($email))
-    {
-        $_SESSION['email_error'] = "Email cannot be empty!";
-        header("Location: register");
-        exit();
-    }
-    else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
-        $_SESSION['email_error'] = "Invalid Email Address!";
-        header("Location: register");
-        exit();
-    }
-
-    $pass = test_input($_POST['pass']);
-
-    if(empty($pass))
-    {
-        $_SESSION['pass_error'] = "Password cannot be empty!";
-        header("Location: register");
-        exit();
-    }
-    else if(strlen($pass) < 6 || strlen($pass) > 12)
-    {
-        $_SESSION['pass_error'] = "Password Length must be between 6-12";
-        header("Location: register");
-        exit();
-    }
-
-    $contact = test_input($_POST['contact']);
-
-    if(empty($contact))
-    {
-        $_SESSION['contact_error'] = "Contact cannot be empty!";
-        header("Location: register");
-        exit();
-    }
-    else if(!preg_match("/^\d{10}$/", $contact))
-    {
-        $_SESSION['contact_error'] = "Contact must contain 10 digits!";
-        header("Location: register");
-        exit();
-    }
 
     // Convert plain text password to hash
     $pass = password_hash($pass, PASSWORD_DEFAULT);
