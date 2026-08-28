@@ -4,6 +4,12 @@ requireFile('../app/Views/sessionstart.php');
 $GLOBALS['css'] = ["css/index.css"];
 
 requireFile('../app/Views/headerandnavbar.php');
+
+if(isset($_SESSION['user_token']))
+{
+    header("Location: dashboard");
+    exit();
+}
 ?>
 
 <div class="content">

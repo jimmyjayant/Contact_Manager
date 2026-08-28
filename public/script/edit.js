@@ -19,6 +19,10 @@ export function get_edit_contact_buttons()
 
                 if(data.status == 'error')
                 {
+                    if(data.data == 'Please login!')
+                    {
+                        window.location.href = 'logout';
+                    }
                     var newDivElement = document.createElement("div");
                     newDivElement.classList.add("center");
                     var newSpanElement = document.createElement("span");

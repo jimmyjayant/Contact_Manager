@@ -189,10 +189,10 @@
                 $custom_fields_number = sanitize_input($_POST['custom_fields_number']);
                 for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
                 {
-                $customFieldName = test_input($_POST['customInputElement' . $i]);
-                test_field_name($customFieldName, 100);
-                $customFieldValue = test_input($_POST['customInputElement' . $i+1]);
-                if(strlen($customFieldValue) > 500)
+                    $customFieldName = sanitize_input($_POST['customInputElement' . $i]);
+                    test_field_name($customFieldName, 100);
+                    $customFieldValue = sanitize_input($_POST['customInputElement' . $i+1]);
+                    if(strlen($customFieldValue) > 500)
                     {
                         $_SESSION['add_contact_error'] = "Field Value cannot be more than 500 characters!";
                         header("Location: add");
@@ -203,12 +203,12 @@
                     $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value) 
                             VALUES($id, $formNumber, '$customFieldName', '$customFieldValue')";
 
-                try
-                {
+                    try
+                    {
                         $result = $conn->query($sql);
-                }
-                catch(mysqli_sql_exception $e)
-                {
+                    }
+                    catch(mysqli_sql_exception $e)
+                    {
                         if($e->getCode() == 1062)
                         {
                             $_SESSION['add_contact_error'] = "Mobile or Landline Number Already Exists!";
@@ -221,7 +221,7 @@
                             header("Location: add");
                             exit();
                         }
-                }
+                    }
                 }
 
                 $_SESSION['add_contact_success'] = "Contact added successfully";

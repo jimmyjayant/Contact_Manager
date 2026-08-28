@@ -10,7 +10,10 @@
         <a href="#">Trademarks</a>
     </div>
     <div>
-        <a href="#">&copy; Jimmy Jayant <?= date('Y'); ?></a>
+        <a href="#">Copyright &copy; <?= date('Y'); ?> Jimmy Jayant</a>
+    </div>
+    <div>
+        <a href="#"><img src='images/india_img.png' alt='India'>भारत में निर्मित</a>
     </div>
     <div>
         <a href="https://www.facebook.com" target="_blank"><img src="images/facebook.png" width="20" height="20" alt="Facebook Logo"></a>

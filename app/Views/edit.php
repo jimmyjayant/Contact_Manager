@@ -1,5 +1,7 @@
 <?php
 requireFile('../app/Views/sessionstart.php');
+requireFile('../app/Helpers/sanitize_input_helper.php');
+requireFile("../app/Filters/validationFilters.php");
 
 $GLOBALS['css'] = ["css/edit.css"];
 
@@ -20,21 +22,13 @@ if(empty($_SESSION['edit_form_data']))
     exit();
 }
 
-function sanitize($input)
-{
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
-}
-
 function edit_old(string $inputFieldName)
 {
     if(isset($_SESSION['edit_form_data']))
     {
         if(array_key_exists($inputFieldName, $_SESSION['edit_form_data']))
         {
-            $value = sanitize($_SESSION['edit_form_data'][$inputFieldName]);    
+            $value = sanitize_input($_SESSION['edit_form_data'][$inputFieldName]);    
             return $value;
         }
     }
@@ -72,10 +66,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_firstname_error']))
+                        if(isset($_SESSION['firstname_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_firstname_error'] . "</span></div>";
-                            unset($_SESSION['edit_firstname_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['firstname_error'] . "</span></div>";
+                            unset($_SESSION['firstname_error']);
                         }
                     ?>
                 </div>
@@ -92,10 +86,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_middlename_error']))
+                        if(isset($_SESSION['middlename_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_middlename_error'] . "</span></div>";
-                            unset($_SESSION['edit_middlename_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['middlename_error'] . "</span></div>";
+                            unset($_SESSION['middlename_error']);
                         }
                     ?>
                 </div>
@@ -112,10 +106,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_lastname_error']))
+                        if(isset($_SESSION['lastname_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_lastname_error'] . "</span></div>";
-                            unset($_SESSION['edit_lastname_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['lastname_error'] . "</span></div>";
+                            unset($_SESSION['lastname_error']);
                         }
                     ?>
                 </div>
@@ -132,10 +126,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_nickname_error']))
+                        if(isset($_SESSION['nickname_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_nickname_error'] . "</span></div>";
-                            unset($_SESSION['edit_nickname_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['nickname_error'] . "</span></div>";
+                            unset($_SESSION['nickname_error']);
                         }
                     ?>
                 </div>
@@ -180,10 +174,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_gender_error']))
+                        if(isset($_SESSION['gender_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_gender_error'] . "</span></div>";
-                            unset($_SESSION['edit_gender_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['gender_error'] . "</span></div>";
+                            unset($_SESSION['gender_error']);
                         }
                     ?>
                 </div>
@@ -200,10 +194,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_mobile_error']))
+                        if(isset($_SESSION['mobile_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_mobile_error'] . "</span></div>";
-                            unset($_SESSION['edit_mobile_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['mobile_error'] . "</span></div>";
+                            unset($_SESSION['mobile_error']);
                         }
                     ?>
                 </div>
@@ -220,10 +214,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_landline_error']))
+                        if(isset($_SESSION['landline_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_landline_error'] . "</span></div>";
-                            unset($_SESSION['edit_landline_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['landline_error'] . "</span></div>";
+                            unset($_SESSION['landline_error']);
                         }
                     ?>
                 </div>
@@ -240,10 +234,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_address_error']))
+                        if(isset($_SESSION['address_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_address_error'] . "</span></div>";
-                            unset($_SESSION['edit_address_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['address_error'] . "</span></div>";
+                            unset($_SESSION['address_error']);
                         }
                     ?>
                 </div>
@@ -260,10 +254,10 @@ function edit_old(string $inputFieldName)
 
                 <div class="row">
                     <?php
-                        if(isset($_SESSION['edit_relationship_error']))
+                        if(isset($_SESSION['relationship_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['edit_relationship_error'] . "</span></div>";
-                            unset($_SESSION['edit_relationship_error']);
+                            echo "<div><span class='red_font'>" . $_SESSION['relationship_error'] . "</span></div>";
+                            unset($_SESSION['relationship_error']);
                         }
                     ?>
                 </div>

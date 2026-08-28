@@ -21,7 +21,7 @@ if(!isset($_SESSION['user_token']))
     header("Content-Type: application/json");
     echo $data;
     */
-    echo "<script>alert('Please login!');</script>";
+    //echo "<script>alert('Please login!');</script>";
     header("Location: login");
     exit();
 }

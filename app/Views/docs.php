@@ -10,6 +10,9 @@ requireFile('../app/Views/headerandnavbar.php');
     <div class="intro">
         <h1>Documentation</h1>
 
+        <div>
+            Coming Soon
+        </div>
     </div>
 </div>
 </div>

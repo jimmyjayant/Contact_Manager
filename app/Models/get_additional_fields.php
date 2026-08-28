@@ -96,7 +96,8 @@
                     {
                         echo "<tr>";
                         echo "<th data-group='additional-fields' data-id='hidden'>" . $row['field_name'] . "</th>";
-                        echo "<td data-group='additional-fields' data-id='{$row['field_name']}'>" . $row['field_value'] . "</td>";
+                        echo "<td data-group='additional-fields' data-id='{$row['field_name']}'>" . 
+                        $row['field_value'] . "</td>";
                         echo "</tr>";
                     }
 

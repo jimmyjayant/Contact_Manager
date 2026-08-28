@@ -3,6 +3,7 @@
     requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile('../app/Filters/validationFilters.php');
 
     // Do not display the error to the user
     ini_set("display_errors", 0);
@@ -17,13 +18,6 @@
         exit();
     }
 
-    /* If the user is already logged in, then
-    if(isset($_SESSION['user_token']))
-    {
-        header("Location: logout");
-        exit();
-    }
-*/
     /* If the session variable csrf_token and post variable csrf_token are not set OR 
         both of these variables are not equal to one another, then 
     */
@@ -39,33 +33,10 @@
     $pass = sanitize_input($_POST['pass']);
 
     // Validate email
-    if(empty($email))
-    {
-        $_SESSION['email_error'] = "Email cannot be empty!";
-        header("Location: login");
-        exit();
-    }
-    else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
-        $_SESSION['email_error'] = "Invalid Email Address!";
-        header("Location: login");
-        exit();
-    }
-
-
+    validate_email($email, 'login', false, false);
+    
     // Validate password
-    if(empty($pass))
-    {
-        $_SESSION['pass_error'] = "Password cannot be empty!";
-        header("Location: login");
-        exit();
-    }
-    else if(strlen($pass) < 6 || strlen($pass) > 12)
-    {
-        $_SESSION['pass_error'] = "Password Length must be between 6-12";
-        header("Location: login");
-        exit();
-    }
+    validate_password($pass, 'login', 'pass');
 
     // sql statement to get particular user record from user table in contact_manager_db database
     $sql = "SELECT user_password FROM user WHERE email='{$email}'";

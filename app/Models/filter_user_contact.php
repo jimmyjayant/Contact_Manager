@@ -65,42 +65,11 @@
     if(!empty($filter_gender))
     {
         validate_gender($filter_gender, '', true);
-        /*
-        if(($filter_gender != 'male') && ($filter_gender != 'female'))
-        {
-            $data['status'] = "error";
-            $data['data'] = "Gender should be either male or female";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-            */
     }
 
     validate_mobile_number($filter_mobile, '', true);
-    /*
-    if(!empty($filter_mobile) && !preg_match("/^\d{10}$/", $filter_mobile))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Mobile Number must contain 10 digits!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }*/
 
     validate_landline_number($filter_landline, '', true);
-    /*
-    if(!empty($filter_landline) && !preg_match("/^\d{8}$/", $filter_landline))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Landline Number must contain 8 digits!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }*/
 
     if(!empty($filter_address))
     {
@@ -298,7 +267,7 @@
                 // Pagination
                 $page = $data['page'] ?? 1;
 
-                $page = test_input($page);
+                $page = sanitize_input($page);
 
                 $page = floor((int)$page);
 

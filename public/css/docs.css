@@ -1,3 +1,11 @@
 h1 {
     text-align:center;
 }
+
+.intro {
+    text-align:center;
+} 
+
+.intro div {
+    font-size:2rem;
+}

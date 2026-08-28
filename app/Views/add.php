@@ -1,15 +1,9 @@
 <?php
     requireFile('../app/Views/sessionstart.php');
+    requireFile('../app/Helpers/sanitize_input_helper.php');
 
     $GLOBALS['css'] = ["css/add.css"];
 
-    function sanitize($input)
-    {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
 
     function add_old(string $inputFieldName)
     {
@@ -17,7 +11,7 @@
         {
             if(array_key_exists($inputFieldName, $_SESSION['add_form_data']))
             {
-                $value = sanitize($_SESSION['add_form_data'][$inputFieldName]);
+                $value = sanitize_input($_SESSION['add_form_data'][$inputFieldName]);
                 return $value;
             }
         }

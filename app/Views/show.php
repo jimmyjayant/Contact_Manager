@@ -13,11 +13,6 @@ if(!isset($_SESSION['user_token']))
     header("Location: login");
     exit();
 }
-
-if(isset($data) && $data['status'] == 'error')
-{
-    echo "<script>alert({$data['data']});</script>";
-}
 ?>
 
 <div class="content">

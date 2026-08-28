@@ -31,7 +31,7 @@
         exit();
     }
 
-    function test_field_name($input, $length, $n)
+    function test_edit_field_name($input, $length, $n)
     {
         $input = trim($input);
 
@@ -127,35 +127,6 @@
     validate_mobile_number($mobnum, 'edit', false);    
     validate_landline_number($landnum, 'edit', false);
 
-/*
-    if(empty($gender))
-    {
-        $_SESSION['edit_gender_error'] = "Gender cannot be empty!";
-        header("Location: edit");
-        exit();
-    }
-    else if(($gender != 'male') && ($gender != 'female'))
-    {
-        $_SESSION['edit_gender_error'] = "Gender should be either male or female";
-        header("Location: edit");
-        exit();
-    }
-
-    if(!empty($mobnum) && !preg_match("/^\d{10}$/", $mobnum))
-    {
-        $_SESSION['edit_mobile_error'] = "Mobile Number must contain 10 digits!";
-        header("Location: edit");
-        exit();
-    }
-
-    if(!empty($landnum) && !preg_match("/^\d{8}$/", $landnum))
-    {
-        $_SESSION['edit_landline_error'] = "Landline Number must contain 8 digits!";
-        header("Location: edit");
-        exit();
-    }
-*/
-
 
     if(empty($mobnum) && empty($landnum))
     {
@@ -170,7 +141,7 @@
 
     if(strlen($address) > 500)
     {
-        $_SESSION['edit_address_error'] = "Address cannot contain more than 500 characters!";
+        $_SESSION['address_error'] = "Address cannot contain more than 500 characters!";
         header("Location: edit");
         exit();
     }
@@ -178,7 +149,7 @@
 
     if(strlen($relationship) > 100)
     {
-        $_SESSION['edit_relationship_error'] = "Relationship cannot contain more than 100 characters!";
+        $_SESSION['relationship_error'] = "Relationship cannot contain more than 100 characters!";
         header("Location: edit");
         exit();
     }
@@ -258,12 +229,12 @@
                 {
                     $fieldName = "fieldName$n";
                     $fieldName = sanitize_input($_POST[$fieldName]);
-                    test_field_name($fieldName, 100, $n);
+                    test_edit_field_name($fieldName, 100, $n);
 
 
                     $fieldValue = "fieldValue$n";
                     $fieldValue = sanitize_input($_POST[$fieldValue]);
-                    $fieldValue = test_input($fieldValue);
+                    $fieldValue = sanitize_input($fieldValue);
 
                     if(empty($fieldValue))
                     {

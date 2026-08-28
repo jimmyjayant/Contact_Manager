@@ -30,10 +30,10 @@ requireFile('../app/Views/headerandnavbar.php');
 
             <div class="row">
                 <?php
-                    if(isset($_SESSION['fname_error']))
+                    if(isset($_SESSION['firstname_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['fname_error'] . "</span></div>";
-                        unset($_SESSION['fname_error']);
+                        echo "<div><span class='red_font'>" . $_SESSION['firstname_error'] . "</span></div>";
+                        unset($_SESSION['firstname_error']);
                     }
                 ?>
             </div>
@@ -49,10 +49,10 @@ requireFile('../app/Views/headerandnavbar.php');
 
             <div class="row">
                 <?php
-                    if(isset($_SESSION['lname_error']))
+                    if(isset($_SESSION['lastname_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['lname_error'] . "</span></div>";
-                        unset($_SESSION['lname_error']);
+                        echo "<div><span class='red_font'>" . $_SESSION['lastname_error'] . "</span></div>";
+                        unset($_SESSION['lastname_error']);
                     }
                 ?>
             </div>
@@ -107,10 +107,10 @@ requireFile('../app/Views/headerandnavbar.php');
 
             <div class="row">
                 <?php
-                    if(isset($_SESSION['contact_error']))
+                    if(isset($_SESSION['mobile_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['contact_error'] . "</span></div>";
-                        unset($_SESSION['contact_error']);
+                        echo "<div><span class='red_font'>" . $_SESSION['mobile_error'] . "</span></div>";
+                        unset($_SESSION['mobile_error']);
                     }
                 ?>
             </div>
