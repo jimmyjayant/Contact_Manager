@@ -33,12 +33,13 @@
     <body>
         <div class="main">
             <div class="header">
+                <!--
                 <div id="hambergurmenu">
                     <div></div>
                     <div></div>
                     <div></div>
                 </div>
-
+-->
                 <div class="sitelogo">
                     <a href="index" target="_self">
                         <img src="images/contact_mng.png" alt="Site Logo">
@@ -71,7 +72,7 @@
                     </div>
                 </div>
             </div>
-
+<!--
             <div id="navbar">
                 <a href="#"><span id="closebutton">X</span></a>
                 <a href="index" target="_self">Home</a>
@@ -82,3 +83,4 @@
                     }
                 ?>
             </div>
+-->
