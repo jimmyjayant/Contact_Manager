@@ -1,0 +1,17 @@
+h1 {
+    text-align:center;
+}
+
+#status {
+    text-align:center;
+    font-size:clamp(1rem, 2vw, 1.5rem);
+}
+
+.error {
+    color:red;
+}
+
+.success {
+    color:green;
+}
+

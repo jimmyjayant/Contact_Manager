@@ -181,6 +181,11 @@ else if($_SERVER['REQUEST_METHOD'] === 'POST')
             requireFile('../app/Models/search_user_contacts.php');
             break;
 
+        case 'logout_user':
+        case 'logout_user.php':
+            requireFile('../app/Models/logout_user.php');
+            break;
+
         default:
             // Send 404 status header
             http_response_code(404);

@@ -9,7 +9,7 @@
         <title>Contact Manager</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/footer.css">
-        <script src="script/script.js"></script>
+        <!-- <script src="script/script.js"></script> -->
         <?php
             //print_r($GLOBALS['css']);
             if(isset($GLOBALS['js']) && (count($GLOBALS['js']) > 0))
