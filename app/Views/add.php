@@ -1,6 +1,7 @@
 <?php
     requireFile('../app/Views/sessionstart.php');
     requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile('../app/Filters/IsLoggedIn.php');
 
     $GLOBALS['css'] = ["css/add.css"];
 
@@ -28,12 +29,7 @@
 
     requireFile('../app/Views/headerandnavbar.php');
 
-    // Block direct access to this webpage
-    if(!isset($_SESSION['user_token']))
-    {
-        header("Location: login");
-        exit();
-    }
+    IsLoggedIn(false);
 ?>
 
 <div class="content">

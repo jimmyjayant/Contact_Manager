@@ -4,18 +4,21 @@
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
+    requireFile('../app/Filters/IsLoggedIn.php');
 
     ini_set("display_errors", 0);
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if(!isset($_SESSION['user_token']))
-    {
-        $_SESSION['edit_contact_error'] = "Please login!";
-        header("Location: edit");
-        exit();
-    }
+    // if(!isset($_SESSION['user_token']))
+    // {
+    //     $_SESSION['edit_contact_error'] = "Please login!";
+    //     header("Location: edit");
+    //     exit();
+    // }
 
+    IsLoggedIn(false);
+    
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
         $_SESSION['edit_contact_error'] = "Request Method is not POST!";

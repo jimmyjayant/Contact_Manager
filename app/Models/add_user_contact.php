@@ -3,17 +3,13 @@
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
+    requireFile('../app/Filters/IsLoggedIn.php');
 
     ini_set("display_errors", 0);
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    // If the user is not logged in, then
-    if(!isset($_SESSION['user_token']))
-    {
-        header("Location: login");
-        exit();
-    }
+    IsLoggedIn(false);
 
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {

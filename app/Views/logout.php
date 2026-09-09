@@ -12,19 +12,23 @@ ini_set("display_errors", 0);
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if(!isset($_SESSION['user_token']))
-{
-    /*
-    $data['status'] = "error";
-    $data['data'] = "Please login!";
-    $data = json_encode($data);
-    header("Content-Type: application/json");
-    echo $data;
-    */
-    //echo "<script>alert('Please login!');</script>";
-    header("Location: login");
-    exit();
-}
+requireFile('../app/Filters/IsLoggedIn.php');
+
+IsLoggedIn(false);
+
+// if(!isset($_SESSION['user_token']))
+// {
+//     /*
+//     $data['status'] = "error";
+//     $data['data'] = "Please login!";
+//     $data = json_encode($data);
+//     header("Content-Type: application/json");
+//     echo $data;
+//     */
+//     //echo "<script>alert('Please login!');</script>";
+//     header("Location: login");
+//     exit();
+// }
 
 $token = $_SESSION['user_token'];
 // sql query

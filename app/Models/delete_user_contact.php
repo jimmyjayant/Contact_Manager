@@ -3,6 +3,7 @@
     requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile('../app/Filters/IsLoggedIn.php');
 
     ini_set("display_errors", 0);
 
@@ -18,15 +19,17 @@
         exit();
     }
 
-    if(!isset($_SESSION['user_token']))
-    {
-        $data['status'] = "error";
-        $data['data'] = "Please login!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
+    // if(!isset($_SESSION['user_token']))
+    // {
+    //     $data['status'] = "error";
+    //     $data['data'] = "Please login!";
+    //     $data = json_encode($data);
+    //     header("Content-Type: application/json");
+    //     echo $data;
+    //     exit();
+    // }
+
+    IsLoggedIn(true);
 
     $token = $_SESSION['user_token'];
     // sql query

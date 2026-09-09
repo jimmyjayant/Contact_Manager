@@ -7,12 +7,9 @@ $GLOBALS['js'] = ["script/show.js"];
 
 requireFile('../app/Views/headerandnavbar.php');
 
-// Block direct access to this webpage
-if(!isset($_SESSION['user_token']))
-{
-    header("Location: login");
-    exit();
-}
+requireFile('../app/Filters/IsLoggedIn.php');
+
+IsLoggedIn(false);
 ?>
 
 <div class="content">

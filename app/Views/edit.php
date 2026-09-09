@@ -9,12 +9,9 @@ $GLOBALS['js'] = ["script/edit.js"];
 
 requireFile('../app/Views/headerandnavbar.php');
 
-// Block direct access to this webpage
-if(!isset($_SESSION['user_token']))
-{
-    header("Location: login");
-    exit();
-}
+requireFile('../app/Filters/IsLoggedIn.php');
+
+IsLoggedIn(false);
 
 if(empty($_SESSION['edit_form_data']))
 {
