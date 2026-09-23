@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /Projects/Contact_Manager/Website/
+RewriteBase /Projects/PHP/Contact_Manager/Website/
 
 # 1. Redirect root requests to the public folder
 RewriteRule ^$ public/index.php [L]

@@ -22,6 +22,7 @@ The application offers an easy-to-use and friendly interface where logged-in use
 * ⚡ AJAX-based operations
 * 🗄️ MySQL database integration
 * 🏗️ Custom PHP MVC framework
+* 📄 Paginate User Contacts for easy navigation through large contact lists
 
 ---
 
@@ -83,7 +84,38 @@ Then open the project using your preferred code editor, such as Visual Studio Co
 
 ---
 
-## 2. Start XAMPP
+## 2. Configure .htaccess file
+
+In the cloned project, open the .htaccess file.
+
+Locate the below line:- 
+
+```text
+RewriteBase /Projects/PHP/Contact_Manager/Website/
+```
+
+Change it according to the directory where your project is located.
+Because when the project folder is accessed via browser. Then all requests are forwarded to public/index.php file.
+
+For example, if your project is located at:
+
+```text
+C:\xampp\htdocs\Contact_Manager 
+```
+
+use:- 
+
+
+```text
+RewriteBase /Contact_Manager/
+```
+
+This configuration ensures that requests are correctly routed through the application's front controller.
+
+Note: The exact RewriteBase configuration may depend on your Apache/XAMPP setup and the location of the .htaccess file.
+
+
+## 3. Start XAMPP
 
 Open the **XAMPP Control Panel**.
 
@@ -96,7 +128,7 @@ Both services should show a running status.
 
 ---
 
-## 3. Open phpMyAdmin
+## 4. Open phpMyAdmin
 
 Open your web browser and navigate to:
 
@@ -110,7 +142,7 @@ Once the phpMyAdmin dashboard appears, click on the **Databases** option in the 
 
 # 🗄️ Database Setup
 
-## 4. Create the Database
+## 5. Create the Database
 
 In the **Create Database** section:
 
@@ -126,7 +158,7 @@ The `contact_manager_db` database will now be created.
 
 ---
 
-## 5. Create the `user` Table
+## 6. Create the `user` Table
 
 Select the newly created `contact_manager_db` database from the left sidebar.
 
@@ -153,7 +185,7 @@ After successful execution, a table named `user` will appear inside the `contact
 
 ---
 
-## 6. Create the `contacts` Table
+## 7. Create the `contacts` Table
 
 Again, click the **SQL** button in the top menu and execute:
 
@@ -181,7 +213,7 @@ After successful execution, the `contacts` table will be created.
 
 ---
 
-## 7. Create the `additional_fields` Table
+## 8. Create the `additional_fields` Table
 
 Click the **SQL** button again and execute:
 
@@ -202,7 +234,7 @@ After successful execution, the `additional_fields` table will be created.
 
 ---
 
-## 8. Create the `feedback` Table
+## 9. Create the `feedback` Table
 
 Click the **SQL** button once again and execute:
 
