@@ -13,24 +13,27 @@ requireFile('../app/Views/headerandnavbar.php');
         <?php
             if(isset($_SESSION['feedback_error']))
             {
-                echo "<div class='center'><span class='red_font'>" . $_SESSION['feedback_error'] . "</span></div>";
+                echo "<div class='center'><span class='red_font'>" . 
+                $_SESSION['feedback_error'] . "</span></div>";
                 unset($_SESSION['feedback_error']);
             }
 
             if(isset($_SESSION['feedback_success']))
             {
-                echo "<div class='center'><span class='green_font'>" . $_SESSION['feedback_success'] . "</span></div>";
+                echo "<div class='center'><span class='green_font'>" . 
+                $_SESSION['feedback_success'] . "</span></div>";
                 unset($_SESSION['feedback_success']);
             }
         ?>
 
-        <form method="post" action="provide_feedback">
+        <form method="post" action="feedback">
             <div class="row">
                 <div class="col25">
                     <label for="fname">First Name</label>
                 </div>
                 <div class="col75">
-                    <input type="text" id="fname" name="fname" maxlength="100" placeholder="Enter Your First Name" required>
+                    <input type="text" id="fname" name="fname" maxlength="100" 
+                    placeholder="Enter Your First Name" required>
                 </div>
             </div>
 
@@ -38,7 +41,8 @@ requireFile('../app/Views/headerandnavbar.php');
                 <?php
                     if(isset($_SESSION['fname_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['fname_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['fname_error'] . "</span></div>";
                         unset($_SESSION['fname_error']);
                     }
                 ?>
@@ -49,7 +53,8 @@ requireFile('../app/Views/headerandnavbar.php');
                     <label for="lname">Last Name</label>
                 </div>
                 <div class="col75">
-                    <input type="text" id="lname" name="lname" maxlength="100" placeholder="Enter Your Last Name" required>
+                    <input type="text" id="lname" name="lname" maxlength="100" 
+                    placeholder="Enter Your Last Name" required>
                 </div>
             </div>
 
@@ -57,7 +62,8 @@ requireFile('../app/Views/headerandnavbar.php');
                 <?php
                     if(isset($_SESSION['lname_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['lname_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['lname_error'] . "</span></div>";
                         unset($_SESSION['lname_error']);
                     }
                 ?>
@@ -68,7 +74,8 @@ requireFile('../app/Views/headerandnavbar.php');
                     <label for="mob">Contact Number</label>
                 </div>
                 <div class="col75">
-                    <input type="tel" id="mob" name="mob" pattern="[0-9]{10}" placeholder="Enter Your Contact Number" required>
+                    <input type="tel" id="mob" name="mob" pattern="[0-9]{10}" 
+                    placeholder="Enter Your Contact Number" required>
                 </div>
             </div>
 
@@ -76,7 +83,8 @@ requireFile('../app/Views/headerandnavbar.php');
                 <?php
                     if(isset($_SESSION['contact_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['contact_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['contact_error'] . "</span></div>";
                         unset($_SESSION['contact_error']);
                     }
                 ?>
@@ -87,7 +95,8 @@ requireFile('../app/Views/headerandnavbar.php');
                     <label for="email">Email</label>
                 </div>
                 <div class="col75">
-                    <input type="email" id="email" name="email" placeholder="Enter Your Email Address" required>
+                    <input type="email" id="email" name="email" placeholder="Enter Your Email Address" 
+                    required>
                 </div>
             </div>
 
@@ -106,7 +115,8 @@ requireFile('../app/Views/headerandnavbar.php');
                     <label for="subject">Subject</label>
                 </div>
                 <div class="col75">
-                    <input type="text" id="subject" name="subject" maxlength="150" placeholder="Enter the Subject" required>
+                    <input type="text" id="subject" name="subject" maxlength="150" 
+                    placeholder="Enter the Subject" required>
                 </div>
             </div>
 

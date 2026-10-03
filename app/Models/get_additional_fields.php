@@ -1,6 +1,6 @@
 <?php
     // PHP Script for fetching additional fields of a particular contact list of logged in user
-    requireFile("../app/Views/sessionstart.php");
+    // requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile('../app/Filters/IsLoggedIn.php');

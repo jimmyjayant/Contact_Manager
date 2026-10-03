@@ -56,7 +56,7 @@ function filter_user_contacts(filterData, page = 1)
             get_additional_fields_buttons();
         }
     }
-    xhttp.open("POST", "filter_user_contact",true);
+    xhttp.open("POST", "filter",true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send(filterData);
 }

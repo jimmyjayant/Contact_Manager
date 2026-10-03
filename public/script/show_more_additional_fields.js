@@ -41,7 +41,7 @@ export function get_show_more_additional_fields_buttons()
                 }
             }
             xhttp.open("GET", 
-        "get_additional_fields?additional_fields_page=" + additional_fields_page + 
+        "fields?additional_fields_page=" + additional_fields_page + 
         "&form_number=" + form_number
         , true);
             xhttp.send();

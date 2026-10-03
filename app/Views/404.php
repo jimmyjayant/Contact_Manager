@@ -26,7 +26,7 @@
     <p>
       The Page you are looking for doesn't exist or an other error occurred. 
       <br>
-      Go back, or head over to <a href="home" class="homelink">contact_manager.com</a> to choose a new direction. 
+      Go back, or head over to <a href="/" class="homelink">contact_manager.com</a> to choose a new direction. 
     </p>
   </div>
 </div>

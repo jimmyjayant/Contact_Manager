@@ -46,6 +46,6 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    xhttp.open('POST', "logout_user", true);
+    xhttp.open('POST', "logout", true);
     xhttp.send();
 });

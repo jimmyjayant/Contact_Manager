@@ -46,8 +46,11 @@ function get_user_contacts(pageNumber = 1)
             get_additional_fields_buttons();
         }
     }
-    xhttp.open("GET", "get_user_contacts?page=" + pageNumber, true);
-    xhttp.send();
+
+    var page = pageNumber;
+
+    xhttp.open("POST", "show", true);
+    xhttp.send(page);
 }
 
 window.addEventListener("DOMContentLoaded", function() {

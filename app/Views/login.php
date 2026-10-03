@@ -13,12 +13,13 @@ requireFile('../app/Views/headerandnavbar.php');
         <?php
             if(isset($_SESSION['login_error']))
             {
-                echo "<div class='center'><span class='red_font'>" . $_SESSION['login_error'] . "</span></div>";
+                echo "<div class='center'><span class='red_font'>" . 
+                $_SESSION['login_error'] . "</span></div>";
                 unset($_SESSION['login_error']);
             }
         ?>
 
-        <form method="post" action="get_user_data">
+        <form method="post" action="login">
             <div class="row">
                 <div class="col25"><label for="email">Email</label></div>
                 <div class="col75"><input type="email" id="email" name="email" required></div>

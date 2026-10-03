@@ -13,18 +13,20 @@ requireFile('../app/Views/headerandnavbar.php');
         <?php
             if(isset($_SESSION['registration_error']))
             {
-                echo "<div class='center'><span class='red_font'>" . $_SESSION['registration_error'] . "</span></div>";
+                echo "<div class='center'><span class='red_font'>" . 
+                $_SESSION['registration_error'] . "</span></div>";
                 unset($_SESSION['registration_error']);
             }
         ?>
 
-        <form method="post" action="register_user_data">
+        <form method="post" action="register">
             <div class="row">
                 <div class="col25">
                     <label for="fname">First Name</label>
                 </div>
                 <div class="col75">
-                    <input type="text" id="fname" name="fname" maxlength="100" placeholder="Enter your First Name" required>
+                    <input type="text" id="fname" name="fname" maxlength="100" 
+                    placeholder="Enter your First Name" required>
                 </div>
             </div>
 
@@ -32,7 +34,8 @@ requireFile('../app/Views/headerandnavbar.php');
                 <?php
                     if(isset($_SESSION['firstname_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['firstname_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['firstname_error'] . "</span></div>";
                         unset($_SESSION['firstname_error']);
                     }
                 ?>
@@ -43,7 +46,8 @@ requireFile('../app/Views/headerandnavbar.php');
                     <label for="lname">Last Name</label>
                 </div>
                 <div class="col75">
-                    <input type="text" id="lname" name="lname" maxlength="100" placeholder="Enter your Last Name" required>
+                    <input type="text" id="lname" name="lname" maxlength="100" 
+                    placeholder="Enter your Last Name" required>
                 </div>
             </div>
 
@@ -51,7 +55,8 @@ requireFile('../app/Views/headerandnavbar.php');
                 <?php
                     if(isset($_SESSION['lastname_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['lastname_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['lastname_error'] . "</span></div>";
                         unset($_SESSION['lastname_error']);
                     }
                 ?>
@@ -100,7 +105,8 @@ requireFile('../app/Views/headerandnavbar.php');
                     <label for="contact">Contact</label>
                 </div>
                 <div class="col75">
-                    <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="Enter Your contact number" required>
+                    <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" 
+                    placeholder="Enter Your contact number" required>
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                 </div>
             </div>

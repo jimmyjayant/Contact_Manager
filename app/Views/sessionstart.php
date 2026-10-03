@@ -3,7 +3,7 @@
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'domain' => 'localhost',
+    'domain' => 'http://contactmanager.com/',
     'secure' => false, // false = HTTP, true = HTTPS
     'httponly' => true,
     'samesite' => 'Strict'

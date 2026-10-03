@@ -9,7 +9,6 @@
         <title>Contact Manager</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/footer.css">
-        <!-- <script src="script/script.js"></script> -->
         <?php
             //print_r($GLOBALS['css']);
             if(isset($GLOBALS['js']) && (count($GLOBALS['js']) > 0))
@@ -41,7 +40,7 @@
                 </div>
 -->
                 <div class="sitelogo">
-                    <a href="index" target="_self">
+                    <a href="/" target="_self">
                         <img src="images/contact_mng.png" alt="Site Logo">
                     </a>
                 </div>
@@ -65,7 +64,7 @@
                             {
                                 echo "<a alt='Current User'>Hi! {$_SESSION['username']}</a>";
                                 echo "<a href='dashboard' alt='User Dashboard'>Dashboard</a>";
-                                echo "<a href='changepassword' alt='Change Password'>Change Password</a>";
+                                echo "<a href='change' alt='Change Password'>Change Password</a>";
                                 echo "<a href='logout' alt='Logout' style='cursor:pointer;'>Logout</a>";
                             }
                         ?>                            

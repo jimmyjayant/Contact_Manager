@@ -1,6 +1,6 @@
 <?php
     // PHP Script for Feedback Page
-    requireFile("../app/Views/sessionstart.php");
+    // requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile('../app/Filters/validationFilters.php');

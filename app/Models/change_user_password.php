@@ -1,5 +1,5 @@
 <?php
-    requireFile('../app/Views/sessionstart.php');
+    // requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
@@ -14,7 +14,7 @@
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
         $_SESSION['change_password_error'] = "Request Method is not POST!";
-        header("Location: changepassword");
+        header("Location: change");
         exit();
     }
 
@@ -23,8 +23,8 @@
     $new_password = sanitize_input($_POST['newpass']);
 
     // Validate user provided form data
-    validate_password($old_password, 'changepassword', 'oldpass');
-    validate_password($new_password, 'changepassword', 'newpass');
+    validate_password($old_password, 'change', 'oldpass');
+    validate_password($new_password, 'change', 'newpass');
 
     $token = $_SESSION['user_token'];
 
@@ -37,7 +37,7 @@
         if(!$conn)
         {
             $_SESSION['change_password_error'] = "Database server unavailable. Please try again later!";
-            header("Location: changepassword");
+            header("Location: change");
             exit();
         }
             $result = $conn->query($sql);
@@ -58,7 +58,7 @@
                         if($ChangePasswordResult)
                         {
                             $_SESSION['change_password_success'] = "Password Changed Successfully!";
-                            header("Location: changepassword");
+                            header("Location: change");
                             exit();
                         }
                     }
@@ -66,14 +66,14 @@
                     {
                         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
                         $_SESSION['change_password_error'] = "Unable to change password. Please try again later!";
-                        header("Location: changepassword");
+                        header("Location: change");
                         exit();
                     }
                 }
                 else
                 {
                     $_SESSION['change_password_error'] = "Wrong Password!";
-                    header("Location: changepassword");
+                    header("Location: change");
                     exit();
                 }
             }
@@ -82,7 +82,7 @@
     {
         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
         $_SESSION['change_password_error'] = "Please try again later!";
-        header("Location: changepassword");
+        header("Location: change");
         exit();
     }
 ?>

@@ -17,17 +17,19 @@ IsLoggedIn(false);
         <?php
             if(isset($_SESSION['change_password_error']))
             {
-                echo "<div class='center'><span class='red_font'>" . $_SESSION['change_password_error'] . "</span></div>";
+                echo "<div class='center'><span class='red_font'>" . 
+                $_SESSION['change_password_error'] . "</span></div>";
                 unset($_SESSION['change_password_error']);
             }
             else if(isset($_SESSION['change_password_success']))
             {
-                echo "<div class='center'><span class='green_font'>" . $_SESSION['change_password_success'] . "</span></div>";
+                echo "<div class='center'><span class='green_font'>" . 
+                $_SESSION['change_password_success'] . "</span></div>";
                 unset($_SESSION['change_password_success']);
             }
         ?>
 
-        <form method="post" action="change_user_password">
+        <form method="post" action="change">
             <div class="row">
                 <div class="col25"><label for="oldpass">Old Password</label></div>
                 <div class="col75">
@@ -39,7 +41,8 @@ IsLoggedIn(false);
                 <?php
                     if(isset($_SESSION['oldpass_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['oldpass_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['oldpass_error'] . "</span></div>";
                         unset($_SESSION['oldpass_error']);
                     }
                 ?>
@@ -57,7 +60,8 @@ IsLoggedIn(false);
                 <?php
                     if(isset($_SESSION['newpass_error']))
                     {
-                        echo "<div><span class='red_font'>" . $_SESSION['newpass_error'] . "</span></div>";
+                        echo "<div><span class='red_font'>" . 
+                        $_SESSION['newpass_error'] . "</span></div>";
                         unset($_SESSION['newpass_error']);
                     }
                 ?>

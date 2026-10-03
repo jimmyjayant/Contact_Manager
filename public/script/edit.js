@@ -33,10 +33,10 @@ export function get_edit_contact_buttons()
                 }
                 else if(data.status == 'success')
                 {
-                   window.location.href = "edit.php";
+                   window.location.href = "edit";
                 }
             }
-            xhttp.open("GET", "get_particular_user_contact_data?id=" + edit_id, true);
+            xhttp.open("GET", "single?id=" + edit_id, true);
             xhttp.send();
         });
     });

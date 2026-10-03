@@ -1,0 +1,18 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "JIMMY JAYANT",
+            "email": "jayantjimmy49@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/psr7": "^3.1",
+        "league/route": "^7.0",
+        "httpsoft/http-emitter": "^1.1"
+    }
+}

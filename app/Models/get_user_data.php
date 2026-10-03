@@ -1,12 +1,12 @@
 <?php
     // PHP Script for Login Page
-    requireFile('../app/Views/sessionstart.php');
+    // requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile('../app/Filters/validationFilters.php');
 
     // Do not display the error to the user
-    ini_set("display_errors", 0);
+    ini_set("display_errors", 1);
 
     // Report MySQL Database errors
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -21,7 +21,7 @@
     /* If the session variable csrf_token and post variable csrf_token are not set OR 
         both of these variables are not equal to one another, then 
     */
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) && 
+    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) || 
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
         $_SESSION['login_error'] = "Session expired. Please refresh the webpage!";
@@ -82,6 +82,8 @@
                             if($result->num_rows == 1)
                             {
                                 $row = $result->fetch_assoc();
+
+                                session_regenerate_id(true);
 
                                 $_SESSION['user_token'] = $row['token'];
                                 $_SESSION['username'] = $row['firstname'];

@@ -50,7 +50,7 @@ function search_user_contacts(searchText, page = 1)
             get_additional_fields_buttons();
         }
     }
-    xhttp.open("POST", "search_user_contacts", true);
+    xhttp.open("POST", "search", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(searchText);
 }

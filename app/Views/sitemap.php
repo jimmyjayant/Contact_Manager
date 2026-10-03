@@ -14,7 +14,7 @@ requireFile('../app/Views/headerandnavbar.php');
             <div id="user_loggedout">
                 <h4><u>Logged Out User</u></h4>
                 <ul>
-                    <li><a href="home">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="docs">Docs</a></li>
                     <li><a href="feedback">Feedback</a></li>
                     <li><a href="sitemap">Site Map</a></li>
@@ -26,7 +26,7 @@ requireFile('../app/Views/headerandnavbar.php');
             <div id="user_loggedin">
                 <h4><u>Logged In User</u></h4>
                 <ul>
-                    <li><a href="home">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="docs">Docs</a></li>
                     <li><a href="feedback">Feedback</a></li>
                     <li><a href="sitemap">Site Map</a></li>

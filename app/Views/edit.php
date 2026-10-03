@@ -40,17 +40,19 @@ function edit_old(string $inputFieldName)
             <?php
                 if(isset($_SESSION['edit_contact_error']))
                 {
-                    echo "<div class='center'><span class='red_font'>" . $_SESSION['edit_contact_error'] . "</span></div>";
+                    echo "<div class='center'><span class='red_font'>" . 
+                    $_SESSION['edit_contact_error'] . "</span></div>";
                     unset($_SESSION['edit_contact_error']);
                 }
                 else if(isset($_SESSION['edit_contact_success']))
                 {
-                    echo "<div class='center'><span class='green_font'>" . $_SESSION['edit_contact_success'] . "</span></div>";
+                    echo "<div class='center'><span class='green_font'>" . 
+                    $_SESSION['edit_contact_success'] . "</span></div>";
                     unset($_SESSION['edit_contact_success']);
                 }
             ?>
 
-            <form method="post" action="edit_user_contact" id="editForm">
+            <form method="post" action="edit" id="editForm">
                 <div class="row">
                     <div class="col25">
                         <label for="first_name">First Name*</label>
@@ -65,7 +67,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['firstname_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['firstname_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['firstname_error'] . "</span></div>";
                             unset($_SESSION['firstname_error']);
                         }
                     ?>
@@ -85,7 +88,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['middlename_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['middlename_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['middlename_error'] . "</span></div>";
                             unset($_SESSION['middlename_error']);
                         }
                     ?>
@@ -105,7 +109,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['lastname_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['lastname_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['lastname_error'] . "</span></div>";
                             unset($_SESSION['lastname_error']);
                         }
                     ?>
@@ -125,7 +130,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['nickname_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['nickname_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['nickname_error'] . "</span></div>";
                             unset($_SESSION['nickname_error']);
                         }
                     ?>
@@ -173,7 +179,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['gender_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['gender_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['gender_error'] . "</span></div>";
                             unset($_SESSION['gender_error']);
                         }
                     ?>
@@ -193,7 +200,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['mobile_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['mobile_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['mobile_error'] . "</span></div>";
                             unset($_SESSION['mobile_error']);
                         }
                     ?>
@@ -213,7 +221,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['landline_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['landline_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['landline_error'] . "</span></div>";
                             unset($_SESSION['landline_error']);
                         }
                     ?>
@@ -233,7 +242,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['address_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['address_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['address_error'] . "</span></div>";
                             unset($_SESSION['address_error']);
                         }
                     ?>
@@ -253,7 +263,8 @@ function edit_old(string $inputFieldName)
                     <?php
                         if(isset($_SESSION['relationship_error']))
                         {
-                            echo "<div><span class='red_font'>" . $_SESSION['relationship_error'] . "</span></div>";
+                            echo "<div><span class='red_font'>" . 
+                            $_SESSION['relationship_error'] . "</span></div>";
                             unset($_SESSION['relationship_error']);
                         }
                     ?>

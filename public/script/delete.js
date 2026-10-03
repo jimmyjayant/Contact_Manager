@@ -31,7 +31,7 @@ export function get_delete_contact_buttons()
                     window.location.reload();
                 }
             }
-            xhttp.open("GET", "delete_user_contact?id=" + contact_id, true);
+            xhttp.open("GET", "delete?id=" + contact_id, true);
             xhttp.send();
         });
     });

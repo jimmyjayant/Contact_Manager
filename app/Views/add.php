@@ -42,17 +42,19 @@
                 <?php
                     if(isset($_SESSION['add_contact_error']))
                     {
-                        echo "<div class='center'><span class='red_font'>" . $_SESSION['add_contact_error'] . "</span></div>";
+                        echo "<div class='center'><span class='red_font'>" . 
+                        $_SESSION['add_contact_error'] . "</span></div>";
                         unset($_SESSION['add_contact_error']);
                     }
                     else if(isset($_SESSION['add_contact_success']))
                     {
-                        echo "<div class='center'><span class='green_font'>" . $_SESSION['add_contact_success'] . "</span></div>";
+                        echo "<div class='center'><span class='green_font'>" . 
+                        $_SESSION['add_contact_success'] . "</span></div>";
                         unset($_SESSION['add_contact_success']);
                     }
                 ?>
 
-                <form method="post" action="add_user_contact" id="addForm">
+                <form method="post" action="add" id="addForm">
                     <div class="row">
                         <div class="col25">
                             <label for="firstname">First Name*</label>
