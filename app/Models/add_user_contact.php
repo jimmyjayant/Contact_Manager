@@ -124,7 +124,7 @@
             $id = $row['id'];
 
             // sql query to insert new contact of currently logged in user into contacts table in contact_manager_db
-            $sql = "INSERT INTO contacts(user_id, first_name, middle_name, last_name, nickname, gender, mobile_number,     landline_number, addr, relationship)
+            $sql = "INSERT INTO contacts(user_id, first_name, middle_name, last_name, nickname, gender,     mobile_number, landline_number, addr, relationship)
                     VALUES($id, '$firstname', '$middlename', '$lastname', '$nickname', '$gender', $mobnum, $landnum, '$address', '$relationship')";
 
             try

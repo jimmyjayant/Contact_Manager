@@ -49,7 +49,8 @@
                 if(password_verify($old_password, $row['user_password']))
                 {
                     $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-                    $ChangePasswordQuery = "UPDATE user SET user_password = '$new_password_hash' WHERE token='{$token}'";
+                    $ChangePasswordQuery = 
+                    "UPDATE user SET user_password = '$new_password_hash' WHERE token='{$token}'";
 
                     try
                     {

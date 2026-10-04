@@ -11,10 +11,10 @@
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] !== 'GET')
+    if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
         $data['status'] = "error";
-        $data['data'] = "Request Method is not GET!";
+        $data['data'] = "Request Method is not POST!";
         $data = json_encode($data);
         header("Content-Type: application/json");
         echo $data;
@@ -78,7 +78,7 @@
                 }
                 $total_pages = ceil($data['total_records'] / 10);
 
-                $page = $_GET['page'] ?? 1;
+                $page = $_POST['page'] ?? 1;
 
                 $page = sanitize_input($page);
 
@@ -109,10 +109,11 @@
                         $formNumber = $row['form_number'];
                         echo "<tr>";
                         echo "<td data-label='edit'>";
-                        echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
+                        echo "<img src='images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
                         echo "</td>";
                         echo "<td data-label='delete'>";
-                        echo "<img src='public/images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
+                        echo 
+                        "<img src='images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
                         echo "</td>";
                         echo "<td data-id='Serial Number'>" . $row['form_number'] ."</td>";
                         echo "<td data-id='First Name'>" . $row['first_name'] ."</td>";

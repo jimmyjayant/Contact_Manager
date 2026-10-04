@@ -6,7 +6,7 @@
     requireFile('../app/Filters/validationFilters.php');
 
     // Do not display the error to the user
-    ini_set("display_errors", 1);
+    ini_set("display_errors", 0);
 
     // Report MySQL Database errors
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -72,8 +72,9 @@
                     if($result === TRUE)
                     {
                         // Again retrieve that particular user record with newly inserted token
-                        $RetrieveUserRecordWithToken = "SELECT firstname, token FROM user WHERE email='{$email}' 
-                                                        AND token='{$token}'";
+                        $RetrieveUserRecordWithToken = 
+                        "SELECT firstname, token FROM user WHERE email='{$email}' 
+                        AND token='{$token}'";
 
                         try
                         {

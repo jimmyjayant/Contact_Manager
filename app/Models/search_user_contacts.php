@@ -114,10 +114,10 @@
                         $formNumber = $row['form_number'];
                         echo "<tr>";
                         echo "<td data-label='edit'>";
-                        echo "<img src='public/images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
+                        echo "<img src='images/edit_btn.png' class='edit_contact_btn' data-id='{$formNumber}'>";
                         echo "</td>";
                         echo "<td data-label='delete'>";
-                        echo "<img src='public/images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
+                        echo "<img src='images/delete_btn.png' class='delete_contact_btn' data-id='{$formNumber}'>";
                         echo "</td>";
                         echo "<td data-id='Serial Number'>" . $row['form_number'] ."</td>";
                         echo "<td data-id='First Name'>" . $row['first_name'] ."</td>";

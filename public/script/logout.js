@@ -27,7 +27,9 @@ window.addEventListener("DOMContentLoaded", function() {
             {
                 statusDiv.classList.remove('success');
                 statusDiv.classList.add('error');
-                statusDiv.innerHTML = data.data;
+                statusDiv.innerHTML = data.data + "<br>" + "Redirecting to login page in ";
+                statusDiv.innerHTML += "<span id='time'>3</span> seconds.";
+                countDownTimer();
             }
             else if(data.status == 'success')
             {
@@ -42,7 +44,9 @@ window.addEventListener("DOMContentLoaded", function() {
         {
             statusDiv.classList.remove('success');
             statusDiv.classList.add('error');
-            statusDiv.innerHTML = data.data;
+            statusDiv.innerHTML = data.data + "<br>" + "Redirecting to login page in ";
+            statusDiv.innerHTML += "<span id='time'>3</span> seconds.";
+            countDownTimer();
         }
     }
 
