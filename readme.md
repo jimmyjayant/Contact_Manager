@@ -21,7 +21,7 @@ The application offers an easy-to-use and friendly interface where logged-in use
 * 📱 Fully responsive user interface
 * ⚡ AJAX-based operations
 * 🗄️ MySQL database integration
-* 🏗️ Custom PHP MVC framework
+* 🏗️ Custom PHP MVC framework (WORK IN PROGRESS)
 * 📄 Paginate User Contacts for easy navigation through large contact lists
 
 ---
@@ -40,6 +40,7 @@ The project is developed using the following technologies:
 | **SQL**                      | Database queries              |
 | **MySQL**                    | Database management           |
 | **Custom PHP MVC Framework** | Application architecture      |
+| **Composer**                | Third-Party Packages          |
 
 ---
 
@@ -51,7 +52,7 @@ The following tools are used during development:
 * Git
 * GitHub
 * XAMPP
-
+* Composer
 ---
 
 # 📋 Requirements
@@ -59,10 +60,19 @@ The following tools are used during development:
 Before running the project, make sure the following software is installed:
 
 * **PHP 8.0 or higher**
+* Make sure the required PHP extensions are enabled in `php.ini`, including:
+
+    * `intl`
+    * `curl`
+    * `zip`
+    * `mbstring`
 * **MySQL**
 * **Apache Web Server**
 * **XAMPP**
 * **Git**
+* **Composer**
+* **Active Internet Connection** — Preferably a broadband connection
+
 
 ---
 
@@ -84,38 +94,73 @@ Then open the project using your preferred code editor, such as Visual Studio Co
 
 ---
 
-## 2. Configure .htaccess file
+## 2. Configure XAMPP Apache httpd-vhosts.conf file
 
-In the cloned project, open the .htaccess file.
-
-Locate the below line:- 
+Open the below file in text editor or vs code to add contactmanager.com as the virtual host.
 
 ```text
-RewriteBase /Projects/PHP/Contact_Manager/Website/
+C:\xampp\apache\conf\extra\httpd-vhosts.conf
+```
+
+Add the below code at bottom of the file. Edit it according to the location of your cloned project folder.
+
+```text
+<VirtualHost *:80>
+    ServerName contactmanager.com
+    DocumentRoot "C:/xampp/htdocs/Contact_Manager/public/"
+    SetEnv APPLICATION_ENV "development"
+    <Directory "C:/xampp/htdocs/Contact_Manager/public/">
+        DirectoryIndex index.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+</VirtualHost>
 ```
 
 Change it according to the directory where your project is located.
 Because when the project folder is accessed via browser. Then all requests are forwarded to public/index.php file.
 
-For example, if your project is located at:
-
-```text
-C:\xampp\htdocs\Contact_Manager 
-```
-
-use:- 
-
-
-```text
-RewriteBase /Contact_Manager/
-```
-
 This configuration ensures that requests are correctly routed through the application's front controller.
 
-Note: The exact RewriteBase configuration may depend on your Apache/XAMPP setup and the location of the .htaccess file.
+Make sure the below line is uncommented (remove # in front of it) in 
+```text
+C:\xampp\apache\conf\httpd.conf
+```
 
 
-## 3. Start XAMPP
+```text
+Include conf/extra/httpd-vhosts.conf
+```
+
+## 3. Edit hosts file
+
+Open the file with administrative privileges located at below location:-
+
+
+```text
+C:\Windows\System32\drivers\etc\hosts
+```
+
+At the bottom of the file, add the following:- 
+
+```text
+127.0.0.1      localhost contactmanager.com 
+```
+
+And save the file.
+
+
+### 4. Install All Required Dependencies
+
+Run the following command in terminal or git:
+
+```bash
+composer install
+```
+
+
+## 5. Start XAMPP
 
 Open the **XAMPP Control Panel**.
 
@@ -128,7 +173,7 @@ Both services should show a running status.
 
 ---
 
-## 4. Open phpMyAdmin
+## 6. Open phpMyAdmin
 
 Open your web browser and navigate to:
 
@@ -142,7 +187,7 @@ Once the phpMyAdmin dashboard appears, click on the **Databases** option in the 
 
 # 🗄️ Database Setup
 
-## 5. Create the Database
+## 7. Create the Database
 
 In the **Create Database** section:
 
@@ -158,7 +203,7 @@ The `contact_manager_db` database will now be created.
 
 ---
 
-## 6. Create the `user` Table
+## 8. Create the `user` Table
 
 Select the newly created `contact_manager_db` database from the left sidebar.
 
@@ -185,7 +230,7 @@ After successful execution, a table named `user` will appear inside the `contact
 
 ---
 
-## 7. Create the `contacts` Table
+## 9. Create the `contacts` Table
 
 Again, click the **SQL** button in the top menu and execute:
 
@@ -213,7 +258,7 @@ After successful execution, the `contacts` table will be created.
 
 ---
 
-## 8. Create the `additional_fields` Table
+## 10. Create the `additional_fields` Table
 
 Click the **SQL** button again and execute:
 
@@ -234,7 +279,7 @@ After successful execution, the `additional_fields` table will be created.
 
 ---
 
-## 9. Create the `feedback` Table
+## 11. Create the `feedback` Table
 
 Click the **SQL** button once again and execute:
 
@@ -319,21 +364,13 @@ After completing the database configuration:
 app/Config/Database_Connection.php
 ```
 
-5. Open your browser and navigate to your project's localhost URL.
-
-For example, if your project directory is:
+5. Open your browser and navigate to your project's URL.
 
 ```text
-C:\xampp\htdocs\Contact_Manager
+contactmanager.com
 ```
 
-you can access it at:
-
-```text
-http://localhost/Contact_Manager/
-```
-
-> **Note:** Replace `Contact_Manager` with the actual name of the project directory if it is different.
+> **Note:** If it is showing errors, then please check the steps 2 and 3.
 
 ---
 
@@ -351,12 +388,29 @@ project-root/
 │   │   └── Database_Connection.php
 |   |   |-- Routes.php
 │   └── Controllers/
+|       |-- AddController.php
+|       |-- ChangeController.php
+|       |-- DashboardController.php
+|       |-- DocsController.php
+|       |-- EditController.php
+|       |-- FeedbackController.php
+|       |-- FilterController.php
+|       |-- HomeController.php
+|       |-- LoginController.php
+|       |-- LogoutController.php
+|       |-- RegisterController.php
+|       |-- SearchController.php
+|       |-- SessionController.php
+|       |-- ShowController.php
+|       |-- SitemapController.php
+|       |-- UserController.php
 |   |-- Database/
 |       |-- create_additional_fields_table.php
 |       |-- create_contacts_table.php
 |       |-- create_feedback_table.php
 |       |-- create_user_table.php
 |   |-- Filters/
+|       |-- IsLoggedIn.php    
 |       |-- validationFilters.php
 |   |-- Helpers/
 |       |-- sanitize_input_helper.php
@@ -370,19 +424,67 @@ project-root/
 |       |-- get_particular_user_contact_data.php
 |       |-- get_user_contacts.php
 |       |-- get_user_data.php
+|       |-- logout_user.php
 |       |-- provide_feedback.php
 |       |-- register_user_data.php
 |       |-- search_user_contacts.php
 |    |-- Views/
 |       |-- 404.php
-|             |
-|             |
+|       |-- 503.php
+|       |-- add.php
+|       |-- changepassword.php
+|       |-- dashboard.php
+|       |-- docs.php
+|       |-- edit.php
+|       |-- feedback.php
+|       |-- filter.php
+|       |-- footer.php
+|       |-- headerandnavbar.php
+|       |-- index.php
+|       |-- login.php
+|       |-- logout.php
+|       |-- register.php
+|       |-- search.php
+|       |-- sessionstart.php
+|       |-- show.php        
 |       |-- sitemap.php
 |-- public/
 |       |-- index.php (Front Controller)
 |       |-- css/
+|           |-- 404.css
+|           |-- add.css
+|           |-- changepassword.css
+|           |-- dashboard.css
+|           |-- docs.css
+|           |-- edit.css
+|           |-- feedback.css
+|           |-- filter.css
+|           |-- footer.css
+|           |-- index.css
+|           |-- login.css
+|           |-- logout.css
+|           |-- register.css
+|           |-- search.css
+|           |-- show.css
+|           |-- sitemap.css
+|           |-- style.css
+|           |-- table.css
 |       |-- images/
+|           |-- add_btn.png
+|               |
+|               |
+|               |
+|           |-- x.png    
 |       |-- script/
+|           |-- add.js
+|           |-- additional_fields.js
+|           |-- delete.js
+|           |-- edit.js
+|           |-- filter.js
+|           |-- logout.js
+|           |-- search.js
+|           |-- show_more_additional_fields.js
+|           |-- show.js    
 |       |-- .htaccess
 │-- writable/
 |       |-- cache/
@@ -390,7 +492,9 @@ project-root/
 |       |-- uploads/
 ├── .gitignore
 |-- .htaccess
-│
+│-- composer.json
+|-- composer.lock
+|-- LICENSE
 └── README.md
 ```
 
@@ -494,7 +598,7 @@ Make sure the project is placed inside:
 C:\xampp\htdocs\
 ```
 
-and access it using the correct localhost URL.
+and access it using the correct URL.
 
 ---
 
