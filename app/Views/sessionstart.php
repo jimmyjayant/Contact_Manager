@@ -3,7 +3,8 @@
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'domain' => 'http://contactmanager.com/',
+    // If developing locally, then it is better to omit the domain key entirely
+    'domain' => 'contactmanager.com', // Must not contain the protocol(http://) or a trailing slash
     'secure' => false, // false = HTTP, true = HTTPS
     'httponly' => true,
     'samesite' => 'Strict'

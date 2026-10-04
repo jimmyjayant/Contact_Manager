@@ -57,7 +57,7 @@ use App\Controllers\LogoutController;
 use App\Controllers\SitemapController;
 use App\Controllers\ShowController;
 use App\Controllers\UserController;
-
+use App\Controllers\SessionController;
 
 
 
@@ -201,6 +201,36 @@ $router->get("single", [UserController::class, "single"]);
 // For search page
 // $router->get("get_additional_fields", [UserController::class, "fields"]);
 $router->get("fields", [UserController::class, "fields"]);
+
+
+// Testing the sessions
+$router->get('/test-session', [SessionController::class, "test"]);
+$router->get('/read-session', [SessionController::class, "read"]);
+
+// $router->get('/test-session', function(ServerRequest $request):Response {
+//     $_SESSION['test'] = "Hello Session";
+
+//     return new Response(
+//         200,
+//         ['Content-Type' => 'text/plain'],
+//         'Session value: ' . $_SESSION['test']
+//     );
+// });
+
+// Reading the sessions
+// $router->get("/read-session", function(ServerRequest $request):Response {
+//     $value = $_SESSION['test'] ?? 'Session does not exist';
+
+//     return new Response(
+//         200,
+//         ['Content-Type' => 'text/plain'],
+//         $value
+//     );
+// });
+
+
+
+
 
 
 
