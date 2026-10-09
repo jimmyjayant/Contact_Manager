@@ -47,32 +47,32 @@
 
     if(!empty($filter_firstname))
     {
-        validate_firstname($filter_firstname, 100, '', false, true);
+        validateFirstname($filter_firstname, 100, '', false, true);
     }
 
     if(!empty($filter_middlename))
     {
-        validate_middlename($filter_middlename, 100, '', false, true);
+        validateMiddlename($filter_middlename, 100, '', false, true);
     }
 
     if(!empty($filter_lastname))
     {
-        validate_lastname($filter_lastname, 100, '', false, true);
+        validateLastname($filter_lastname, 100, '', false, true);
     }
 
     if(!empty($filter_nickname))
     {
-        validate_nickname($filter_nickname, 100, '', false, true);
+        validateNickname($filter_nickname, 100, '', false, true);
     }
 
     if(!empty($filter_gender))
     {
-        validate_gender($filter_gender, '', true);
+        validateGender($filter_gender, '', true);
     }
 
-    validate_mobile_number($filter_mobile, '', true);
+    validateMobile($filter_mobile, '', true);
 
-    validate_landline_number($filter_landline, '', true);
+    validateLandline($filter_landline, '', true);
 
     if(!empty($filter_address))
     {

@@ -35,12 +35,12 @@ The project is developed using the following technologies:
 | **HTML5**                    | Website structure             |
 | **CSS3**                     | Styling and responsive design |
 | **Vanilla JavaScript**       | Client-side functionality     |
-| **PHP 8.0+**                 | Backend development           |
+| **PHP 8.3+**                 | Backend development           |
 | **AJAX**                     | Asynchronous requests         |
 | **SQL**                      | Database queries              |
 | **MySQL**                    | Database management           |
 | **Custom PHP MVC Framework** | Application architecture      |
-| **Composer**                | Third-Party Packages          |
+| **Composer**                 | Third-Party Packages          |
 
 ---
 
@@ -66,6 +66,7 @@ Before running the project, make sure the following software is installed:
     * `curl`
     * `zip`
     * `mbstring`
+
 * **MySQL**
 * **Apache Web Server**
 * **XAMPP**
@@ -96,7 +97,7 @@ Then open the project using your preferred code editor, such as Visual Studio Co
 
 ## 2. Configure XAMPP Apache httpd-vhosts.conf file
 
-Open the below file in text editor or vs code to add contactmanager.com as the virtual host.
+Open the below file in text editor or vs code to add **contactmanager.com** as the virtual host.
 
 ```text
 C:\xampp\apache\conf\extra\httpd-vhosts.conf

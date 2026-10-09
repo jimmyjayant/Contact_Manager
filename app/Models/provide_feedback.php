@@ -25,12 +25,12 @@
     $msg = sanitize_input($_POST['msg']);
 
     // Validate user provided form data
-    validate_firstname($fname, 100, 'feedback', false, false);
-    validate_lastname($lname, 100, 'feedback', true, false);
-    validate_mobile_number($mob, 'feedback', false);
-    validate_email($email, 'feedback', false, false);
-    validate_message($subject, 'feedback', false, false, 'Subject');
-    validate_message($msg, 'feedback', false, false, 'Message');
+    validateFirstname($fname, 100, 'feedback', false, false);
+    validateLastname($lname, 100, 'feedback', true, false);
+    validateMobile($mob, 'feedback', false);
+    validateEmail($email, 'feedback', false, false);
+    validateMessage($subject, 'feedback', false, false, 'Subject');
+    validateMessage($msg, 'feedback', false, false, 'Message');
 
 
     // sql statement to insert feedback into feedback table in contact_manager_db database

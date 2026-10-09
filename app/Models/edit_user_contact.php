@@ -122,13 +122,13 @@
 
 
     // Validate user provided form data
-    validate_firstname($firstname, 100, 'edit', false, false);
-    validate_middlename($middlename, 100, 'edit', true, false);
-    validate_lastname($lastname, 100, 'edit', true, false);
-    validate_nickname($nickname, 100, 'edit', true, false);
-    validate_gender($gender, 'edit', false);
-    validate_mobile_number($mobnum, 'edit', false);    
-    validate_landline_number($landnum, 'edit', false);
+    validateFirstname($firstname, 100, 'edit', false, false);
+    validateMiddlename($middlename, 100, 'edit', true, false);
+    validateLastname($lastname, 100, 'edit', true, false);
+    validateNickname($nickname, 100, 'edit', true, false);
+    validateGender($gender, 'edit', false);
+    validateMobile($mobnum, 'edit', false);    
+    validateLandline($landnum, 'edit', false);
 
 
     if(empty($mobnum) && empty($landnum))

@@ -1,83 +1,58 @@
 <?php
     // Validation filters for validation of form data
 
-    function validate_firstname(string $firstname, 
-                                $length = 100, 
-                                string $redirect = '', 
-                                $canBeEmpty = false, 
-                                $isJSON = true)
+    function validateFirstname(string $key, string $firstname, $length = 100, $canBeEmpty = false)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['firstname'] = [];
+
         if(!$canBeEmpty && empty($firstname))
         {
-            $msg = "First Name cannot be empty!";
+            $_SESSION[$key]['firstname'][] = "First Name cannot be empty!";
         }
         else if(strlen($firstname) > $length)
         {
-            $msg = "First Name cannot be more than $length characters!";
+            $_SESSION[$key]['firstname'][] = "First Name cannot be more than $length characters!";
         }
         else if(preg_match_all("/\d/", $firstname))
         {
-            $msg = "First Name cannot contain digits!";
+            $_SESSION[$key]['firstname'][] = "First Name cannot contain digits!";
         }
         else if(preg_match_all("/\s/", $firstname))
         {
-            $msg = "First Name cannot contain whitespaces!";
+            $_SESSION[$key]['firstname'][] = "First Name cannot contain whitespaces!";
         }
         else if(preg_match_all("/\W/", $firstname))
         {
-            $msg = "First Name cannot contain special characters!";
-        }
-
-        if(isset($msg))
-        {
-            if($isJSON)
-            {
-                $data['status'] = "error";
-                $data['data'] = $msg;
-                $data = json_encode($data);
-                header("Content-Type: application/json");
-                echo $data;
-                exit();
-            }
-            else
-            {
-                $_SESSION['firstname_error'] = $msg;
-                header("Location: $redirect");
-                exit();
-            }
+            $_SESSION[$key]['firstname'][] = "First Name cannot contain special characters!";
         }
     }
 
 
-    function validate_middlename(string $middlename, 
-                                $length = 100, 
-                                string $redirect = '', 
-                                $canBeEmpty = false, 
-                                $isJSON = true)
+    function validateMiddlename(string $key, string $middlename, $length = 100, $canBeEmpty = false)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['middlename'] = [];
+
         if(!$canBeEmpty && empty($middlename))
         {
-            $msg = "Middle Name cannot be empty!";
+            $_SESSION[$key]['middlename'][] = "Middle Name cannot be empty!";
         }
         else if(strlen($middlename) > $length)
         {
-            $msg = "Middle Name cannot be more than $length characters!";
+            $_SESSION[$key]['middlename'][] = "Middle Name cannot be more than $length characters!";
         }
         else if(preg_match_all("/\d/", $middlename))
         {
-            $msg = "Middle Name cannot contain digits!";
+            $_SESSION[$key]['middlename'][] = "Middle Name cannot contain digits!";
         }
         else if(preg_match_all("/\s/", $middlename))
         {
-            $msg = "Middle Name cannot contain whitespaces!";
+            $_SESSION[$key]['middlename'][] = "Middle Name cannot contain whitespaces!";
         }
         else if(preg_match_all("/\W/", $middlename))
         {
-            $msg = "Middle Name cannot contain special characters!";
+            $_SESSION[$key]['middlename'][] = "Middle Name cannot contain special characters!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -95,38 +70,35 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
 
-    function validate_lastname(string $lastname, 
-                               $length = 100, 
-                               string $redirect = '', 
-                               $canBeEmpty = false, 
-                               $isJSON = true)
+    function validateLastname(string $key, string $lastname, $length = 100, $canBeEmpty = false)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['lastname'] = [];
+
         if(!$canBeEmpty && empty($lastname))
         {
-            $msg = "Last Name cannot be empty!";
+            $_SESSION[$key]['lastname'][] = "Last Name cannot be empty!";
         }
         else if(strlen($lastname) > $length)
         {
-            $msg = "Last Name cannot be more than $length characters!";
+            $_SESSION[$key]['lastname'][] = "Last Name cannot be more than $length characters!";
         }
         else if(preg_match_all("/\d/", $lastname))
         {
-            $msg = "Last Name cannot contain digits!";
+            $_SESSION[$key]['lastname'][] = "Last Name cannot contain digits!";
         }
         else if(preg_match_all("/\s/", $lastname))
         {
-            $msg = "Last Name cannot contain whitespaces!";
+            $_SESSION[$key]['lastname'][] = "Last Name cannot contain whitespaces!";
         }
         else if(preg_match_all("/\W/", $lastname))
         {
-            $msg = "Last Name cannot contain special characters!";
+            $_SESSION[$key]['lastname'][] = "Last Name cannot contain special characters!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -144,37 +116,34 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
-    function validate_nickname(string $nickname, 
-                                $length = 100, 
-                                string $redirect = '', 
-                                $canBeEmpty = false, 
-                                $isJSON = true)
+    function validateNickname(string $key, string $nickname, $length = 100, $canBeEmpty = false)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['nickname'] = [];
+
         if(!$canBeEmpty && empty($nickname))
         {
-            $msg = "Nick Name cannot be empty!";
+            $_SESSION[$key]['nickname'][] = "Nick Name cannot be empty!";
         }
         else if(strlen($nickname) > $length)
         {
-            $msg = "Nick Name cannot be more than $length characters!";
+            $_SESSION[$key]['nickname'][] = "Nick Name cannot be more than $length characters!";
         }
         else if(preg_match_all("/\d/", $nickname))
         {
-            $msg = "Nick Name cannot contain digits!";
+            $_SESSION[$key]['nickname'][] = "Nick Name cannot contain digits!";
         }
         else if(preg_match_all("/\s/", $nickname))
         {
-            $msg = "Nick Name cannot contain whitespaces!";
+            $_SESSION[$key]['nickname'][] = "Nick Name cannot contain whitespaces!";
         }
         else if(preg_match_all("/\W/", $nickname))
         {
-            $msg = "Nick Name cannot contain special characters!";
+            $_SESSION[$key]['nickname'][] = "Nick Name cannot contain special characters!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -192,7 +161,7 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
 
@@ -282,18 +251,19 @@
         }
     */
 
-    function validate_gender(string $gender, string $redirect = '', $isJSON = true)
+    function validateGender(string $key, string $gender)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['gender'] = [];
+
         if(empty($gender))
         {
-            $msg = "Gender cannot be empty!";
+            $_SESSION[$key]['gender'][] = "Gender cannot be empty!";
         }
         else if(($gender != 'male') && ($gender != 'female'))
         {
-            $msg = "Gender should be either male or female";
+            $_SESSION[$key]['gender'][] = "Gender should be either male or female";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -311,17 +281,18 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
-    function validate_mobile_number($number, string $redirect = '', $isJSON = true)
+    function validateMobile(string $key, string $number)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['mobile'] = [];
+
         if(!empty($number) && !preg_match("/^\d{10}$/", $number))
         {
-            $msg = "Mobile Number must contain 10 digits!";
+            $_SESSION[$key]['mobile'][] = "Mobile Number must contain 10 digits!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -339,18 +310,19 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
 
-    function validate_landline_number($number, string $redirect = '', $isJSON = true)
+    function validateLandline(string $key, int $number)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['landline'] = [];
+
         if(!empty($number) && !preg_match("/^\d{8}$/", $number))
         {
-            $msg = "Landline Number must contain 8 digits!";
+            $_SESSION[$key]['landline'][] = "Landline Number must contain 8 digits!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -368,21 +340,22 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
-    function validate_email($email, string $redirect = '', $canBeEmpty = false, $isJSON = true)
+    function validateEmail(string $key, string $email, $canBeEmpty = false)
     {
-        $msg = NULL;
+        // $_SESSION[$key]['email'] = [];
+
         if(!$canBeEmpty && empty($email))
         {
-            $msg = "Email cannot be empty!";
+            $_SESSION[$key]['email'][] = "Email cannot be empty!";
         }
         else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
-            $msg = "Invalid Email Address!";
+            $_SESSION[$key]['email'][] = "Invalid Email Address!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -400,22 +373,24 @@
                 header("Location: $redirect");
                 exit();
             }
-        }        
+        }        */
     }
 
 
-    function validate_message($message, string $redirect = '', $canBeEmpty = false, $isJSON = true, $name = '')
+    function validateMessage(string $key, string $message, $canBeEmpty = false, $name = '')
     {
-        $msg = NULL;
+        $value = strtolower($name);
+        // $_SESSION[$key][$value] = [];
+
         if(!$canBeEmpty && empty($message))
         {
-            $msg = " $name cannot be empty!";
+            $_SESSION[$key][$value][] = " $name cannot be empty!";
         }
         else if(strlen($message) > 150)
         {
-            $msg = "$name cannot be more than 150 characters!";
+            $_SESSION[$key][$value][] = "$name cannot be more than 150 characters!";
         }
-
+/*
         if(isset($msg))
         {
             if($isJSON)
@@ -435,30 +410,26 @@
                 header("Location: $redirect");
                 exit();
             }
-        }
+        }*/
     }
 
 
-    function validate_password($password, string $redirect = '', string $error = 'password')
+    function validatePassword(string $key, string $password)
     {
+        // $_SESSION[$key]['password'] = [];
+
         if(empty($password))
         {
-            $key = "$error" . "_error";
-            $_SESSION[$key] = "Password cannot be empty!";
-            header("Location: $redirect");
-            exit();
+            $_SESSION[$key]['password'][] = "Password cannot be empty!";
         }
         else if(strlen($password) < 6 || strlen($password) > 12)
         {
-            $key = "$error" . "_error";
-            $_SESSION[$key] = "Password Length must be between 6-12";
-            header("Location: $redirect");
-            exit();
+            $_SESSION[$key]['password'][] = "Password Length must be between 6-12";
         }   
     }
 
 
-    function test_field_name($input, $length, string $redirect = '', string $error = '')
+    function testFieldName($input, $length, string $redirect = '', string $error = '')
     {
         $input = sanitize_input($input);
 
@@ -489,6 +460,27 @@
             $_SESSION[$key] = "Field Name cannot contain special characters!";
             header("Location: $redirect");
             exit();
+        }
+    }
+
+    function showValidationErrors(string $key, string $redirect = '', $isJSON = true)
+    {
+        if(!empty($_SESSION[$key]))
+        {
+            if($isJSON)
+            {
+                $data['status'] = "error";
+                $data['data'] = $_SESSION[$key];
+                $data = json_encode($data);
+                header("Content-Type: application/json");
+                echo $data;
+                exit();
+            }
+            else
+            {
+                header("Location: $redirect");
+                exit();
+            }
         }
     }
 ?>

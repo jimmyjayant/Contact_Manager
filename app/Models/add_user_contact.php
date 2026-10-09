@@ -69,13 +69,13 @@
 */
 
     // Validate user provided form data
-    validate_firstname($firstname, 100, 'add', false, false);
-    validate_middlename($middlename, 100, 'add', true, false);    
-    validate_lastname($lastname, 100, 'add', true, false);    
-    validate_nickname($nickname, 100, 'add', true, false);
-    validate_gender($gender, 'add', false);
-    validate_mobile_number($mobnum, 'add', false);    
-    validate_landline_number($landnum, 'add', false);
+    validateFirstname($firstname, 100, 'add', false, false);
+    validateMiddlename($middlename, 100, 'add', true, false);    
+    validateLastname($lastname, 100, 'add', true, false);    
+    validateNickname($nickname, 100, 'add', true, false);
+    validateGender($gender, 'add', false);
+    validateMobile($mobnum, 'add', false);    
+    validateLandline($landnum, 'add', false);
 
     if(empty($mobnum) && empty($landnum))
     {
@@ -186,7 +186,7 @@
                 for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
                 {
                     $customFieldName = sanitize_input($_POST['customInputElement' . $i]);
-                    test_field_name($customFieldName, 100);
+                    testFieldName($customFieldName, 100);
                     $customFieldValue = sanitize_input($_POST['customInputElement' . $i+1]);
                     if(strlen($customFieldValue) > 500)
                     {

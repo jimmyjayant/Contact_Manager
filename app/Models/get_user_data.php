@@ -33,10 +33,10 @@
     $pass = sanitize_input($_POST['pass']);
 
     // Validate email
-    validate_email($email, 'login', false, false);
+    validateEmail($email, 'login', false, false);
     
     // Validate password
-    validate_password($pass, 'login', 'pass');
+    validatePassword($pass, 'login', 'pass');
 
     // sql statement to get particular user record from user table in contact_manager_db database
     $sql = "SELECT user_password FROM user WHERE email='{$email}'";

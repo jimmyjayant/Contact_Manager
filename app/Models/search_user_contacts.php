@@ -35,7 +35,7 @@
 
     $firstname = sanitize_input($_POST['firstname']);
 
-    validate_firstname($firstname, 100, '', false, true);
+    validateFirstname($firstname, 100, '', false, true);
 
     $token = $_SESSION['user_token'];
     // sql query

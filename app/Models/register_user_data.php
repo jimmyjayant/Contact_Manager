@@ -1,5 +1,6 @@
 <?php
-    // requireFile('../app/Views/sessionstart.php');
+    declare(strict_types=1);
+
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
@@ -10,7 +11,7 @@
 
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
-        $_SESSION['registration_error'] = "Request Method is not POST!";
+        $_SESSION['register']['error'] = "Request Method is not POST!";
         header("Location: register");
         exit();
     }
@@ -18,7 +19,7 @@
     if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
-        $_SESSION['registration_error'] = "Session expired. Please refresh the webpage!";
+        $_SESSION['register']['error'] = "Session expired. Please refresh the webpage!";
         header("Location: register");
         exit();
     }
@@ -31,11 +32,24 @@
     $contact = sanitize_input($_POST['contact']);
 
     // Validate user provided form data
-    validate_firstname($fname, 100, 'register', false, false);
-    validate_lastname($lname, 100, 'register', false, false);
-    validate_email($email, 'register', false, false);
-    validate_mobile_number($contact, 'register', false);
-    validate_password($pass, 'register', 'pass');
+    validateFirstname('register', $fname, 100, false);
+    validateLastname('register', $lname, 100, false);
+    validateEmail('register', $email, false);
+    validatePassword('register', $pass);
+    validateMobile('register', $contact);
+
+    // if(!empty($_SESSION['register']))
+    // {
+    //     print_r($_SESSION['register']);
+    // // var_dump(!($_SESSION['register']));
+    // }
+    // else
+    // {
+    //     echo "not found";
+    // }
+    // exit();
+    // Redirect to show validation errors
+    showValidationErrors('register', 'register', false);
 
 
     // Convert plain text password to hash
@@ -53,7 +67,7 @@
         $conn = $GLOBALS['conn'];
         if(!$conn)
         {
-            $_SESSION['registration_error'] = "Database server unavailable. Please try again later!";
+            $_SESSION['register']['error'] = "Database server unavailable. Please try again later!";
             header("Location: register");
             exit();
         }
@@ -73,14 +87,14 @@
         if($e->getCode() == 1062)
         {
             error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-            $_SESSION['registration_error'] = "Email Already Exists!";
+            $_SESSION['register']['error'] = "Email Already Exists!";
             header("Location: register");
             exit();
         }
         else
         {
             error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-            $_SESSION['registration_error'] = "Error Registering User. Please try again later!";
+            $_SESSION['register']['error'] = "Error Registering User. Please try again later!";
             header("Location: register");
             exit();
         }

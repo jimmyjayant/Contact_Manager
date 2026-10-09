@@ -23,8 +23,8 @@
     $new_password = sanitize_input($_POST['newpass']);
 
     // Validate user provided form data
-    validate_password($old_password, 'change', 'oldpass');
-    validate_password($new_password, 'change', 'newpass');
+    validatePassword($old_password, 'change', 'oldpass');
+    validatePassword($new_password, 'change', 'newpass');
 
     $token = $_SESSION['user_token'];
 
