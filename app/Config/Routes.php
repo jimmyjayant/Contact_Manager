@@ -209,7 +209,7 @@ $router->get('/read-session', [SessionController::class, "read"]);
 // Check if the route exists for a particular request without executing the respective controller 
 $result = $router->match($request);
 
-if(!$result->isFound())
+if($result->isFound())
 {
     $response = $router->dispatch($request);
 }
@@ -220,7 +220,7 @@ else
 
 
 // Matching routes to request.
-$response = $router->dispatch($request);
+// $response = $router->dispatch($request);
 
 // Emitting or echoing response
 $emitter = new SapiEmitter;

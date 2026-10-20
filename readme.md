@@ -59,7 +59,7 @@ The following tools are used during development:
 
 Before running the project, make sure the following software is installed:
 
-* **PHP 8.0 or higher**
+* **PHP 8.3 or higher**
 * Make sure the required PHP extensions are enabled in `php.ini`, including:
 
     * `intl`

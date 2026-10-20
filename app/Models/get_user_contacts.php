@@ -76,9 +76,12 @@
                     echo $data;
                     exit();
                 }
-                $total_pages = ceil($data['total_records'] / 10);
+                $total_pages = ceil($data['total_records'] / 10);                
 
-                $page = $_POST['page'] ?? 1;
+                $jsonData = file_get_contents('php://input');
+                $decodedData = json_decode($jsonData, true);                
+
+                $page = $decodedData['page'] ?? 1;
 
                 $page = sanitize_input($page);
 

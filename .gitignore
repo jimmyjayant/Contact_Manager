@@ -1,4 +1,2 @@
-/writable/logs/*
-/writable/cache/*
-/writable/uploads/*
+/writable/
 /vendor/

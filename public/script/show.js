@@ -47,9 +47,11 @@ function get_user_contacts(pageNumber = 1)
         }
     }
 
-    var page = pageNumber;
+    var page = {page: pageNumber};
+    page = JSON.stringify(page);
 
     xhttp.open("POST", "show", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send(page);
 }
 
