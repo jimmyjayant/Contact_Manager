@@ -25,11 +25,17 @@
     }
 
     // Check and sanitize the user input that is form data
-    $fname = sanitize_input($_POST['fname']);
-    $lname = sanitize_input($_POST['lname']);
+    $fname = sanitize_input($_POST['firstname']);
+    $lname = sanitize_input($_POST['lastname']);
     $email = sanitize_input($_POST['email']);
-    $pass = sanitize_input($_POST['pass']);
-    $contact = sanitize_input($_POST['contact']);
+    $pass = sanitize_input($_POST['password']);
+    $contact = sanitize_input($_POST['mobile']);
+
+    // Put form data in a session variable array in case validation fails
+    foreach($_POST as $x => $y)
+    {
+        $_SESSION['register']['formData'][$x] = $y;
+    }
 
     // Validate user provided form data
     validateFirstname('register', $fname, 100, false);
@@ -49,7 +55,7 @@
     // }
     // exit();
     // Redirect to show validation errors
-    showValidationErrors('register', 'register', false);
+    DisplayValidationErrors('register', 'register', false);
 
 
     // Convert plain text password to hash

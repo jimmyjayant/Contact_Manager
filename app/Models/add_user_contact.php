@@ -49,25 +49,6 @@
     $address = sanitize_input($_POST['address']);
     $relationship = sanitize_input($_POST['relationship']);
 
-/*
-    $user_contact = [
-        'firstname' => $firstname,
-        'middlename' => $middlename,
-        'lastname' => $lastname,
-        'nickname' => $nickname,
-        'gender' => $gender,
-        'mobnum' => $mobnum,
-        'landnum' => $landnum,
-        'address' => $address,
-        'relationship' => $relationship
-    ];
-
-    foreach($user_contact as $key => $value)
-    {
-        test_field_input($key, $value, $length, "add", $canBeEmpty = false);
-    }
-*/
-
     // Validate user provided form data
     validateFirstname($firstname, 100, 'add', false, false);
     validateMiddlename($middlename, 100, 'add', true, false);    

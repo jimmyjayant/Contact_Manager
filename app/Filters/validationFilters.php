@@ -463,7 +463,7 @@
         }
     }
 
-    function showValidationErrors(string $key, string $redirect = '', $isJSON = true)
+    function DisplayValidationErrors(string $key, string $redirect = '', $isJSON = true)
     {
         if(!empty($_SESSION[$key]))
         {
