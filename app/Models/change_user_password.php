@@ -13,18 +13,26 @@
 
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
-        $_SESSION['change_password_error'] = "Request Method is not POST!";
+        $_SESSION['changepassword']['error'] = "Request Method is not POST!";
         header("Location: change");
         exit();
     }
 
-    // Check and sanitize the user input that is form data
-    $old_password = sanitize_input($_POST['oldpass']);
-    $new_password = sanitize_input($_POST['newpass']);
+    // Loop through the key value pairs in $_POST superglobal array
+    foreach($_POST as $x => $y)
+    {
+        // Check and sanitize the user input that is form data
+        $$x = sanitize_input($y);
+        // Put form data in a session variable array in case validation fails
+        // $_SESSION['changepassword']['formData'][$x] = $y;
+    }
 
     // Validate user provided form data
-    validatePassword($old_password, 'change', 'oldpass');
-    validatePassword($new_password, 'change', 'newpass');
+    validatePassword('change', $oldpass, 'oldpass');
+    validatePassword('change', $newpass, 'newpass');
+
+    // Display validation errors if exists
+    DisplayValidationErrors('change', 'change', false);
 
     $token = $_SESSION['user_token'];
 
@@ -36,7 +44,7 @@
         $conn = $GLOBALS['conn'];
         if(!$conn)
         {
-            $_SESSION['change_password_error'] = "Database server unavailable. Please try again later!";
+            $_SESSION['changepassword']['error'] = "Database server unavailable. Please try again later!";
             header("Location: change");
             exit();
         }
@@ -46,11 +54,11 @@
             {
                 $row = $result->fetch_assoc();
 
-                if(password_verify($old_password, $row['user_password']))
+                if(password_verify($oldpass, $row['user_password']))
                 {
-                    $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+                    $newpass = password_hash($newpass, PASSWORD_DEFAULT);
                     $ChangePasswordQuery = 
-                    "UPDATE user SET user_password = '$new_password_hash' WHERE token='{$token}'";
+                    "UPDATE user SET user_password = '$newpass' WHERE token='{$token}'";
 
                     try
                     {
@@ -58,7 +66,7 @@
 
                         if($ChangePasswordResult)
                         {
-                            $_SESSION['change_password_success'] = "Password Changed Successfully!";
+                            $_SESSION['changepassword']['success'] = "Password Changed Successfully!";
                             header("Location: change");
                             exit();
                         }
@@ -66,14 +74,14 @@
                     catch(mysqli_sql_exception $e)
                     {
                         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-                        $_SESSION['change_password_error'] = "Unable to change password. Please try again later!";
+                        $_SESSION['changepassword']['error'] = "Unable to change password. Please try again later!";
                         header("Location: change");
                         exit();
                     }
                 }
                 else
                 {
-                    $_SESSION['change_password_error'] = "Wrong Password!";
+                    $_SESSION['changepassword']['error'] = "Wrong Password!";
                     header("Location: change");
                     exit();
                 }
@@ -82,7 +90,7 @@
     catch(mysqli_sql_exception $e)
     {
         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-        $_SESSION['change_password_error'] = "Please try again later!";
+        $_SESSION['changepassword']['error'] = "Please try again later!";
         header("Location: change");
         exit();
     }

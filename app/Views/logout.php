@@ -1,5 +1,5 @@
 <?php
-requireFile('../app/Views/sessionstart.php');
+// requireFile('../app/Views/sessionstart.php');
 // requireFile('../app/Filters/IsLoggedIn.php');
 
 // IsLoggedIn(true);

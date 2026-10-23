@@ -156,15 +156,15 @@
     }
 
 
-    function validatePassword(string $key, string $password)
+    function validatePassword(string $key, string $password, string $inputField = 'password')
     {
         if(empty($password))
         {
-            $_SESSION[$key]['validationErrors']['password'][] = "Password cannot be empty!";
+            $_SESSION[$key]['validationErrors'][$inputField][] = "Password cannot be empty!";
         }
         else if(strlen($password) < 6 || strlen($password) > 12)
         {
-            $_SESSION[$key]['validationErrors']['password'][] = "Password Length must be between 6-12";
+            $_SESSION[$key]['validationErrors'][$inputField][] = "Password Length must be between 6-12";
         }   
     }
 

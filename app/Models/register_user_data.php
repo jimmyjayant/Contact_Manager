@@ -24,14 +24,6 @@
         exit();
     }
 
-    // Check and sanitize the user input that is form data
-    // $fname = sanitize_input($_POST['firstname']);
-    // $lname = sanitize_input($_POST['lastname']);
-    // $email = sanitize_input($_POST['email']);
-    // $pass = sanitize_input($_POST['password']);
-    // $contact = sanitize_input($_POST['mobile']);
-
-
     // Loop through the key value pairs in $_POST superglobal array
     foreach($_POST as $x => $y)
     {
