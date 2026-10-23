@@ -25,48 +25,41 @@
     }
 
     // Check and sanitize the user input that is form data
-    $fname = sanitize_input($_POST['firstname']);
-    $lname = sanitize_input($_POST['lastname']);
-    $email = sanitize_input($_POST['email']);
-    $pass = sanitize_input($_POST['password']);
-    $contact = sanitize_input($_POST['mobile']);
+    // $fname = sanitize_input($_POST['firstname']);
+    // $lname = sanitize_input($_POST['lastname']);
+    // $email = sanitize_input($_POST['email']);
+    // $pass = sanitize_input($_POST['password']);
+    // $contact = sanitize_input($_POST['mobile']);
 
-    // Put form data in a session variable array in case validation fails
+
+    // Loop through the key value pairs in $_POST superglobal array
     foreach($_POST as $x => $y)
     {
+        // Check and sanitize the user input that is form data
+        $$x = sanitize_input($y);
+        // Put form data in a session variable array in case validation fails
         $_SESSION['register']['formData'][$x] = $y;
     }
 
     // Validate user provided form data
-    validateFirstname('register', $fname, 100, false);
-    validateLastname('register', $lname, 100, false);
+    validateFirstname('register', $firstname, 100, false);
+    validateLastname('register', $lastname, 100, false);
     validateEmail('register', $email, false);
-    validatePassword('register', $pass);
-    validateMobile('register', $contact);
+    validatePassword('register', $password);
+    validateMobile('register', $mobile);
 
-    // if(!empty($_SESSION['register']))
-    // {
-    //     print_r($_SESSION['register']);
-    // // var_dump(!($_SESSION['register']));
-    // }
-    // else
-    // {
-    //     echo "not found";
-    // }
-    // exit();
     // Redirect to show validation errors
     DisplayValidationErrors('register', 'register', false);
 
-
     // Convert plain text password to hash
-    $pass = password_hash($pass, PASSWORD_DEFAULT);
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
     // user token
     $token = bin2hex(random_bytes(32));
 
     // sql statement to insert new user into user table in contact_manager_db database
     $sql = "INSERT INTO user(firstname, lastname, email, user_password, contact, token) 
-            VALUES('$fname', '$lname', '$email', '$pass', $contact, '$token')";
+            VALUES('$firstname', '$lastname', '$email', '$password', $mobile, '$token')";
 
     try
     {
@@ -82,7 +75,7 @@
         if($result === true)
         {
             $_SESSION['user_token'] = $token;
-            $_SESSION['username'] = $fname;
+            $_SESSION['username'] = $firstname;
             header("Location: dashboard");
             exit();
         }

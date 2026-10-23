@@ -34,11 +34,22 @@ if(!isset($_SESSION['csrf_token']))
 // If the session variable 'last_activity' is set, then
 if(isset($_SESSION['last_activity']))
 {
-    if(time() - $_SESSION['last_activity'] > 600)
+    if(isset($_SESSION['user_token']))
     {
-        header("Location: logout");
-        exit();
+        if(time() - $_SESSION['last_activity'] > 600)
+        {
+            header("Location: logout");
+            exit();
+        }
     }
+    // else
+    // {
+    //     if(time() - $_SESSION['last_activity'] > 600)
+    //     {
+    //         header("Refresh:0");
+    //         exit();
+    //     }
+    // }
 }
 else
 {

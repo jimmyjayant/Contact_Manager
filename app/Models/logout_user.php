@@ -33,13 +33,6 @@ try
     $conn = $GLOBALS['conn'];
     if(!$conn)
     {
-        // $data['status'] = "error";
-        // $data['data'] = "Database server unavailable. Please try again later!";
-        // $data = json_encode($data);
-        // header("Content-Type: application/json");
-        // echo $data;
-        // exit();
-
         throw new Exception('Database server unavailable. Please try again later!');
     }
 
@@ -50,7 +43,7 @@ try
         $row = $result->fetch_assoc();
         $user_id = $row['id'];
 
-        $sql = "UPDATE user SET token='' WHERE id={$user_id}";
+        $sql = "UPDATE user SET token=NULL WHERE id={$user_id}";
 
         $result = $conn->query($sql);
 

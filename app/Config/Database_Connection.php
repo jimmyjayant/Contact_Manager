@@ -10,13 +10,6 @@ try
 {
     $GLOBALS['conn'] = new mysqli($servername, $username, $password, $dbname);
 
-    /*
-    if($conn->connect_error)
-    {
-        throw new Exception("Database Connection Failed!");
-    }
-    */
-    //echo "Database Connection Successful";
     return $GLOBALS['conn'];
 }
 catch(mysqli_sql_exception $e)

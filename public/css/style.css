@@ -127,17 +127,19 @@ body {
     background-color:#4c5250;
 }
 
-.red_font {
+.error {
+    text-align:center;
     color:red;
 }
 
-.green_font {
+.success {
+    text-align:center;
     color:green;
 }
 
-.center {
+/* .center {
     text-align:center;
-}
+} */
 
 .hide {
     display:none;

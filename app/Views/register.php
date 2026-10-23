@@ -17,14 +17,14 @@ requireFile('../app/Views/headerandnavbar.php');
         <?php
             if(!empty($_SESSION['register']['error']))
             {
-                echo "<div class='center'><span class='red_font'>"; 
-                print_r($_SESSION['register']['error']);
-                echo "</span></div>";
+                echo "<div class='error'><p>";
+                echo $_SESSION['register']['error'];
+                echo "</p></div>";
                 unset($_SESSION['register']['error']);
             }
         ?>
 
-        <form method="post" action="/register">
+        <form method="post" action="register">
             <div class="row">
                 <div class="col25">
                     <label for="firstname">First Name*</label>
@@ -39,21 +39,7 @@ requireFile('../app/Views/headerandnavbar.php');
             </div>
 
             <div class="row">
-                <?=
-                    // if(!empty($_SESSION['register']['firstname']) && 
-                    // count($_SESSION['register']['firstname']) > 0)
-                    // {
-                    //     echo "<div>";
-                    //     foreach($_SESSION['register']['firstname'] as $error)
-                    //     {
-                    //         echo "<span class='red_font'>$error</span><br>";
-                    //     }
-                    //     echo "</div>";
-                    //     unset($_SESSION['register']['firstname']);
-                    // }
-
-                    showValidationError('register', 'firstname');
-                ?>
+                <?= showValidationError('register', 'firstname'); ?>
             </div>
 
             <div class="row">
@@ -70,21 +56,7 @@ requireFile('../app/Views/headerandnavbar.php');
             </div>
 
             <div class="row">
-                <?=
-                    // if(!empty($_SESSION['register']['lastname']) && 
-                    // count($_SESSION['register']['lastname']) > 0)
-                    // {
-                    //     echo "<div>";
-                    //     foreach($_SESSION['register']['lastname'] as $error)
-                    //     {
-                    //         echo "<span class='red_font'>$error</span><br>";
-                    //     }
-                    //     echo "</div>";
-                    //     unset($_SESSION['register']['lastname']);
-                    // }
-
-                    showValidationError('register', 'lastname');
-                ?>
+                <?= showValidationError('register', 'lastname'); ?>
             </div>
 
             <div class="row">
@@ -100,21 +72,7 @@ requireFile('../app/Views/headerandnavbar.php');
             </div>
 
             <div class="row">
-                <?=
-                    // if(!empty($_SESSION['register']['email']) && 
-                    // count($_SESSION['register']['email']) > 0)
-                    // {
-                    //     echo "<div>";
-                    //     foreach($_SESSION['register']['email'] as $error)
-                    //     {
-                    //         echo "<span class='red_font'>$error</span><br>";
-                    //     }
-                    //     echo "</div>";
-                    //     unset($_SESSION['register']['email']);
-                    // }
-
-                    showValidationError('register', 'email');
-                ?>
+                <?= showValidationError('register', 'email'); ?>
             </div>
 
             <div class="row">
@@ -130,21 +88,7 @@ requireFile('../app/Views/headerandnavbar.php');
             </div>
 
             <div class="row">
-                <?=
-                    // if(!empty($_SESSION['register']['password']) && 
-                    // count($_SESSION['register']['password']) > 0)
-                    // {
-                    //     echo "<div>";
-                    //     foreach($_SESSION['register']['password'] as $error)
-                    //     {
-                    //         echo "<span class='red_font'>$error</span><br>";
-                    //     }
-                    //     echo "</div>";
-                    //     unset($_SESSION['register']['password']);
-                    // }
-
-                    showValidationError('register', 'password');
-                ?>
+                <?= showValidationError('register', 'password'); ?>
             </div>
 
             <div class="row">
@@ -162,21 +106,7 @@ requireFile('../app/Views/headerandnavbar.php');
             </div>
 
             <div class="row">
-                <?=
-                    // if(!empty($_SESSION['register']['mobile']) && 
-                    // count($_SESSION['register']['mobile']) > 0)
-                    // {
-                    //     echo "<div>";
-                    //     foreach($_SESSION['register']['mobile'] as $error)
-                    //     {
-                    //         echo "<span class='red_font'>$error</span><br>";
-                    //     }
-                    //     echo "</div>";
-                    //     unset($_SESSION['register']['mobile']);
-                    // }
-
-                    showValidationError('register', 'mobile');
-                ?>
+                <?= showValidationError('register', 'mobile'); ?>
             </div>
 
             <input type="submit" value="Submit">

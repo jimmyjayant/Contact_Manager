@@ -13,8 +13,9 @@ requireFile('../app/Views/headerandnavbar.php');
         <?php
             if(isset($_SESSION['login_error']))
             {
-                echo "<div class='center'><span class='red_font'>" . 
-                $_SESSION['login_error'] . "</span></div>";
+                echo "<div class='error'>";
+                echo "<p>" . $_SESSION['login_error'] . "</p>";
+                echo "</div>";
                 unset($_SESSION['login_error']);
             }
         ?>
