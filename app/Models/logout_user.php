@@ -1,9 +1,4 @@
 <?php
-if(session_status() !== PHP_SESSION_ACTIVE)
-{
-    session_start();
-}
-
 requireFile("../app/Config/Database_Connection.php");
 
 ini_set("display_errors", 0);
