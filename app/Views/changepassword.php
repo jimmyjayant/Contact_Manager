@@ -1,5 +1,4 @@
 <?php
-requireFile('../app/Views/sessionstart.php');
 requireFile('../app/Helpers/sanitize_input_helper.php');
 requireFile('../app/Helpers/showValidationError.php');
 
