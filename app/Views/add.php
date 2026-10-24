@@ -1,29 +1,10 @@
 <?php
-    requireFile('../app/Views/sessionstart.php');
     requireFile('../app/Helpers/sanitize_input_helper.php');
+    requireFile('../app/Helpers/showValidationError.php');
+    requireFile('../app/Helpers/old.php');
     requireFile('../app/Filters/IsLoggedIn.php');
 
     $GLOBALS['css'] = ["css/add.css"];
-
-
-    function add_old(string $inputFieldName)
-    {
-        if(isset($_SESSION['add_form_data']))
-        {
-            if(array_key_exists($inputFieldName, $_SESSION['add_form_data']))
-            {
-                $value = sanitize_input($_SESSION['add_form_data'][$inputFieldName]);
-                return $value;
-            }
-        }
-        else
-        {
-            if($inputFieldName == 'gender')
-            {
-                return "male";
-            }
-        }
-    }
 
     $GLOBALS['js'] = ["script/add.js"];
 
@@ -35,22 +16,23 @@
 <div class="content">
     <div class="intro">
         <h1>Add Contacts</h1>
+        <span>Fields marked with * are required.</span>
 
         <div class="contact">
             <div id="add_contact">
 
                 <?php
-                    if(isset($_SESSION['add_contact_error']))
+                    if(isset($_SESSION['add']['error']))
                     {
-                        echo "<div class='center'><span class='red_font'>" . 
-                        $_SESSION['add_contact_error'] . "</span></div>";
-                        unset($_SESSION['add_contact_error']);
+                        echo "<div class='error'>";
+                        echo "<p>" . $_SESSION['add']['error'] . "</p></div>";
+                        unset($_SESSION['add']['error']);
                     }
-                    else if(isset($_SESSION['add_contact_success']))
+                    else if(isset($_SESSION['add']['success']))
                     {
-                        echo "<div class='center'><span class='green_font'>" . 
-                        $_SESSION['add_contact_success'] . "</span></div>";
-                        unset($_SESSION['add_contact_success']);
+                        echo "<div class='success'>";
+                        echo "<p>" . $_SESSION['add']['success'] . "</p></div>";
+                        unset($_SESSION['add']['success']);
                     }
                 ?>
 
@@ -60,18 +42,15 @@
                             <label for="firstname">First Name*</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="firstname" name="firstname" value="<?= add_old('firstname'); ?>" maxlength="100" required>
+                            <input type="text" id="firstname" name="firstname" 
+                            value="<?= old('add', 'firstname'); ?>" maxlength="100" required>
+                            <br>
+                            <span>Max 100 characters|Alphabets only</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['firstname_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['firstname_error'] . "</span></div>";
-                                unset($_SESSION['firstname_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'firstname'); ?>
                     </div>
 
                     <div class="row">
@@ -79,18 +58,15 @@
                             <label for="middlename">Middle Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="middlename" name="middlename" value="<?= add_old('middlename'); ?>" maxlength="100">
+                            <input type="text" id="middlename" name="middlename" 
+                            value="<?= old('add', 'middlename'); ?>" maxlength="100">
+                            <br>
+                            <span>Max 100 characters|Alphabets only</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['middlename_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['middlename_error'] . "</span></div>";
-                                unset($_SESSION['middlename_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'middlename'); ?>
                     </div>
 
                     <div class="row">
@@ -98,18 +74,15 @@
                             <label for="lastname">Last Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="lastname" name="lastname" value="<?= add_old('lastname'); ?>" maxlength="100">
+                            <input type="text" id="lastname" name="lastname" 
+                            value="<?= old('add', 'lastname'); ?>" maxlength="100">
+                            <br>
+                            <span>Max 100 characters|Alphabets only</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['lastname_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['lastname_error'] . "</span></div>";
-                                unset($_SESSION['lastname_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'lastname'); ?>
                     </div>
 
                     <div class="row">
@@ -117,18 +90,15 @@
                             <label for="nickname">Nickname</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="nickname" name="nickname" value="<?= add_old('nickname'); ?>" maxlength="100">
+                            <input type="text" id="nickname" name="nickname" 
+                            value="<?= old('add', 'nickname'); ?>" maxlength="100">
+                            <br>
+                            <span>Max 100 characters|Alphabets only</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['nickname_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['nickname_error'] . "</span></div>";
-                                unset($_SESSION['nickname_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'nickname'); ?>
                     </div>
 
                     <div class="row">
@@ -139,7 +109,7 @@
                             <div>
                                 <input type="radio" id="male" name="gender" value="male" 
                                 <?php 
-                                    $value = add_old('gender');
+                                    $value = old('add', 'gender');
                                     if($value == 'male')
                                     {
                                         echo " checked";
@@ -154,7 +124,7 @@
                             <div>
                                 <input type="radio" id="female" name="gender" value="female"
                                 <?php 
-                                    $value = add_old('gender');
+                                    $value = old('add', 'gender');
                                     if($value == 'female')
                                     {
                                         echo " checked";
@@ -170,51 +140,39 @@
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['gender_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['gender_error'] . "</span></div>";
-                                unset($_SESSION['gender_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'gender'); ?>
                     </div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="mobnum">Mobile Number</label>
+                            <label for="mobile">Mobile Number</label>
                         </div>
                         <div class="col75">
-                            <input type="tel" id="mobnum" name="mobnum" value="<?= add_old('mobnum'); ?>" pattern="[0-9]{10}">
+                            <input type="tel" id="mobile" name="mobile" 
+                            value="<?= old('add', 'mobile'); ?>" pattern="[0-9]{10}">
+                            <br>
+                            <span>Exact 10 digits|Omit +91</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['mobile_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['mobile_error'] . "</span></div>";
-                                unset($_SESSION['mobile_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'mobile'); ?>
                     </div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="landnum">Landline Number</label>
+                            <label for="landline">Landline Number</label>
                         </div>
                         <div class="col75">
-                            <input type="tel" id="landnum" name="landnum" value="<?= add_old('landnum'); ?>" pattern="[0-9]{8}">
+                            <input type="tel" id="landline" name="landline" 
+                            value="<?= old('add', 'landline'); ?>" pattern="[0-9]{8}">
+                            <br>
+                            <span>Exact 8 digits</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['landline_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['landline_error'] . "</span></div>";
-                                unset($_SESSION['landline_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'landline'); ?>
                     </div>
 
                     <div class="row">
@@ -222,18 +180,15 @@
                             <label for="address">Address</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="address" name="address" value="<?= add_old('address'); ?>" maxlength="500">
+                            <input type="text" id="address" name="address" 
+                            value="<?= old('add', 'address'); ?>" maxlength="500">
+                            <br>
+                            <span>Max 500 characters</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['address_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['address_error'] . "</span></div>";
-                                unset($_SESSION['address_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'address'); ?>
                     </div>
 
                     <div class="row">
@@ -241,18 +196,15 @@
                             <label for="relationship">Relationship</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="relationship" name="relationship" value="<?= add_old('relationship'); ?>" maxlength="100">
+                            <input type="text" id="relationship" name="relationship" 
+                            value="<?= old('add', 'relationship'); ?>" maxlength="100">
+                            <br>
+                            <span>Max 100 characters</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <?php
-                            if(isset($_SESSION['relationship_error']))
-                            {
-                                echo "<div><span class='red_font'>" . $_SESSION['relationship_error'] . "</span></div>";
-                                unset($_SESSION['relationship_error']);
-                            }
-                        ?>
+                        <?= showValidationError('add', 'relationship'); ?>
                     </div>
 
                     <div class="row" id="add_custom_fields_div">
@@ -280,6 +232,4 @@
 </div>
 
 <?php requireFile('../app/Views/footer.php'); ?>
-<?php 
-    unset($_SESSION['add_form_data']); 
-?>
+<?php unset($_SESSION['add']['formData']); ?>

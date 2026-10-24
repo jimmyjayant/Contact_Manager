@@ -169,6 +169,33 @@
     }
 
 
+    function validateAddress(string $key, string $address, $canBeEmpty = false)
+    {
+        if(!$canBeEmpty && empty($address))
+        {
+            $_SESSION[$key]['validationErrors']['address'][] = "Address cannot be empty!";
+        }
+        else if(strlen($address) > 500)
+        {
+            $_SESSION[$key]['validationErrors']['address'][] = "Address cannot be more than 500 characters!";
+        }
+    }
+
+
+
+    function validateRelationship(string $key, string $relationship, $canBeEmpty = false)
+    {
+        if(!$canBeEmpty && empty($relationship))
+        {
+            $_SESSION[$key]['validationErrors']['relationship'][] = " Relationship cannot be empty!";
+        }
+        else if(strlen($relationship) > 100)
+        {
+            $_SESSION[$key]['validationErrors']['relationship'][] = "Relationship cannot be more than 100 characters!";
+        }
+    }
+
+
     function testFieldName($input, $length, string $redirect = '', string $error = '')
     {
         $input = sanitize_input($input);

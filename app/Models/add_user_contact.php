@@ -1,5 +1,4 @@
 <?php
-    // requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
@@ -13,7 +12,7 @@
 
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
-        $_SESSION['add_contact_error'] = "Request Method is not POST!";
+        $_SESSION['add']['error'] = "Request Method is not POST!";
         header("Location: add");
         exit();
     }
@@ -22,66 +21,45 @@
     if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
     !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
-        $_SESSION['add_contact_error'] = "Session expired. Please refresh the webpage!";
+        $_SESSION['add']['error'] = "Session expired. Please refresh the webpage!";
         header("Location: login");
         exit();
     }
 
-    // Putting all form data in a session variable
-    $_SESSION['add_form_data']['firstname'] = $_POST['firstname'];
-    $_SESSION['add_form_data']['middlename'] = $_POST['middlename'];
-    $_SESSION['add_form_data']['lastname'] = $_POST['lastname'];
-    $_SESSION['add_form_data']['nickname'] = $_POST['nickname'];
-    $_SESSION['add_form_data']['gender'] = $_POST['gender'];
-    $_SESSION['add_form_data']['mobnum'] = $_POST['mobnum'];
-    $_SESSION['add_form_data']['landnum'] = $_POST['landnum'];
-    $_SESSION['add_form_data']['address'] = $_POST['address'];
-    $_SESSION['add_form_data']['relationship'] = $_POST['relationship'];
-
-    // Check and sanitize the user input that is form data
-    $firstname = sanitize_input($_POST['firstname']);
-    $middlename = sanitize_input($_POST['middlename']);
-    $lastname = sanitize_input($_POST['lastname']);
-    $nickname = sanitize_input($_POST['nickname']);
-    $gender = sanitize_input($_POST['gender']);
-    $mobnum = sanitize_input($_POST['mobnum']);
-    $landnum = sanitize_input($_POST['landnum']);
-    $address = sanitize_input($_POST['address']);
-    $relationship = sanitize_input($_POST['relationship']);
+    // Loop through the key value pairs in $_POST superglobal array
+    foreach($_POST as $x => $y)
+    {
+        // Check and sanitize the user input that is form data
+        $$x = sanitize_input($y);
+        // Put form data in a session variable array in case validation fails
+        $_SESSION['add']['formData'][$x] = $y;
+    }
 
     // Validate user provided form data
-    validateFirstname($firstname, 100, 'add', false, false);
-    validateMiddlename($middlename, 100, 'add', true, false);    
-    validateLastname($lastname, 100, 'add', true, false);    
-    validateNickname($nickname, 100, 'add', true, false);
-    validateGender($gender, 'add', false);
-    validateMobile($mobnum, 'add', false);    
-    validateLandline($landnum, 'add', false);
+    validateFirstname('add', $firstname, 100, false);
+    validateMiddlename('add', $middlename, 100, false);    
+    validateLastname('add', $lastname, 100, false);    
+    validateNickname('add', $nickname, 100, false);
+    validateGender('add', $gender);
+    validateMobile('add', $mobile);
+    validateLandline('add', $landline);
+    validateAddress('add', $address, true);
+    validateRelationship('add', $relationship, true);
 
-    if(empty($mobnum) && empty($landnum))
+    // Display validation errors if they exist
+    DisplayValidationErrors('add', 'add', false);
+
+
+    if(empty($mobile) && empty($landline))
     {
-        $_SESSION['add_contact_error'] = "Please provide either mobile or landline number!";
+        $_SESSION['add']['error'] = "Please provide either mobile or landline number!";
         header("Location: add");
         exit();
     }
 
-    $mobnum = empty($mobnum) ? "NULL" : "'$mobnum'";
-    $landnum = empty($landnum) ? "NULL" : "'$landnum'";
+    $mobile = empty($mobile) ? "NULL" : "'$mobile'";
+    $landline = empty($landline) ? "NULL" : "'$landline'";
 
-
-    if(strlen($address) > 500)
-    {
-        $_SESSION['address_error'] = "Address cannot contain more than 500 characters!";
-        header("Location: add");
-        exit();
-    }
-
-    if(strlen($relationship) > 100)
-    {
-        $_SESSION['relationship_error'] = "Relationship cannot contain more than 100 characters!";
-        header("Location: add");
-        exit();
-    }
 
     $token = $_SESSION['user_token'];
     // sql query
@@ -92,7 +70,7 @@
         $conn = $GLOBALS['conn'];
         if(!$conn)
         {
-            $_SESSION['add_contact_error'] = "Database server unavailable. Please try again later!";
+            $_SESSION['add']['error'] = "Database server unavailable. Please try again later!";
             header("Location: add");
             exit();
         }
@@ -106,7 +84,7 @@
 
             // sql query to insert new contact of currently logged in user into contacts table in contact_manager_db
             $sql = "INSERT INTO contacts(user_id, first_name, middle_name, last_name, nickname, gender,     mobile_number, landline_number, addr, relationship)
-                    VALUES($id, '$firstname', '$middlename', '$lastname', '$nickname', '$gender', $mobnum, $landnum, '$address', '$relationship')";
+                    VALUES($id, '$firstname', '$middlename', '$lastname', '$nickname', '$gender', $mobile, $landline, '$address', '$relationship')";
 
             try
             {
@@ -120,13 +98,13 @@
             {
                 if($e->getCode() == 1062)
                 {
-                    $_SESSION['add_contact_error'] = "Mobile or Landline Number Already Exists!";
+                    $_SESSION['add']['error'] = "Mobile or Landline Number Already Exists!";
                     header("Location: add");
                     exit();
                 }
                 else
                 {
-                    $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
+                    $_SESSION['add']['error'] = "Error Adding Contact. Please try again later!";
                     header("Location: add");
                     exit();
                 }
@@ -134,7 +112,7 @@
         }
         else
         {
-            $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
+            $_SESSION['add']['error'] = "Error Adding Contact. Please try again later!";
             header("Location: add");
             exit();
         }
@@ -158,7 +136,7 @@
                 }
                 catch(mysqli_sql_exception $e)
                 {
-                    $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later!";
+                    $_SESSION['add']['error'] = "Error Adding Contact. Please try again later!";
                     header("Location: add");
                     exit();
                 }
@@ -171,7 +149,7 @@
                     $customFieldValue = sanitize_input($_POST['customInputElement' . $i+1]);
                     if(strlen($customFieldValue) > 500)
                     {
-                        $_SESSION['add_contact_error'] = "Field Value cannot be more than 500 characters!";
+                        $_SESSION['add']['error'] = "Field Value cannot be more than 500 characters!";
                         header("Location: add");
                         exit();
                     }
@@ -188,27 +166,27 @@
                     {
                         if($e->getCode() == 1062)
                         {
-                            $_SESSION['add_contact_error'] = "Mobile or Landline Number Already Exists!";
+                            $_SESSION['add']['error'] = "Mobile or Landline Number Already Exists!";
                             header("Location: add");
                             exit();
                         }
                         else
                         {
-                            $_SESSION['add_contact_error'] = "Error Adding Contact. Please try again later1!";
+                            $_SESSION['add']['error'] = "Error Adding Contact. Please try again later1!";
                             header("Location: add");
                             exit();
                         }
                     }
                 }
 
-                $_SESSION['add_contact_success'] = "Contact added successfully";
+                $_SESSION['add']['success'] = "Contact added successfully";
                 header("Location: add");
                 exit();
             }
         }
         else
         {
-            $_SESSION['add_contact_success'] = "Contact added successfully";
+            $_SESSION['add']['success'] = "Contact added successfully";
             header("Location: add");
             exit();
         }
@@ -216,7 +194,7 @@
     catch(mysqli_sql_exception $e)
     {
         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-        $_SESSION['add_contact_error'] = "Please try again later!";
+        $_SESSION['add']['error'] = "Please try again later!";
         header("Location: add");
         exit();
     }
