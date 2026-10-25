@@ -34,10 +34,6 @@
         // Put form data in a session variable array in case validation fails
         $_SESSION['add']['formData'][$x] = $y;
     }
-    // echo "<pre>";
-    // print_r($_SESSION['add']['formData']);
-    // echo "</pre>";
-    // exit();
 
     // Validate user provided form data
     validateFirstname('add', $firstname, 100, false);
@@ -78,9 +74,6 @@
         $conn = $GLOBALS['conn'];
         if(!$conn)
         {
-            // $_SESSION['add']['error'] = "Database server unavailable. Please try again later!";
-            // header("Location: add");
-            // exit();
             throw new Exception('Database server unavailable. Please try again later!');
         }
 
@@ -128,9 +121,11 @@
 
         // If custom fields are present in form
     
-        if(isset($_POST['custom_fields_present']) && $_POST['custom_fields_present'] == 1)
+        if(!empty($_SESSION['add']['formData']['custom_fields_present']) && 
+            $_SESSION['add']['formData']['custom_fields_present'] == 1)
         {
-            if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
+            if(!empty($_SESSION['add']['formData']['custom_fields_number']) && 
+            $_SESSION['add']['formData']['custom_fields_number'] > 0)
             {
                 $sql = "SELECT form_number FROM contacts WHERE form_number = $last_insert_id";
 
