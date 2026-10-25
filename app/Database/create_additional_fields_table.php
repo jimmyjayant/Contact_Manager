@@ -2,6 +2,7 @@
 requireFile("../app/Config/Database_Connection.php");
 
 $sql = "CREATE TABLE IF NOT EXISTS additional_fields(
+ID INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 userID INT(6) UNSIGNED,
 FOREIGN KEY(userID) REFERENCES user(id) ON DELETE CASCADE,
 form_no INT(6) UNSIGNED,

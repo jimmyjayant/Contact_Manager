@@ -21,19 +21,9 @@
     }
     else
     {
-        // if(!isset($_SESSION['user_token']))
-        // {
-        //     $data['status'] = "error";
-        //     $data['data'] = "Please login!";
-        //     $data = json_encode($data);
-        //     header("Content-Type: application/json");
-        //     echo $data;
-        //     exit();
-        // }
-
         IsLoggedIn(true);
 
-        if(!isset($_GET['id']))
+        if(!isset($GLOBALS['editID']))
         {
             $data['status'] = 'error';
             $data['data'] = "URL query parameter 'id' is not set!";
@@ -43,7 +33,7 @@
         }
         else
         {
-            $id = sanitize_input($_GET['id']);
+            $id = sanitize_input($GLOBALS['editID']);
             
             $token = $_SESSION['user_token'];
             // sql query
@@ -54,12 +44,7 @@
                 $conn = $GLOBALS['conn'];
                 if(!$conn)
                 {
-                    $data['status'] = "error";
-                    $data['data'] = "Database server unavailable. Please try again later!";
-                    $data = json_encode($data);
-                    header("Content-Type: application/json");
-                    echo $data;
-                    exit();
+                    throw new Exception("Database server unavailable. Please try again later!");
                 }
 
                 $result = $conn->query($sql);
@@ -77,18 +62,66 @@
                     {
                         while($row = $result->fetch_assoc())
                         {
-                            $_SESSION['edit_form_data']['form_number'] = $formNumber = $row['form_number'];
-                            $_SESSION['edit_form_data']['first_name'] = $row['first_name'];
-                            $_SESSION['edit_form_data']['middle_name'] = $row['middle_name'];
-                            $_SESSION['edit_form_data']['last_name'] = $row['last_name'];
-                            $_SESSION['edit_form_data']['nickname'] = $row['nickname'];
-                            $_SESSION['edit_form_data']['gender'] = $row['gender'];
-                            $_SESSION['edit_form_data']['mobile_number'] = $row['mobile_number'];
-                            $_SESSION['edit_form_data']['landline_number'] = $row['landline_number'];
-                            $_SESSION['edit_form_data']['addr'] = $row['addr'];
-                            $_SESSION['edit_form_data']['relationship'] = $row['relationship'];
+                            foreach($row as $x => $y)
+                            {
+                                // Put contact data in a session variable array
+                                $_SESSION['edit']['formData'][$x] = $y;
+                            }
 
-                            $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields WHERE form_no = $formNumber";
+                            // Remove old key value pairs and add new one
+                            if(array_key_exists('first_name', $_SESSION['edit']['formData']))
+                            {
+                                $_SESSION['edit']['formData']['firstname'] = 
+                                $_SESSION['edit']['formData']['first_name'];
+
+                                unset($_SESSION['edit']['formData']['first_name']);
+                            }
+
+                            if(array_key_exists('middle_name', $_SESSION['edit']['formData']))
+                            {
+                                $_SESSION['edit']['formData']['middlename'] = 
+                                $_SESSION['edit']['formData']['middle_name'];
+
+                                unset($_SESSION['edit']['formData']['middle_name']);
+                            }
+
+                            if(array_key_exists('last_name', $_SESSION['edit']['formData']))
+                            {
+                                $_SESSION['edit']['formData']['lastname'] = 
+                                $_SESSION['edit']['formData']['last_name'];
+
+                                unset($_SESSION['edit']['formData']['last_name']);
+                            }
+
+                            if(array_key_exists('mobile_number', $_SESSION['edit']['formData']))
+                            {
+                                $_SESSION['edit']['formData']['mobile'] = 
+                                $_SESSION['edit']['formData']['mobile_number'];
+
+                                unset($_SESSION['edit']['formData']['mobile_number']);
+                            }
+
+                            if(array_key_exists('landline_number', $_SESSION['edit']['formData']))
+                            {
+                                $_SESSION['edit']['formData']['landline'] = 
+                                $_SESSION['edit']['formData']['landline_number'];
+
+                                unset($_SESSION['edit']['formData']['landline_number']);
+                            }
+
+                            if(array_key_exists('addr', $_SESSION['edit']['formData']))
+                            {
+                                $_SESSION['edit']['formData']['address'] = 
+                                $_SESSION['edit']['formData']['addr'];
+
+                                unset($_SESSION['edit']['formData']['addr']);
+                            }
+
+                            $formNumber = $_SESSION['edit']['formData']['form_number'];
+
+                            $sql = 
+                            "SELECT COUNT(*) AS total_fields FROM additional_fields 
+                            WHERE form_no = $formNumber";
 
                             $result1 = $conn->query($sql);
 
@@ -108,19 +141,25 @@
 
                                     if($result2->num_rows > 0)
                                     {
-                                        $counter = 0;
+                                        $i = 1;
                                         while($row = $result2->fetch_assoc())
                                         {
-                                            $counter++;
-                                            $_SESSION['edit_form_data']['additional_fields'][$counter]['field_name'] 
-                                            = $row['field_name'];
-                                            $_SESSION['edit_form_data']['additional_fields'][$counter]['field_value'] 
-                                            = $row['field_value'];
+                                            foreach($row as $x => $y)
+                                            {
+                                                // Put contact data in a session variable array
+                                                $_SESSION['edit']['formData']['customInputElement'. $i] = $y;
+                                                $i++;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
+//                         echo "<pre>";
+// print_r($_SESSION['edit']['formData']);
+// echo "</pre>";
+// exit();
 
                         $data['status'] = 'success';
                         $data = json_encode($data);

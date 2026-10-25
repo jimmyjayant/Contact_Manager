@@ -36,7 +36,7 @@ export function get_edit_contact_buttons()
                    window.location.href = "edit";
                 }
             }
-            xhttp.open("GET", "single?id=" + edit_id, true);
+            xhttp.open("GET", "single/" + edit_id, true);
             xhttp.send();
         });
     });

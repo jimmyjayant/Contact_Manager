@@ -1,6 +1,5 @@
 <?php
-    // PHP Script for deleting contact of a logged in user
-    // requireFile("../app/Views/sessionstart.php");
+    // PHP Script for editing contact of a logged in user
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
@@ -10,18 +9,11 @@
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    // if(!isset($_SESSION['user_token']))
-    // {
-    //     $_SESSION['edit_contact_error'] = "Please login!";
-    //     header("Location: edit");
-    //     exit();
-    // }
-
     IsLoggedIn(false);
     
     if($_SERVER['REQUEST_METHOD'] !== 'POST')
     {
-        $_SESSION['edit_contact_error'] = "Request Method is not POST!";
+        $_SESSION['edit']['error'] = "Request Method is not POST!";
         header("Location: edit");
         exit();
     }
@@ -29,136 +21,85 @@
     if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
         !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
     {
-        $_SESSION['edit_contact_error'] = "CSRF Token does not match!";
+        $_SESSION['edit']['error'] = "CSRF Token does not match!";
         header("Location: edit");
         exit();
     }
 
-    function test_edit_field_name($input, $length, $n)
+    // Loop through the key value pairs in $_POST superglobal array
+    foreach($_POST as $x => $y)
     {
-        $input = trim($input);
-
-        if(empty($input))
-        {
-            $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
-            "Field Name cannot be empty!";
-            header("Location: edit");
-            exit();
-        }
-        else if(strlen($input) > $length)
-        {
-            $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
-            "Field Name cannot be more than $length characters!";
-            header("Location: edit");
-            exit();
-        }
-        else if(preg_match_all("/\d/", $input))
-        {
-            $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
-            "Field Name cannot contain digits!";
-            header("Location: edit");
-            exit();
-        }
-        else if(preg_match_all("/\W/", $input))
-        {
-            $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'] = 
-            "Field Name cannot contain special characters!";
-            header("Location: edit");
-            exit();
-        }
-
-        //return $input;
+        // Check and sanitize the user input that is form data
+        $$x = sanitize_input($y);
+        // Put form data in a session variable array in case validation fails
+        $_SESSION['edit']['formData'][$x] = $y;
     }
+    // echo "<pre>";
+    // print_r($_SESSION['edit']['formData']);
+    // print_r(array_keys($_SESSION['edit']['formData']));
+    // echo "</pre>";
+    // exit();
 
+    // $arrayKeys = array_keys($_SESSION['edit']['formData']);
 
-    // Putting all form data in a session variable
-    $_SESSION['edit_form_data']['form_number'] = $_POST['form_number'];
-    $_SESSION['edit_form_data']['first_name'] = $_POST['first_name'];
-    $_SESSION['edit_form_data']['middle_name'] = $_POST['middle_name'];
-    $_SESSION['edit_form_data']['last_name'] = $_POST['last_name'];
-    $_SESSION['edit_form_data']['nickname'] = $_POST['nickname'];
-    $_SESSION['edit_form_data']['gender'] = $_POST['gender'];
-    $_SESSION['edit_form_data']['mobile_number'] = $_POST['mobile_number'];
-    $_SESSION['edit_form_data']['landline_number'] = $_POST['landline_number'];
-    $_SESSION['edit_form_data']['addr'] = $_POST['addr'];
-    $_SESSION['edit_form_data']['relationship'] = $_POST['relationship'];
+    // foreach($arrayKeys as $x => $y)
+    // {
+    //     if(!preg_match_all("/customInputElement/", $y))
+    //     {
+    //         unset($arrayKeys[$x]);
+    //     }
+    // }
 
-    if(isset($_POST['custom_fields_present']) && $_POST['custom_fields_present'] == 1)
-    {
-        if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
-        {
-            $custom_fields_number = sanitize_input(($_POST['custom_fields_number']));
-            $n = 1;
-            while($n <= $custom_fields_number)
-            {
-                $fieldName = "fieldName$n";
-                if(!empty($_POST[$fieldName]))
-                {
-                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_name'] = 
-                    sanitize_input($_POST[$fieldName]);
-                
-                    $fieldValue = "fieldValue$n";
-                    $_SESSION['edit_form_data']['additional_fields'][$n]['field_value'] = 
-                    sanitize_input($_POST[$fieldValue]);
-                }
+    // echo "<pre>";
+    // print_r($arrayKeys);
+    // echo "</pre>";
+    // exit();
 
-                $n++;
-            }
-        }
-    }
+    // foreach($arrayKeys as $x)
+    // {
+    //     if(array_key_exists($x, $_SESSION['edit']['formData']))
+    //     {
+    //         $_SESSION['edit']['formData'][$x] = $_SESSION['edit']['formData'][$x];
+    //         unset($_SESSION['edit']['formData'][$x]);
+    //     }
+    // }
 
-    // Check and sanitize the user input that is form data
-    $firstname = sanitize_input($_POST['first_name']);
-    $middlename = sanitize_input($_POST['middle_name']);
-    $lastname = sanitize_input($_POST['last_name']);
-    $nickname = sanitize_input($_POST['nickname']);
-    $gender = sanitize_input($_POST['gender']);
-    $mobnum = sanitize_input($_POST['mobile_number']);
-    $landnum = sanitize_input($_POST['landline_number']);
-    $address = sanitize_input($_POST['addr']);
-    $relationship = sanitize_input($_POST['relationship']);
-    // Form Number
-    $formNumber = sanitize_input($_POST['form_number']);
-
+    // echo "<pre>";
+    // print_r($_SESSION['edit']['formData']);
+    // echo "</pre>";
+    // exit();
 
     // Validate user provided form data
-    validateFirstname($firstname, 100, 'edit', false, false);
-    validateMiddlename($middlename, 100, 'edit', true, false);
-    validateLastname($lastname, 100, 'edit', true, false);
-    validateNickname($nickname, 100, 'edit', true, false);
-    validateGender($gender, 'edit', false);
-    validateMobile($mobnum, 'edit', false);    
-    validateLandline($landnum, 'edit', false);
+    validateFirstname('edit', $firstname, 100, false);
+    validateMiddlename('edit', $middlename, 100, false);
+    validateLastname('edit', $lastname, 100, false);
+    validateNickname('edit', $nickname, 100, false);
+    validateGender('edit', $gender);
+    validateMobile('edit', $mobile);    
+    validateLandline('edit', $landline);
+    validateAddress('edit', $address, false);
+    validateRelationship('edit', $relationship, false);
+
+    // Validate custom fields if present
+    validateCustomInputFields('edit', 100, 500, false);
+
+    // Display validation errors if they exist
+    DisplayValidationErrors('edit', 'edit', false);
 
 
-    if(empty($mobnum) && empty($landnum))
+    if(empty($mobile) && empty($landline))
     {
-        $_SESSION['edit_contact_error'] = "Please provide either mobile or landline number!";
+        $_SESSION['edit']['error'] = "Please provide either mobile or landline number!";
         header("Location: edit");
         exit();
     }
 
-    $mobnum = empty($mobnum) ? "NULL" : "'$mobnum'";
-    $landnum = empty($landnum) ? "NULL" : "'$landnum'";
-
-
-    if(strlen($address) > 500)
-    {
-        $_SESSION['address_error'] = "Address cannot contain more than 500 characters!";
-        header("Location: edit");
-        exit();
-    }
-
-
-    if(strlen($relationship) > 100)
-    {
-        $_SESSION['relationship_error'] = "Relationship cannot contain more than 100 characters!";
-        header("Location: edit");
-        exit();
-    }
-
+    $mobile = empty($mobile) ? "NULL" : "'$mobile'";
+    $landline = empty($landline) ? "NULL" : "'$landline'";
 
     $token = $_SESSION['user_token'];
+    $formNumber = $_SESSION['edit']['formData']['form_number'];
+
     // sql query
     $sql = "SELECT id FROM user WHERE token='{$token}'";
 
@@ -167,9 +108,7 @@
         $conn = $GLOBALS['conn'];
         if(!$conn)
         {
-            $_SESSION['edit_contact_error'] = "Database server unavailable. Please try again later!";
-            header("Location: edit");
-            exit();
+            throw new Exception('Database server unavailable. Please try again later!');
         }
 
         $result = $conn->query($sql);
@@ -186,8 +125,8 @@
                         last_name='$lastname',
                         nickname='$nickname',
                         gender='$gender',
-                        mobile_number=$mobnum,
-                        landline_number=$landnum,
+                        mobile_number=$mobile,
+                        landline_number=$landline,
                         addr='$address',
                         relationship='$relationship'
                     WHERE user_id=$id 
@@ -198,93 +137,71 @@
                 $result = $conn->query($sql);
             }
             catch(mysqli_sql_exception $e)
-            {/*
-                if($e->getCode() == 1062)
-                {
-                    $_SESSION['edit_contact_error'] = "Mobile or Landline Number Already Exists!";
-                    header("Location: edit");
-                    exit();
-                }
-                else
-                {*/
-                    $_SESSION['edit_contact_error'] = "Error Editing Contact. Please try again later!";
-                    header("Location: edit");
-                    exit();
-                //}
-            }
-        }
-        else
-        {
-            $_SESSION['edit_contact_error'] = "Error Editing Contact. Please try again later!";
-            header("Location: edit");
-            exit();
-        }
-
-        // If custom fields are present in form
-
-        if(isset($_POST['custom_fields_present']) && $_POST['custom_fields_present'] == 1)
-        {
-            if(isset($_POST['custom_fields_number']) && $_POST['custom_fields_number'] != 0)
             {
-                $custom_fields_number = sanitize_input($_POST['custom_fields_number']);
-                $n = 1;
-                while($n <= $custom_fields_number)
-                {
-                    $fieldName = "fieldName$n";
-                    $fieldName = sanitize_input($_POST[$fieldName]);
-                    test_edit_field_name($fieldName, 100, $n);
-
-
-                    $fieldValue = "fieldValue$n";
-                    $fieldValue = sanitize_input($_POST[$fieldValue]);
-                    $fieldValue = sanitize_input($fieldValue);
-
-                    if(empty($fieldValue))
-                    {
-                        $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'] = 
-                        "Field Value cannot be empty!";
-                        header("Location: edit");
-                        exit();
-                    }
-                    else if(strlen($fieldValue) > 500)
-                    {
-                        $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'] = 
-                        "Field Value cannot be more than 500 characters!";
-                        header("Location: edit");
-                        exit();
-                    }
-
-
-                    $sql = "UPDATE additional_fields
-                            SET field_name='$fieldName',
-                                field_value='$fieldValue'
-                            WHERE userID={$id} 
-                            AND form_no={$formNumber}";
-
-                    try
-                    {
-                        $result = $conn->query($sql);
-                        if($result === TRUE)
-                        {
-                            $n++;
-                        }
-                    }
-                    catch(mysqli_sql_exception $e)
-                    {
-                        $_SESSION['edit_contact_error'] = "Error Editing Contact. Please try again later!";
-                        header("Location: edit");
-                        exit();
-                    }
-                }
-
-                $_SESSION['edit_contact_success'] = "Contact edited successfully";
+                $_SESSION['edit']['error'] = "Error Editing Contact. Please try again later!";
                 header("Location: edit");
                 exit();
             }
         }
         else
         {
-            $_SESSION['edit_contact_success'] = "Contact edited successfully";
+            $_SESSION['edit']['error'] = "Error Editing Contact. Please try again later!";
+            header("Location: edit");
+            exit();
+        }
+
+        // If custom fields are present in form
+        if(!empty($_SESSION['edit']['formData']['custom_fields_present']) 
+            && $_SESSION['edit']['formData']['custom_fields_present'] == 1)
+        {
+            if(!empty($_SESSION['edit']['formData']['custom_fields_number']) 
+                && $_SESSION['edit']['formData']['custom_fields_number'] > 0)
+            {
+                $custom_fields_number = $_SESSION['edit']['formData']['custom_fields_number'];
+                for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
+                {
+                    $customFieldName = $_SESSION['edit']['formData']['customInputElement' . $i];
+                    $customFieldValue = $_SESSION['edit']['formData']['customInputElement' . $i+1];
+
+                    // sql statement to update additional fields into additional_fields table 
+                    // in contact_manager_db database
+                    $sql = "UPDATE additional_fields
+                            SET field_name='$customFieldName',
+                                field_value='$customFieldValue'
+                            WHERE userID={$id} 
+                            AND form_no={$formNumber}";
+
+                    try
+                    {
+                        $result = $conn->query($sql);
+                    }
+                    catch(mysqli_sql_exception $e)
+                    {
+                        if($e->getCode() == 1062)
+                        {
+                            $_SESSION['edit']['error'] = "Additional info Already Exists!";
+                            header("Location: edit");
+                            exit();
+                        }
+                        else
+                        {
+                            $_SESSION['edit']['error'] = "Error editing additional info. Please try again later!";
+                            header("Location: edit");
+                            exit();
+                        }
+                    }
+                }
+
+                $_SESSION['edit']['success'] = "Contact edited successfully";
+                unset($_SESSION['edit']['formData']);
+                header("Location: edit");
+                exit();
+            }
+        }
+        else
+        {
+            $_SESSION['edit']['success'] = "Contact edited successfully";
+            unset($_SESSION['edit']['formData']);
             header("Location: edit");
             exit();
         }
@@ -292,7 +209,7 @@
     catch(mysqli_sql_exception $e)
     {
         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-        $_SESSION['edit_contact_error'] = "Please try again later!";
+        $_SESSION['edit']['error'] = "Database server unavailable. Please try again later!";
         header("Location: edit");
         exit();
     }

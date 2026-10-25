@@ -1,7 +1,8 @@
 <?php
-requireFile('../app/Views/sessionstart.php');
 requireFile('../app/Helpers/sanitize_input_helper.php');
 requireFile("../app/Filters/validationFilters.php");
+requireFile('../app/Helpers/showValidationError.php');
+requireFile('../app/Helpers/old.php');
 
 $GLOBALS['css'] = ["css/edit.css"];
 
@@ -13,22 +14,10 @@ requireFile('../app/Filters/IsLoggedIn.php');
 
 IsLoggedIn(false);
 
-if(empty($_SESSION['edit_form_data']))
+if(empty($_SESSION['edit']['formData']))
 {
     header("Location: show");
     exit();
-}
-
-function edit_old(string $inputFieldName)
-{
-    if(isset($_SESSION['edit_form_data']))
-    {
-        if(array_key_exists($inputFieldName, $_SESSION['edit_form_data']))
-        {
-            $value = sanitize_input($_SESSION['edit_form_data'][$inputFieldName]);    
-            return $value;
-        }
-    }
 }
 ?>
 
@@ -38,82 +27,61 @@ function edit_old(string $inputFieldName)
 
         <div id="edit_contact">
             <?php
-                if(isset($_SESSION['edit_contact_error']))
+                if(isset($_SESSION['edit']['error']))
                 {
-                    echo "<div class='center'><span class='red_font'>" . 
-                    $_SESSION['edit_contact_error'] . "</span></div>";
-                    unset($_SESSION['edit_contact_error']);
+                    echo "<div class='error'>";
+                    echo "<p>" . $_SESSION['edit']['error'] . "</p></div>";
+                    unset($_SESSION['edit']['error']);
                 }
-                else if(isset($_SESSION['edit_contact_success']))
+                else if(isset($_SESSION['edit']['success']))
                 {
-                    echo "<div class='center'><span class='green_font'>" . 
-                    $_SESSION['edit_contact_success'] . "</span></div>";
-                    unset($_SESSION['edit_contact_success']);
+                    echo "<div class='success'>";
+                    echo "<p>" . $_SESSION['edit']['success'] . "</p></div>";
+                    unset($_SESSION['edit']['success']);
                 }
             ?>
 
             <form method="post" action="edit" id="editForm">
                 <div class="row">
                     <div class="col25">
-                        <label for="first_name">First Name*</label>
+                        <label for="firstname">First Name*</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="first_name" name="first_name" 
-                        value="<?= edit_old('first_name'); ?>" maxlength="100" required>
+                        <input type="text" id="firstname" name="firstname" 
+                        value="<?= old('edit', 'firstname'); ?>" maxlength="100" required>
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['firstname_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['firstname_error'] . "</span></div>";
-                            unset($_SESSION['firstname_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'firstname'); ?>
                 </div>
 
                 <div class="row">
                     <div class="col25">
-                        <label for="middle_name">Middle Name</label>
+                        <label for="middlename">Middle Name</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="middle_name" name="middle_name" 
-                        value="<?= edit_old('middle_name'); ?>" maxlength="100">
+                        <input type="text" id="middlename" name="middlename" 
+                        value="<?= old('edit', 'middlename'); ?>" maxlength="100">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['middlename_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['middlename_error'] . "</span></div>";
-                            unset($_SESSION['middlename_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'middlename'); ?>
                 </div>
 
                 <div class="row">
                     <div class="col25">
-                        <label for="last_name">Last Name</label>
+                        <label for="lastname">Last Name</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="last_name" name="last_name" 
-                        value="<?= edit_old('last_name'); ?>" maxlength="100">
+                        <input type="text" id="lastname" name="lastname" 
+                        value="<?= old('edit', 'lastname'); ?>" maxlength="100">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['lastname_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['lastname_error'] . "</span></div>";
-                            unset($_SESSION['lastname_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'lastname'); ?>
                 </div>
 
                 <div class="row">
@@ -122,19 +90,12 @@ function edit_old(string $inputFieldName)
                     </div>
                     <div class="col75">
                         <input type="text" id="nickname" name="nickname" 
-                        value="<?= edit_old('nickname'); ?>" maxlength="100">
+                        value="<?= old('edit', 'nickname'); ?>" maxlength="100">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['nickname_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['nickname_error'] . "</span></div>";
-                            unset($_SESSION['nickname_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'nickname'); ?>
                 </div>
 
                 <div class="row">
@@ -145,7 +106,7 @@ function edit_old(string $inputFieldName)
                         <div>
                             <input type="radio" id="male" name="gender" value="male"
                             <?php
-                                $value = edit_old('gender');
+                                $value = old('edit', 'gender');
                                 if($value == 'male')
                                 {
                                     echo " checked";
@@ -160,7 +121,7 @@ function edit_old(string $inputFieldName)
                         <div>
                             <input type="radio" id="female" name="gender" value="female" 
                             <?php
-                                $value = edit_old('gender');
+                                $value = old('edit', 'gender');
                                 if($value == 'female')
                                 {
                                     echo " checked";
@@ -176,77 +137,49 @@ function edit_old(string $inputFieldName)
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['gender_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['gender_error'] . "</span></div>";
-                            unset($_SESSION['gender_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'gender'); ?>
                 </div>
 
                 <div class="row">
                     <div class="col25">
-                        <label for="mobile_number">Mobile Number</label>
+                        <label for="mobile">Mobile Number</label>
                     </div>
                     <div class="col75">
-                        <input type="tel" id="mobile_number" name="mobile_number" 
-                        value="<?= edit_old('mobile_number'); ?>" pattern="[0-9]{10}">
+                        <input type="tel" id="mobile" name="mobile" 
+                        value="<?= old('edit', 'mobile'); ?>" pattern="[0-9]{10}">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['mobile_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['mobile_error'] . "</span></div>";
-                            unset($_SESSION['mobile_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'mobile'); ?>
                 </div>
 
                 <div class="row">
                     <div class="col25">
-                        <label for="landline_number">Landline Number</label>
+                        <label for="landline">Landline Number</label>
                     </div>
                     <div class="col75">
-                        <input type="tel" id="landline_number" name="landline_number" 
-                        value="<?= edit_old('landline_number'); ?>" pattern="[0-9]{8}">
+                        <input type="tel" id="landline" name="landline" 
+                        value="<?= old('edit', 'landline'); ?>" pattern="[0-9]{8}">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['landline_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['landline_error'] . "</span></div>";
-                            unset($_SESSION['landline_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'landline'); ?>
                 </div>
 
                 <div class="row">
                     <div class="col25">
-                        <label for="addr">Address</label>
+                        <label for="address">Address</label>
                     </div>
                     <div class="col75">
-                        <input type="text" id="addr" name="addr" 
-                        value="<?= edit_old('addr'); ?>" maxlength="500">
+                        <input type="text" id="address" name="address" 
+                        value="<?= old('edit', 'address'); ?>" maxlength="500">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['address_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['address_error'] . "</span></div>";
-                            unset($_SESSION['address_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'address'); ?>
                 </div>
 
                 <div class="row">
@@ -255,27 +188,28 @@ function edit_old(string $inputFieldName)
                     </div>
                     <div class="col75">
                         <input type="text" id="relationship" name="relationship" 
-                        value="<?= edit_old('relationship'); ?>" maxlength="100">
+                        value="<?= old('edit', 'relationship'); ?>" maxlength="100">
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php
-                        if(isset($_SESSION['relationship_error']))
-                        {
-                            echo "<div><span class='red_font'>" . 
-                            $_SESSION['relationship_error'] . "</span></div>";
-                            unset($_SESSION['relationship_error']);
-                        }
-                    ?>
+                    <?= showValidationError('edit', 'relationship'); ?>
                 </div>
 
                 <?php
-                    if(!empty($_SESSION['edit_form_data']['additional_fields']))
+                    if(!empty($_SESSION['edit']['formData']))
                     {
-                        $counter = (int)array_key_last($_SESSION['edit_form_data']['additional_fields']);
+                        $arrayKeys = array_keys($_SESSION['edit']['formData']);
 
-                        $n = 1;
+                        foreach($arrayKeys as $x => $y)
+                        {
+                            if(!preg_match_all("/customInputElement/", $y))
+                            {
+                                unset($arrayKeys[$x]);
+                            }
+                        }
+
+                        $n = count($arrayKeys) / 2;
 
                         $html = <<< EOT
                         <div class="row">
@@ -283,75 +217,50 @@ function edit_old(string $inputFieldName)
                                 <label>Edit Custom Fields</label>
                                 <input type="hidden" id="custom_fields_present" name="custom_fields_present" value="1">
                                 <input type="hidden" id="custom_fields_number" name="custom_fields_number" 
-                                value="{$counter}">
+                                value="{$n}">
                             </div>
                         </div>
 EOT;
 echo $html;
 
-                        while($n <= $counter)
+                        for($i = 1; $i < ($n * 2); $i = $i+2)
                         {
-                            $fieldName = "fieldName$n";
-                            $fieldValue = "fieldValue$n";
+                            echo "<div class='row'>";
+                            
+                            $customFieldName = 'customInputElement' . $i;
+                            $customFieldValue = $_SESSION['edit']['formData'][$customFieldName];
 
-
-                            $inputFieldName = 
-                            htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_name']);
-                            $inputFieldValue = 
-                            htmlspecialchars($_SESSION['edit_form_data']['additional_fields'][$n]['field_value']);
-
-
-                            if(!empty($_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error']))
-                            {
-                                $formNameError = 
-                                $_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error'];
-                                unset($_SESSION['edit_form_data']['additional_fields'][$n]['field_name_error']);
-                            }
-
-                            if(!empty($_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error']))
-                            {
-                                $formValueError = 
-                                $_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error'];
-                                unset($_SESSION['edit_form_data']['additional_fields'][$n]['field_value_error']);
-                            }
-
-                            if(isset($formNameError))
-                            {
-                                echo "<div class='row'>";
-                                echo "<div><span class='red_font'>" . $formNameError . "</span></div>";
-                                echo "</div>";
-                            }
-
-                            if(isset($formValueError))
-                            {
-                                echo "<div class='row'>";
-                                echo "<div><span class='red_font'>" . $formValueError . "</span></div>";
-                                echo "</div>";
-                            }
-
-                            $html = <<< EOT
-                            <div class="row">
+                            $customInputElement = <<< EOT
                                 <div class="col25">
-                                    <input type="text" id="$fieldName" name="$fieldName" 
-                                    value="$inputFieldName" title="Field Name" required>
-                                    </input>
+                                    <input type="text" name="{$customFieldName}" maxlength="100" 
+                                    placeholder="Enter field name here" required value="{$customFieldValue}">
                                 </div>
-                                <div class="col75">
-                                    <input type="text" id="$fieldValue" name="$fieldValue" 
-                                    value="$inputFieldValue" title="Field Value" required>
-                                    </input>
-                                </div>
-                            </div>
 EOT;
-echo $html;
+echo $customInputElement;
 
-$n++;
-                        }
+            // Show custom input field validation error 
+            echo showValidationError('edit', $customFieldName);
 
-                        unset($_SESSION['edit_form_data']['additional_fields']);
+            $customFieldName = 'customInputElement' . $i+1;
+            $customFieldValue = $_SESSION['edit']['formData'][$customFieldName];
+
+            $customInputElement = <<< EOT
+                <div class="col75">
+                    <input type="text" name="{$customFieldName}" maxlength="500" 
+                    placeholder="Enter field value here" required value="{$customFieldValue}">
+                </div>
+EOT;
+echo $customInputElement; 
+
+            // Show custom input field validation error 
+            echo showValidationError('edit', $customFieldName);
+
+            echo "</div>";
+
+                        }                        
                     }
                 ?>
-                <input type="hidden" name="form_number" value="<?= edit_old('form_number'); ?>">
+                <input type="hidden" name="form_number" value="<?= old('edit', 'form_number') ?? '0'; ?>">
 
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
 
@@ -364,7 +273,4 @@ $n++;
 </div>
 
 <?php requireFile('../app/Views/footer.php'); ?>
-
-<?php
-    unset($_SESSION['edit_form_data']);
-?>
+<?php unset($_SESSION['edit']['formData']); ?>

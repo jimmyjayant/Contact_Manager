@@ -171,8 +171,8 @@ $router->post("search", [SearchController::class, "search"]);
 $router->get("delete", [UserController::class, "delete"]);
 
 
-// For search page
-$router->get("single", [UserController::class, "single"]);
+// For edit and search page
+$router->get("single/{id:number}", [UserController::class, "single"]);
 
 
 // For search page

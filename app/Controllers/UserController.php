@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
 
@@ -26,10 +27,10 @@ class UserController
         return $response;
     }
 
-    public function single()
+    public function single(ServerRequest $request, $args) : Response
     {
         ob_start();
-
+        $GLOBALS['editID'] = $args['id'];
         requireFile("../app/Models/get_particular_user_contact_data.php");
 
         $content = ob_get_clean();
