@@ -230,6 +230,54 @@
         }
     }
 
+
+
+    function validateCustomInputFields(string $key, $nameLength = 100, $valueLength = 500, $canBeEmpty = false)
+    {
+        if(!empty($_SESSION[$key]['formData']['custom_fields_present']) &&
+            $_SESSION[$key]['formData']['custom_fields_present'] == 1)
+        {
+            if(!empty($_SESSION[$key]['formData']['custom_fields_number']) &&
+            $_SESSION[$key]['formData']['custom_fields_number'] > 0)
+            {
+                $custom_fields_number = $_SESSION[$key]['formData']['custom_fields_number'];
+                for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
+                {
+                    $customFieldName = $_SESSION[$key]['formData']['customInputElement' . $i];
+                    
+                    // Validate Custom Input Field Name
+                    if(!$canBeEmpty && empty($customFieldName))
+                    {
+                        $_SESSION[$key]['validationErrors']['customInputElement' . $i][] = 
+                        "customInputElement$i cannot be empty!";
+                    }
+                    else if(strlen($customFieldName) > $nameLength)
+                    {
+                        $_SESSION[$key]['validationErrors']['customInputElement' . $i][] = 
+                        "customInputElement$i cannot be more than $nameLength characters!";
+                    }
+
+                    $element = 'customInputElement' . $i+1;
+                    $customFieldValue = $_SESSION[$key]['formData'][$element];
+
+                    // Validate Custom Input Field Value
+                    if(!$canBeEmpty && empty($customFieldValue))
+                    {
+                        $_SESSION[$key]['validationErrors'][$element][] = 
+                        "$element cannot be empty!";
+                    }
+                    else if(strlen($customFieldValue) > $valueLength)
+                    {
+                        $_SESSION[$key]['validationErrors'][$element][] = 
+                        "$element cannot be more than $valueLength characters!";
+                    }
+                }
+            }
+        }
+    }
+
+
+
     function DisplayValidationErrors(string $key, string $redirect = '', $isJSON = true)
     {
         if(!empty($_SESSION[$key]['validationErrors']))

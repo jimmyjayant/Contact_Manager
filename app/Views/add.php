@@ -207,6 +207,8 @@
                         <?= showValidationError('add', 'relationship'); ?>
                     </div>
 
+                    <?php requireFile('../app/Views/customInputFields.php'); ?>
+
                     <div class="row" id="add_custom_fields_div">
                         <div class="col25">
                             <label for="add_custom_fields">Add Custom Fields</label>
@@ -217,8 +219,10 @@
                     </div>
 
                     <div class="row">
-                        <input type="hidden" id="custom_fields_present" name="custom_fields_present" value="0">
-                        <input type="hidden" id="custom_fields_number" name="custom_fields_number" value="0">
+                        <input type="hidden" id="custom_fields_present" name="custom_fields_present" 
+                        value="<?= old('add', 'custom_fields_present') ?? '0'; ?>">
+                        <input type="hidden" id="custom_fields_number" name="custom_fields_number" 
+                        value="<?= old('add', 'custom_fields_number') ?? '0'; ?>">
                     </div>
 
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">

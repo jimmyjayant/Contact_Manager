@@ -34,6 +34,10 @@
         // Put form data in a session variable array in case validation fails
         $_SESSION['add']['formData'][$x] = $y;
     }
+    // echo "<pre>";
+    // print_r($_SESSION['add']['formData']);
+    // echo "</pre>";
+    // exit();
 
     // Validate user provided form data
     validateFirstname('add', $firstname, 100, false);
@@ -46,10 +50,14 @@
     validateAddress('add', $address, true);
     validateRelationship('add', $relationship, true);
 
+    // Validate custom fields if present
+    validateCustomInputFields('add', 100, 500, false);
+
     // Display validation errors if they exist
     DisplayValidationErrors('add', 'add', false);
 
 
+    // If both mobile number and landline number are empty
     if(empty($mobile) && empty($landline))
     {
         $_SESSION['add']['error'] = "Please provide either mobile or landline number!";
@@ -70,9 +78,10 @@
         $conn = $GLOBALS['conn'];
         if(!$conn)
         {
-            $_SESSION['add']['error'] = "Database server unavailable. Please try again later!";
-            header("Location: add");
-            exit();
+            // $_SESSION['add']['error'] = "Database server unavailable. Please try again later!";
+            // header("Location: add");
+            // exit();
+            throw new Exception('Database server unavailable. Please try again later!');
         }
 
         $result = $conn->query($sql);
@@ -136,23 +145,17 @@
                 }
                 catch(mysqli_sql_exception $e)
                 {
-                    $_SESSION['add']['error'] = "Error Adding Contact. Please try again later!";
+                    $_SESSION['add']['error'] = 
+                    "Main Contact Info added. Error adding additional info. Please try again later!";
                     header("Location: add");
                     exit();
                 }
 
-                $custom_fields_number = sanitize_input($_POST['custom_fields_number']);
+                $custom_fields_number = $_SESSION['add']['formData']['custom_fields_number'];
                 for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
                 {
-                    $customFieldName = sanitize_input($_POST['customInputElement' . $i]);
-                    testFieldName($customFieldName, 100);
-                    $customFieldValue = sanitize_input($_POST['customInputElement' . $i+1]);
-                    if(strlen($customFieldValue) > 500)
-                    {
-                        $_SESSION['add']['error'] = "Field Value cannot be more than 500 characters!";
-                        header("Location: add");
-                        exit();
-                    }
+                    $customFieldName = $_SESSION['add']['formData']['customInputElement' . $i];
+                    $customFieldValue = $_SESSION['add']['formData']['customInputElement' . $i+1];
 
                     // sql statement to insert additional fields into additional_fields table in contact_manager_db database
                     $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value) 
@@ -166,13 +169,13 @@
                     {
                         if($e->getCode() == 1062)
                         {
-                            $_SESSION['add']['error'] = "Mobile or Landline Number Already Exists!";
+                            $_SESSION['add']['error'] = "Additional info Already Exists!";
                             header("Location: add");
                             exit();
                         }
                         else
                         {
-                            $_SESSION['add']['error'] = "Error Adding Contact. Please try again later1!";
+                            $_SESSION['add']['error'] = "Error Adding additional info. Please try again later!";
                             header("Location: add");
                             exit();
                         }
@@ -180,6 +183,7 @@
                 }
 
                 $_SESSION['add']['success'] = "Contact added successfully";
+                unset($_SESSION['add']['formData']);
                 header("Location: add");
                 exit();
             }
@@ -187,6 +191,7 @@
         else
         {
             $_SESSION['add']['success'] = "Contact added successfully";
+            unset($_SESSION['add']['formData']);
             header("Location: add");
             exit();
         }
@@ -194,7 +199,7 @@
     catch(mysqli_sql_exception $e)
     {
         error_log($e->getMessage(), 3, "../writable/logs/error_log.txt");
-        $_SESSION['add']['error'] = "Please try again later!";
+        $_SESSION['add']['error'] = "Database server unavailable. Please try again later!";
         header("Location: add");
         exit();
     }
