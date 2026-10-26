@@ -34,40 +34,16 @@
         // Put form data in a session variable array in case validation fails
         $_SESSION['edit']['formData'][$x] = $y;
     }
-    // echo "<pre>";
-    // print_r($_SESSION['edit']['formData']);
-    // print_r(array_keys($_SESSION['edit']['formData']));
-    // echo "</pre>";
-    // exit();
 
-    // $arrayKeys = array_keys($_SESSION['edit']['formData']);
-
-    // foreach($arrayKeys as $x => $y)
-    // {
-    //     if(!preg_match_all("/customInputElement/", $y))
-    //     {
-    //         unset($arrayKeys[$x]);
-    //     }
-    // }
-
-    // echo "<pre>";
-    // print_r($arrayKeys);
-    // echo "</pre>";
-    // exit();
-
-    // foreach($arrayKeys as $x)
-    // {
-    //     if(array_key_exists($x, $_SESSION['edit']['formData']))
-    //     {
-    //         $_SESSION['edit']['formData'][$x] = $_SESSION['edit']['formData'][$x];
-    //         unset($_SESSION['edit']['formData'][$x]);
-    //     }
-    // }
-
-    // echo "<pre>";
-    // print_r($_SESSION['edit']['formData']);
-    // echo "</pre>";
-    // exit();
+    $array = array_keys($_SESSION['edit']['formData']);
+    $fieldarray = [];
+    foreach($array as $x)
+    {
+        if(str_contains($x, 'fieldName'))
+        {
+            $fieldarray[] = str_replace('fieldName', '', $x);
+        }
+    }
 
     // Validate user provided form data
     validateFirstname('edit', $firstname, 100, false);
@@ -150,27 +126,146 @@
             exit();
         }
 
-        // If custom fields are present in form
-        if(!empty($_SESSION['edit']['formData']['custom_fields_present']) 
+        // If custom fields are not present in form
+        // But present in additional_fields table for a particular contact
+        // then the additional fields will be deleted 
+        if(empty($_SESSION['edit']['formData']['custom_fields_present']) 
+            && $_SESSION['edit']['formData']['custom_fields_present'] == 0)
+        {
+            if(empty($_SESSION['edit']['formData']['custom_fields_number']) 
+                && $_SESSION['edit']['formData']['custom_fields_number'] == 0)
+            {
+                // sql query to get the total number of records in additional_fields table
+                $sql = "SELECT COUNT(*) AS total_fields FROM additional_fields 
+                        WHERE form_no = $formNumber AND userID={$id}";
+                
+                try
+                {
+                    $result = $conn->query($sql);
+
+                    if($result->num_rows > 0)
+                    {
+                        $row = $result->fetch_assoc();
+                        if($row['total_fields'] > 0)
+                        {
+                            // sql query to remove all additional fields related
+                            // to a particular contact
+                            $sql = "DELETE FROM additional_fields WHERE 
+                                    form_no=$formNumber AND userID={$id}";
+
+                            try
+                            {
+                                $result = $conn->query($sql);
+
+                                $_SESSION['edit']['success'] = "Contact edited successfully";
+                                unset($_SESSION['edit']['formData']);
+                                header("Location: edit");
+                                exit();
+                            }
+                            catch(mysqli_sql_exception $e)
+                            {
+                                $_SESSION['edit']['error'] = "Error Editing Contact. Please try again later!";
+                                header("Location: edit");
+                                exit();
+                            }
+                        }
+                    }
+                }
+                catch(mysqli_sql_exception $e)
+                {
+                    $_SESSION['edit']['error'] = "Database server unavailable. Please try again later!";
+                    header("Location: edit");
+                    exit();
+                }
+            }
+        }
+        else if(!empty($_SESSION['edit']['formData']['custom_fields_present']) 
             && $_SESSION['edit']['formData']['custom_fields_present'] == 1)
         {
+            // If custom fields are present in form and also in additional_fields table 
             if(!empty($_SESSION['edit']['formData']['custom_fields_number']) 
                 && $_SESSION['edit']['formData']['custom_fields_number'] > 0)
             {
-                $n = $_SESSION['edit']['formData']['custom_fields_number'];
-                for($i = 1, $j = 1; $i < ($n * 2), $j <= $n; $i = $i+2, $j++)
+                // sql query to get the total number of records in additional_fields table
+                $sql = "SELECT ID FROM additional_fields 
+                        WHERE form_no = $formNumber AND userID={$id}";
+                
+                try
                 {
-                    $fieldValue = $_SESSION['edit']['formData']['fieldName' . $j];
-                    $customFieldName = $_SESSION['edit']['formData']['customInputElement' . $i];
-                    $customFieldValue = $_SESSION['edit']['formData']['customInputElement' . $i+1];
+                    $result = $conn->query($sql);
 
-                    // sql statement to update additional fields into additional_fields table 
+                    if($result->num_rows > 0)
+                    {
+                        $rows = $result->fetch_all(MYSQLI_ASSOC);
+                        $IDArray = [];
+                        foreach($rows as $row)
+                        {
+                            $IDArray[] = $row['ID'];
+                        }
+                    }
+                }
+                catch(mysqli_sql_exception $e)
+                {
+                    $_SESSION['edit']['error'] = "Database server unavailable. Please try again later!";
+                    header("Location: edit");
+                    exit();
+                }
+
+                foreach($fieldarray as $n)
+                {
+                    $fieldValue = $_SESSION['edit']['formData']['fieldName' . $n];
+                    $customFieldName = $_SESSION['edit']['formData']['customInputElement' . ($n*2)-1];
+                    $customFieldValue = $_SESSION['edit']['formData']['customInputElement' . ($n*2)];
+
+                    /*
+                        If $fieldValue is found in $IDArray, then update the record, else delete it
+                    */
+                    if(in_array($fieldValue, $IDArray))
+                    {
+                        // sql statement to update additional fields into additional_fields table 
+                        // in contact_manager_db database
+                        $sql = "UPDATE additional_fields
+                                SET field_name='$customFieldName',
+                                    field_value='$customFieldValue'
+                                WHERE userID={$id} 
+                                AND form_no={$formNumber} AND ID={$fieldValue}";
+
+                        try
+                        {
+                            $result = $conn->query($sql);
+
+                            // Remove the array element
+                            unset($IDArray[(array_search($fieldValue, $IDArray))]);
+
+                            // Reshuffle the array items removing holes in it
+                            $IDArray = array_values($IDArray);
+                        }
+                        catch(mysqli_sql_exception $e)
+                        {
+                            if($e->getCode() == 1062)
+                            {
+                                $_SESSION['edit']['error'] = "Additional info Already Exists!";
+                                header("Location: edit");
+                                exit();
+                            }
+                            else
+                            {
+                                $_SESSION['edit']['error'] = "Error updating additional info. Please try again later!";
+                                header("Location: edit");
+                                exit();
+                            }
+                        }
+                    }
+                }
+
+
+                // Delete rest of the records in additional_fields table
+                foreach($IDArray as $n)
+                {
+                    // sql statement to delete additional fields into additional_fields table 
                     // in contact_manager_db database
-                    $sql = "UPDATE additional_fields
-                            SET field_name='$customFieldName',
-                                field_value='$customFieldValue'
-                            WHERE userID={$id} 
-                            AND form_no={$formNumber} AND ID={$fieldValue}";
+                    $sql = "DELETE FROM additional_fields
+                            WHERE userID={$id} AND form_no={$formNumber} AND ID={$n}";
 
                     try
                     {
@@ -178,23 +273,14 @@
                     }
                     catch(mysqli_sql_exception $e)
                     {
-                        if($e->getCode() == 1062)
-                        {
-                            $_SESSION['edit']['error'] = "Additional info Already Exists!";
-                            header("Location: edit");
-                            exit();
-                        }
-                        else
-                        {
-                            $_SESSION['edit']['error'] = "Error editing additional info. Please try again later!";
-                            header("Location: edit");
-                            exit();
-                        }
+                        $_SESSION['edit']['error'] = "Error deleting additional info. Please try again later!";
+                        header("Location: edit");
+                        exit();
                     }
                 }
 
                 $_SESSION['edit']['success'] = "Contact edited successfully";
-                unset($_SESSION['edit']['formData']);
+                // unset($_SESSION['edit']['formData']);
                 header("Location: edit");
                 exit();
             }
@@ -202,7 +288,7 @@
         else
         {
             $_SESSION['edit']['success'] = "Contact edited successfully";
-            unset($_SESSION['edit']['formData']);
+            // unset($_SESSION['edit']['formData']);
             header("Location: edit");
             exit();
         }

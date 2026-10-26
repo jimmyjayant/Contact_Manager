@@ -145,17 +145,6 @@
                                         $i = 1; $j = 1;
                                         while($row = $result2->fetch_assoc())
                                         {
-                                            // Put contact data in a session variable array
-                                            // $n = $row['ID'];
-
-                                            // $_SESSION['edit']['formData']['extraField'][$n]
-                                            // ['customInputElement'. $i] = $row['field_name'];
-
-                                            // $_SESSION['edit']['formData']['extraField'][$n]
-                                            // ['customInputElement' . $i+1] = $row['field_value'];
-
-                                            // $i +=2;
-
                                             $_SESSION['edit']['formData']['fieldName' . $j] = 
                                             $row['ID'];
 
@@ -168,15 +157,14 @@
                                             $i +=2;
                                             $j++;
                                         }
+
+                                        unset($_SESSION['edit']['validationErrors']);
+                                        unset($_SESSION['edit']['error']);
+                                        unset($_SESSION['edit']['success']);
                                     }
                                 }
                             }
                         }
-
-//                         echo "<pre>";
-// print_r($_SESSION['edit']['formData']);
-// echo "</pre>";
-// exit();
 
                         $data['status'] = 'success';
                         $data = json_encode($data);

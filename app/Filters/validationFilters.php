@@ -240,24 +240,33 @@
             if(!empty($_SESSION[$key]['formData']['custom_fields_number']) &&
             $_SESSION[$key]['formData']['custom_fields_number'] > 0)
             {
-                $custom_fields_number = $_SESSION[$key]['formData']['custom_fields_number'];
-                for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
+                $array = array_keys($_SESSION[$key]['formData']);
+                $fieldarray = [];
+                foreach($array as $x)
                 {
-                    $customFieldName = $_SESSION[$key]['formData']['customInputElement' . $i];
+                    if(str_contains($x, 'fieldName'))
+                    {
+                        $fieldarray[] = str_replace('fieldName', '', $x);
+                    }
+                }
+
+                foreach($fieldarray as $n)
+                {
+                    $customFieldName = $_SESSION[$key]['formData']['customInputElement' . ($n*2)-1];
                     
                     // Validate Custom Input Field Name
                     if(!$canBeEmpty && empty($customFieldName))
                     {
-                        $_SESSION[$key]['validationErrors']['customInputElement' . $i][] = 
-                        "customInputElement$i cannot be empty!";
+                        $_SESSION[$key]['validationErrors']['customInputElement' . ($n*2)-1][] = 
+                        "customInputElement{($n*2)-1} cannot be empty!";
                     }
                     else if(strlen($customFieldName) > $nameLength)
                     {
-                        $_SESSION[$key]['validationErrors']['customInputElement' . $i][] = 
-                        "customInputElement$i cannot be more than $nameLength characters!";
+                        $_SESSION[$key]['validationErrors']['customInputElement' . ($n*2)-1][] = 
+                        "customInputElement{($n*2)-1} cannot be more than $nameLength characters!";
                     }
 
-                    $element = 'customInputElement' . $i+1;
+                    $element = 'customInputElement' . ($n*2);
                     $customFieldValue = $_SESSION[$key]['formData'][$element];
 
                     // Validate Custom Input Field Value

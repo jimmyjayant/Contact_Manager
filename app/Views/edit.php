@@ -214,14 +214,26 @@ if(empty($_SESSION['edit']['formData']))
 EOT;
 echo $html;
 
-                        for($i = 1, $j = 1; $i <= ($n*2), $j <= $n; $i+=2, $j++)
+                        $array = array_keys($_SESSION['edit']['formData']);
+                        $fieldarray = [];
+                        foreach($array as $x)
+                        {
+                            if(str_contains($x, 'fieldName'))
+                            {
+                                $fieldarray[] = str_replace('fieldName', '', $x);
+                            }
+                        }
+
+                        foreach($fieldarray as $n)
                         {
                             echo "<div class='row'>";
                             echo "<div class='dropCustomElement'><span title='Remove the custom field'>X</span></div>";
                         
-                            $fieldName = 'fieldName' . $j;
+                            $fieldName = 'fieldName' . $n;
+
                             $fieldValue = $_SESSION['edit']['formData'][$fieldName];
-                            $customFieldName = 'customInputElement' . $i;
+                            
+                            $customFieldName = 'customInputElement' . ($n*2)-1;
                             $customFieldValue = 
                             $_SESSION['edit']['formData'][$customFieldName];
 
@@ -237,7 +249,7 @@ echo $customInputElement;
                             // Show custom input field validation error 
                             echo showValidationError('edit', $customFieldName);
 
-                            $customFieldName = 'customInputElement' . $i+1;
+                            $customFieldName = 'customInputElement' . ($n*2);
                             $customFieldValue = 
                             $_SESSION['edit']['formData'][$customFieldName];
 
@@ -253,7 +265,7 @@ echo $customInputElement;
                             echo showValidationError('edit', $customFieldName);
 
                             echo "</div>";
-                        }  
+                        }
                     }
                 ?>
                 <input type="hidden" name="form_number" value="<?= old('edit', 'form_number') ?? '0'; ?>">
