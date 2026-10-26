@@ -145,7 +145,7 @@
         }
         else
         {
-            $_SESSION['edit']['error'] = "Error Editing Contact. Please try again later!";
+            $_SESSION['edit']['error'] = "Loggedin User Data not found. Please try again later!";
             header("Location: edit");
             exit();
         }
@@ -157,9 +157,10 @@
             if(!empty($_SESSION['edit']['formData']['custom_fields_number']) 
                 && $_SESSION['edit']['formData']['custom_fields_number'] > 0)
             {
-                $custom_fields_number = $_SESSION['edit']['formData']['custom_fields_number'];
-                for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
+                $n = $_SESSION['edit']['formData']['custom_fields_number'];
+                for($i = 1, $j = 1; $i < ($n * 2), $j <= $n; $i = $i+2, $j++)
                 {
+                    $fieldValue = $_SESSION['edit']['formData']['fieldName' . $j];
                     $customFieldName = $_SESSION['edit']['formData']['customInputElement' . $i];
                     $customFieldValue = $_SESSION['edit']['formData']['customInputElement' . $i+1];
 
@@ -169,7 +170,7 @@
                             SET field_name='$customFieldName',
                                 field_value='$customFieldValue'
                             WHERE userID={$id} 
-                            AND form_no={$formNumber}";
+                            AND form_no={$formNumber} AND ID={$fieldValue}";
 
                     try
                     {

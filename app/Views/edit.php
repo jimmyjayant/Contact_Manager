@@ -197,19 +197,10 @@ if(empty($_SESSION['edit']['formData']))
                 </div>
 
                 <?php
-                    if(!empty($_SESSION['edit']['formData']))
+                    if(!empty($_SESSION['edit']['formData']['custom_fields_number']))
                     {
-                        $arrayKeys = array_keys($_SESSION['edit']['formData']);
-
-                        foreach($arrayKeys as $x => $y)
-                        {
-                            if(!preg_match_all("/customInputElement/", $y))
-                            {
-                                unset($arrayKeys[$x]);
-                            }
-                        }
-
-                        $n = count($arrayKeys) / 2;
+                        // $n depicts the number of pairs of custom fields present
+                        $n = $_SESSION['edit']['formData']['custom_fields_number'];
 
                         $html = <<< EOT
                         <div class="row">
@@ -223,41 +214,46 @@ if(empty($_SESSION['edit']['formData']))
 EOT;
 echo $html;
 
-                        for($i = 1; $i < ($n * 2); $i = $i+2)
+                        for($i = 1, $j = 1; $i <= ($n*2), $j <= $n; $i+=2, $j++)
                         {
                             echo "<div class='row'>";
-                            
+                            echo "<div class='dropCustomElement'><span title='Remove the custom field'>X</span></div>";
+                        
+                            $fieldName = 'fieldName' . $j;
+                            $fieldValue = $_SESSION['edit']['formData'][$fieldName];
                             $customFieldName = 'customInputElement' . $i;
-                            $customFieldValue = $_SESSION['edit']['formData'][$customFieldName];
+                            $customFieldValue = 
+                            $_SESSION['edit']['formData'][$customFieldName];
 
                             $customInputElement = <<< EOT
-                                <div class="col25">
-                                    <input type="text" name="{$customFieldName}" maxlength="100" 
-                                    placeholder="Enter field name here" required value="{$customFieldValue}">
-                                </div>
+                            <div class="col25">
+                                <input type="hidden" name="$fieldName" value="$fieldValue">
+                                <input type="text" name="{$customFieldName}" maxlength="100" 
+                                placeholder="Enter field name here" required value="{$customFieldValue}">
+                            </div>
 EOT;
 echo $customInputElement;
 
-            // Show custom input field validation error 
-            echo showValidationError('edit', $customFieldName);
+                            // Show custom input field validation error 
+                            echo showValidationError('edit', $customFieldName);
 
-            $customFieldName = 'customInputElement' . $i+1;
-            $customFieldValue = $_SESSION['edit']['formData'][$customFieldName];
+                            $customFieldName = 'customInputElement' . $i+1;
+                            $customFieldValue = 
+                            $_SESSION['edit']['formData'][$customFieldName];
 
-            $customInputElement = <<< EOT
-                <div class="col75">
-                    <input type="text" name="{$customFieldName}" maxlength="500" 
-                    placeholder="Enter field value here" required value="{$customFieldValue}">
-                </div>
+                            $customInputElement = <<< EOT
+                            <div class="col75">
+                                <input type="text" name="{$customFieldName}" maxlength="500" 
+                                placeholder="Enter field value here" required value="{$customFieldValue}">
+                            </div>
 EOT;
 echo $customInputElement; 
 
-            // Show custom input field validation error 
-            echo showValidationError('edit', $customFieldName);
+                            // Show custom input field validation error 
+                            echo showValidationError('edit', $customFieldName);
 
-            echo "</div>";
-
-                        }                        
+                            echo "</div>";
+                        }  
                     }
                 ?>
                 <input type="hidden" name="form_number" value="<?= old('edit', 'form_number') ?? '0'; ?>">
@@ -271,6 +267,8 @@ echo $customInputElement;
     </div>
 </div>
 </div>
+
+<script src="script/dropCustomElement.js"></script>
 
 <?php requireFile('../app/Views/footer.php'); ?>
 <?php unset($_SESSION['edit']['formData']); ?>

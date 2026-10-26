@@ -130,26 +130,43 @@
                                 $row = $result1->fetch_assoc();
                                 if($row['total_fields'] != 0)
                                 {
+                                    $_SESSION['edit']['formData']['custom_fields_number'] = $row['total_fields'];
                                     //$total_additional_fields = $row['total_fields'];
                                     //$total_additional_fields_pages = ceil($total_additional_fields / 10);
 
                                     // Pagination here must be created in the future
 
-                                    $sql = "SELECT field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
+                                    $sql = "SELECT ID, field_name, field_value FROM additional_fields WHERE form_no=$formNumber";
 
                                     $result2 = $conn->query($sql);
 
                                     if($result2->num_rows > 0)
                                     {
-                                        $i = 1;
+                                        $i = 1; $j = 1;
                                         while($row = $result2->fetch_assoc())
                                         {
-                                            foreach($row as $x => $y)
-                                            {
-                                                // Put contact data in a session variable array
-                                                $_SESSION['edit']['formData']['customInputElement'. $i] = $y;
-                                                $i++;
-                                            }
+                                            // Put contact data in a session variable array
+                                            // $n = $row['ID'];
+
+                                            // $_SESSION['edit']['formData']['extraField'][$n]
+                                            // ['customInputElement'. $i] = $row['field_name'];
+
+                                            // $_SESSION['edit']['formData']['extraField'][$n]
+                                            // ['customInputElement' . $i+1] = $row['field_value'];
+
+                                            // $i +=2;
+
+                                            $_SESSION['edit']['formData']['fieldName' . $j] = 
+                                            $row['ID'];
+
+                                            $_SESSION['edit']['formData']
+                                            ['customInputElement'. $i] = $row['field_name'];
+
+                                            $_SESSION['edit']['formData']
+                                            ['customInputElement' . $i+1] = $row['field_value'];
+
+                                            $i +=2;
+                                            $j++;
                                         }
                                     }
                                 }
