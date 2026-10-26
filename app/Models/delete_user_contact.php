@@ -1,23 +1,15 @@
 <?php
     // PHP Script for deleting contact of a logged in user
-    // requireFile("../app/Views/sessionstart.php");
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile('../app/Filters/IsLoggedIn.php');
-
+    requireFile('../app/Filters/IsGet.php');
+    
     ini_set("display_errors", 0);
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] !== 'GET')
-    {
-        $data['status'] = "error";
-        $data['data'] = "Request Method is not GET!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
+    IsGet(true);
 
     // if(!isset($_SESSION['user_token']))
     // {

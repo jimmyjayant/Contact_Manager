@@ -4,6 +4,8 @@
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
     requireFile('../app/Filters/IsLoggedIn.php');
+    requireFile('../app/Filters/IsPost.php');
+    requireFile('../app/Filters/csrf.php');
 
     ini_set("display_errors", 0);
 
@@ -11,20 +13,9 @@
 
     IsLoggedIn(false);
     
-    if($_SERVER['REQUEST_METHOD'] !== 'POST')
-    {
-        $_SESSION['edit']['error'] = "Request Method is not POST!";
-        header("Location: edit");
-        exit();
-    }
+    IsPost('edit', 'edit', false);
 
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
-        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
-    {
-        $_SESSION['edit']['error'] = "CSRF Token does not match!";
-        header("Location: edit");
-        exit();
-    }
+    csrf('edit', 'edit');
 
     // Loop through the key value pairs in $_POST superglobal array
     foreach($_POST as $x => $y)

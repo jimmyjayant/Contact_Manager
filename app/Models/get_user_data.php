@@ -3,6 +3,8 @@
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile('../app/Filters/validationFilters.php');
+    requireFile('../app/Filters/IsPost.php');
+    requireFile('../app/Filters/csrf.php');
 
     // Do not display the error to the user
     ini_set("display_errors", 0);
@@ -10,23 +12,12 @@
     // Report MySQL Database errors
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] !== 'POST')
-    {
-        $_SESSION['login']['error'] = "Request Method is not POST!";
-        header("Location: login");
-        exit();
-    }
+    IsPost('login', 'login', false);
 
     /* If the session variable csrf_token and post variable csrf_token are not set OR 
         both of these variables are not equal to one another, then 
     */
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) || 
-    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
-    {
-        $_SESSION['login']['error'] = "Session expired. Please refresh the webpage!";
-        header("Location: login");
-        exit();
-    }
+    csrf('login', 'login');
 
     // Loop through the key value pairs in $_POST superglobal array
     foreach($_POST as $x => $y)

@@ -6,18 +6,11 @@ ini_set("display_errors", 0);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 requireFile('../app/Filters/IsLoggedIn.php');
+requireFile('../app/Filters/IsPost.php');
 
 IsLoggedIn(true);
 
-if($_SERVER['REQUEST_METHOD'] !== 'POST')
-{
-    $data['status'] = 'error';
-    $data['data'] = "Request Method is not POST!";
-    $data = json_encode($data);
-    header("Content-Type: application/json");
-    echo $data;
-    exit();
-}
+IsPost(true);
 
 $token = $_SESSION['user_token'];
 // sql query

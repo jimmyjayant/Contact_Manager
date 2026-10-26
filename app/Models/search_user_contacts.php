@@ -6,20 +6,13 @@
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
     requireFile("../app/Filters/IsLoggedIn.php");
+    requireFile("../app/Filters/IsPost.php");
 
     ini_set("display_errors", 0);
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] !== 'POST')
-    {
-        $data['status'] = "error";
-        $data['data'] = "Request Method is not POST!";
-        $data = json_encode($data);
-        header("Content-Type: application/json");
-        echo $data;
-        exit();
-    }
+    IsPost(true);
 
     // if(!isset($_SESSION['user_token']))
     // {
@@ -35,7 +28,7 @@
 
     $firstname = sanitize_input($_POST['firstname']);
 
-    validateFirstname($firstname, 100, '', false, true);
+    validateFirstname('search', $firstname, 100, true);
 
     $token = $_SESSION['user_token'];
     // sql query

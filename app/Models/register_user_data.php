@@ -4,25 +4,16 @@
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
+    requireFile("../app/Filters/IsPost.php");
+    requireFile("../app/Filters/csrf.php");
 
     ini_set("display_errors", 0);
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    if($_SERVER['REQUEST_METHOD'] !== 'POST')
-    {
-        $_SESSION['register']['error'] = "Request Method is not POST!";
-        header("Location: register");
-        exit();
-    }
+    IsPost('register', 'register', false);
 
-    if(!isset($_SESSION['csrf_token'], $_POST['csrf_token']) &&
-    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
-    {
-        $_SESSION['register']['error'] = "Session expired. Please refresh the webpage!";
-        header("Location: register");
-        exit();
-    }
+    csrf('register', 'register');
 
     // Loop through the key value pairs in $_POST superglobal array
     foreach($_POST as $x => $y)
