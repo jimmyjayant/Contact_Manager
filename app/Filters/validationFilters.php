@@ -3,23 +3,29 @@
 
     function validateFirstname(string $key, string $firstname, $length = 100, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['firstname'] = [];
+
         if(!$canBeEmpty && empty($firstname))
         {
             $_SESSION[$key]['validationErrors']['firstname'][] = "First Name cannot be empty!";
         }
-        else if(strlen($firstname) > $length)
+
+        if(strlen($firstname) > $length)
         {
             $_SESSION[$key]['validationErrors']['firstname'][] = "First Name cannot be more than $length characters!";
         }
-        else if(preg_match_all("/\d/", $firstname))
+
+        if(preg_match_all("/\d/", $firstname))
         {
             $_SESSION[$key]['validationErrors']['firstname'][] = "First Name cannot contain digits!";
         }
-        else if(preg_match_all("/\s/", $firstname))
+
+        if(preg_match_all("/\s/", $firstname))
         {
             $_SESSION[$key]['validationErrors']['firstname'][] = "First Name cannot contain whitespaces!";
         }
-        else if(preg_match_all("/\W/", $firstname))
+
+        if(preg_match_all("/\W/", $firstname))
         {
             $_SESSION[$key]['validationErrors']['firstname'][] = "First Name cannot contain special characters!";
         }
@@ -28,23 +34,29 @@
 
     function validateMiddlename(string $key, string $middlename, $length = 100, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['middlename'] = [];
+
         if(!$canBeEmpty && empty($middlename))
         {
             $_SESSION[$key]['validationErrors']['middlename'][] = "Middle Name cannot be empty!";
         }
-        else if(strlen($middlename) > $length)
+
+        if(strlen($middlename) > $length)
         {
             $_SESSION[$key]['validationErrors']['middlename'][] = "Middle Name cannot be more than $length characters!";
         }
-        else if(preg_match_all("/\d/", $middlename))
+
+        if(preg_match_all("/\d/", $middlename))
         {
             $_SESSION[$key]['validationErrors']['middlename'][] = "Middle Name cannot contain digits!";
         }
-        else if(preg_match_all("/\s/", $middlename))
+
+        if(preg_match_all("/\s/", $middlename))
         {
             $_SESSION[$key]['validationErrors']['middlename'][] = "Middle Name cannot contain whitespaces!";
         }
-        else if(preg_match_all("/\W/", $middlename))
+
+        if(preg_match_all("/\W/", $middlename))
         {
             $_SESSION[$key]['validationErrors']['middlename'][] = "Middle Name cannot contain special characters!";
         }
@@ -53,23 +65,29 @@
 
     function validateLastname(string $key, string $lastname, $length = 100, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['lastname'] = [];
+
         if(!$canBeEmpty && empty($lastname))
         {
             $_SESSION[$key]['validationErrors']['lastname'][] = "Last Name cannot be empty!";
         }
-        else if(strlen($lastname) > $length)
+
+        if(strlen($lastname) > $length)
         {
             $_SESSION[$key]['validationErrors']['lastname'][] = "Last Name cannot be more than $length characters!";
         }
-        else if(preg_match_all("/\d/", $lastname))
+
+        if(preg_match_all("/\d/", $lastname))
         {
             $_SESSION[$key]['validationErrors']['lastname'][] = "Last Name cannot contain digits!";
         }
-        else if(preg_match_all("/\s/", $lastname))
+
+        if(preg_match_all("/\s/", $lastname))
         {
             $_SESSION[$key]['validationErrors']['lastname'][] = "Last Name cannot contain whitespaces!";
         }
-        else if(preg_match_all("/\W/", $lastname))
+
+        if(preg_match_all("/\W/", $lastname))
         {
             $_SESSION[$key]['validationErrors']['lastname'][] = "Last Name cannot contain special characters!";
         }
@@ -77,23 +95,29 @@
 
     function validateNickname(string $key, string $nickname, $length = 100, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['nickname'] = [];
+
         if(!$canBeEmpty && empty($nickname))
         {
             $_SESSION[$key]['validationErrors']['nickname'][] = "Nick Name cannot be empty!";
         }
-        else if(strlen($nickname) > $length)
+
+        if(strlen($nickname) > $length)
         {
             $_SESSION[$key]['validationErrors']['nickname'][] = "Nick Name cannot be more than $length characters!";
         }
-        else if(preg_match_all("/\d/", $nickname))
+
+        if(preg_match_all("/\d/", $nickname))
         {
             $_SESSION[$key]['validationErrors']['nickname'][] = "Nick Name cannot contain digits!";
         }
-        else if(preg_match_all("/\s/", $nickname))
+
+        if(preg_match_all("/\s/", $nickname))
         {
             $_SESSION[$key]['validationErrors']['nickname'][] = "Nick Name cannot contain whitespaces!";
         }
-        else if(preg_match_all("/\W/", $nickname))
+
+        if(preg_match_all("/\W/", $nickname))
         {
             $_SESSION[$key]['validationErrors']['nickname'][] = "Nick Name cannot contain special characters!";
         }
@@ -101,6 +125,8 @@
 
     function validateGender(string $key, string $gender)
     {
+        $_SESSION[$key]['validationErrors']['gender'] = [];
+
         if(empty($gender))
         {
             $_SESSION[$key]['validationErrors']['gender'][] = "Gender cannot be empty!";
@@ -113,6 +139,8 @@
 
     function validateMobile(string $key, string $number)
     {
+        $_SESSION[$key]['validationErrors']['mobile'] = [];
+
         if(!empty($number) && !preg_match("/^\d{10}$/", $number))
         {
             $_SESSION[$key]['validationErrors']['mobile'][] = "Mobile Number must contain 10 digits!";
@@ -120,8 +148,10 @@
     }
 
 
-    function validateLandline(string $key, int $number)
+    function validateLandline(string $key, string $number)
     {
+        $_SESSION[$key]['validationErrors']['landline'] = [];
+
         if(!empty($number) && !preg_match("/^\d{8}$/", $number))
         {
             $_SESSION[$key]['validationErrors']['landline'][] = "Landline Number must contain 8 digits!";
@@ -130,6 +160,8 @@
 
     function validateEmail(string $key, string $email, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['email'] = [];
+
         if(!$canBeEmpty && empty($email))
         {
             $_SESSION[$key]['validationErrors']['email'][] = "Email cannot be empty!";
@@ -145,6 +177,8 @@
     {
         $value = strtolower($name);
 
+        $_SESSION[$key]['validationErrors'][$value] = [];
+
         if(!$canBeEmpty && empty($message))
         {
             $_SESSION[$key]['validationErrors'][$value][] = " $name cannot be empty!";
@@ -158,6 +192,8 @@
 
     function validatePassword(string $key, string $password, string $inputField = 'password')
     {
+        $_SESSION[$key]['validationErrors'][$inputField] = [];
+
         if(empty($password))
         {
             $_SESSION[$key]['validationErrors'][$inputField][] = "Password cannot be empty!";
@@ -171,6 +207,8 @@
 
     function validateAddress(string $key, string $address, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['address'] = [];
+
         if(!$canBeEmpty && empty($address))
         {
             $_SESSION[$key]['validationErrors']['address'][] = "Address cannot be empty!";
@@ -185,6 +223,8 @@
 
     function validateRelationship(string $key, string $relationship, $canBeEmpty = false)
     {
+        $_SESSION[$key]['validationErrors']['relationship'] = [];
+
         if(!$canBeEmpty && empty($relationship))
         {
             $_SESSION[$key]['validationErrors']['relationship'][] = " Relationship cannot be empty!";
@@ -289,11 +329,11 @@
 
     function DisplayValidationErrors(string $key, string $redirect = '', $isJSON = true)
     {
-        if(!empty($_SESSION[$key]['validationErrors']))
+        if(!empty(array_filter($_SESSION[$key]['validationErrors'])))
         {
             if($isJSON)
             {
-                $data['status'] = "error";
+                $data['status'] = "validationError";
                 $data['data'] = $_SESSION[$key]['validationErrors'];
                 $data = json_encode($data);
                 header("Content-Type: application/json");

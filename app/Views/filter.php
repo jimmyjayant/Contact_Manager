@@ -1,5 +1,5 @@
 <?php
-requireFile('../app/Views/sessionstart.php');
+// requireFile('../app/Views/sessionstart.php');
 
 $GLOBALS['css'] = ["css/filter.css", "css/table.css"];
 
@@ -26,47 +26,47 @@ IsLoggedIn(true);
                 <form id="filter_form">
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_firstname">First Name</label>
+                            <label for="firstname">First Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="filter_firstname" name="filter_firstname" maxlength="100">
+                            <input type="text" id="firstname" name="firstname" maxlength="100">
                         </div>
                     </div>
 
-                   <!-- <div id="filter_firstname_error" class="row"></div> -->
+                   <div id="firstname_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_middlename">Middle Name</label>
+                            <label for="middlename">Middle Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="filter_middlename" name="filter_middlename" maxlength="100">
+                            <input type="text" id="middlename" name="middlename" maxlength="100">
                         </div>
                     </div>
 
-                    <!--<div id="filter_middlename_error" class="row"></div>-->
+                    <div id="middlename_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_lastname">Last Name</label>
+                            <label for="lastname">Last Name</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="filter_lastname" name="filter_lastname" maxlength="100">
+                            <input type="text" id="lastname" name="lastname" maxlength="100">
                         </div>
                     </div>
 
-                    <!--<div id="filter_lastname_error" class="row"></div>-->
+                    <div id="lastname_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_nickname">Nickname</label>
+                            <label for="nickname">Nickname</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="filter_nickname" name="filter_nickname" maxlength="100">
+                            <input type="text" id="nickname" name="nickname" maxlength="100">
                         </div>
                     </div>
 
-                    <!--<div id="filter_nickname_error" class="row"></div>-->
+                    <div id="nickname_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
@@ -74,61 +74,61 @@ IsLoggedIn(true);
                         </div>
                         <div class="col75 radio">
                             <div>
-                                <input type="radio" id="filter_male" name="filter_gender" value="male" checked>
-                                <label for="filter_male">Male</label>
+                                <input type="radio" id="male" name="gender" value="male" checked>
+                                <label for="male">Male</label>
                             </div>
                             <div>
-                                <input type="radio" id="filter_female" name="filter_gender" value="female">
-                                <label for="filter_female">Female</label>
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female">Female</label>
                             </div>
                         </div>
                     </div>
 
-                    <!--<div id="filter_gender_error" class="row"></div>-->
+                    <div id="gender_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_mobnum">Mobile Number</label>
+                            <label for="mobile">Mobile Number</label>
                         </div>
                         <div class="col75">
-                            <input type="tel" id="filter_mobnum" name="filter_mobnum" pattern="[0-9]{10}">
+                            <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}">
                         </div>
                     </div>
 
-                    <!--<div id="filter_mobnum_error" class="row"></div>-->
+                    <div id="mobile_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_landnum">Landline Number</label>
+                            <label for="landline">Landline Number</label>
                         </div>
                         <div class="col75">
-                            <input type="tel" id="filter_landnum" name="filter_landnum" pattern="[0-9]{8}">
+                            <input type="tel" id="landline" name="landline" pattern="[0-9]{8}">
                         </div>
                     </div>
 
-                    <!--<div id="filter_landnum_error" class="row"></div>-->
+                    <div id="landline_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_address">Address</label>
+                            <label for="address">Address</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="filter_address" name="filter_address" maxlength="500">
+                            <input type="text" id="address" name="address" maxlength="500">
                         </div>
                     </div>
 
-                    <!--<div id="filter_address_error" class="row"></div>-->
+                    <div id="address_error" class="row error"></div>
 
                     <div class="row">
                         <div class="col25">
-                            <label for="filter_relationship">Relationship</label>
+                            <label for="relationship">Relationship</label>
                         </div>
                         <div class="col75">
-                            <input type="text" id="filter_relationship" name="filter_relationship" maxlength="100">
+                            <input type="text" id="relationship" name="relationship" maxlength="100">
                         </div>
                     </div>
 
-                    <!--<div id="filter_relationship_error" class="row"></div>-->
+                    <div id="relationship_error" class="row error"></div>
 
                     <!--
                     <div class="row" id="add_custom_fields_div">

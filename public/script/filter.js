@@ -20,23 +20,124 @@ function filter_user_contacts(filterData, page = 1)
         var data = JSON.parse(this.responseText);
         var filter_contact_error_div = document.getElementById("filter_contact_error");
         var filter_contact_success_div = document.getElementById("filter_contact_success");
+
+        var errorElement = 
+        Array.from(document.getElementById("filter_contact").getElementsByClassName("error"));
+
+        // console.log(errorElement);
+
+        errorElement.forEach((element) => {
+            element.innerHTML = "";
+        });
+
+        var successElement = 
+        Array.from(document.getElementById("filter_contact").getElementsByClassName("success"));
+
+        // console.log(successElement);
+
+        successElement.forEach((element) => {
+            element.innerHTML = "";
+        });
+
         var contact_data_div = document.getElementById("contact_data");
         var resultdiv = document.getElementById("result");
         var table_with_contacts = document.getElementById("table_with_contacts");
 
         if(data.status == 'error')
         {
-            filter_contact_success_div.innerHTML = "";
             filter_contact_error_div.innerHTML = data.data;
-            filterData = "";
             table_with_contacts.classList.add("hide");
         }
-        else if(data.status == 'success')
+        else if(data.status == 'validationError')
         {
-            filter_contact_error_div.innerHTML = "";
+            filter_contact_error_div.innerHTML = "Please check respective validation error below";
+            table_with_contacts.classList.add("hide");
+
+            if(data.data.firstname)
+            {
+                var firstname_error_div = document.getElementById("firstname_error");
+                for(const x of data.data.firstname)
+                {
+                    firstname_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.middlename)
+            {
+                var middlename_error_div = document.getElementById("middlename_error");
+                for(const x of data.data.middlename)
+                {
+                    middlename_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.lastname)
+            {
+                var lastname_error_div = document.getElementById("lastname_error");
+                for(const x of data.data.lastname)
+                {
+                    lastname_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.nickname)
+            {
+                var nickname_error_div = document.getElementById("nickname_error");
+                for(const x of data.data.nickname)
+                {
+                    nickname_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.gender)
+            {
+                var gender_error_div = document.getElementById("gender_error");
+                for(const x of data.data.gender)
+                {
+                    gender_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.mobile)
+            {
+                var mobile_error_div = document.getElementById("mobile_error");
+                for(const x of data.data.mobile)
+                {
+                    mobile_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.landline)
+            {
+                var landline_error_div = document.getElementById("landline_error");
+                for(const x of data.data.landline)
+                {
+                    landline_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.address)
+            {
+                var address_error_div = document.getElementById("address_error");
+                for(const x of data.data.address)
+                {
+                    address_error_div.innerHTML += x + "<br>";
+                }
+            }
+
+            if(data.data.relationship)
+            {
+                var relationship_error_div = document.getElementById("relationship_error");
+                for(const x of data.data.relationship)
+                {
+                    relationship_error_div.innerHTML += x + "<br>";
+                }
+            }
+        }
+        else if(data.status == 'success')
+        {          
             filter_contact_success_div.innerHTML = "Data filtered successfully!";
             contact_data_div.classList.remove("hide");
-
             table_with_contacts.classList.remove("hide");
             
             var tbody = table_with_contacts.querySelector("table tbody");
@@ -55,6 +156,8 @@ function filter_user_contacts(filterData, page = 1)
             get_edit_contact_buttons();
             get_additional_fields_buttons();
         }
+
+        filterData = "";
     }
     xhttp.open("POST", "filter",true);
     xhttp.setRequestHeader("Content-Type", "application/json");

@@ -1,5 +1,4 @@
 <?php
-    // requireFile('../app/Views/sessionstart.php');
     requireFile("../app/Config/Database_Connection.php");
     requireFile('../app/Helpers/sanitize_input_helper.php');
     requireFile("../app/Filters/validationFilters.php");
@@ -12,68 +11,27 @@
 
     IsPost(true);
 
-    // if(!isset($_SESSION['user_token']))
-    // {
-    //     $data['status'] = "error";
-    //     $data['data'] = "Please login!";
-    //     $data = json_encode($data);
-    //     header("Content-Type: application/json");
-    //     echo $data;
-    //     exit();
-    // }
-
     IsLoggedIn(true);
 
     $jsonData = file_get_contents('php://input');
     $data = json_decode($jsonData, true);
 
-    // Check and sanitize the user input that is form data
-    $filter_firstname = sanitize_input($data['filter_firstname']);
-    $filter_middlename = sanitize_input($data['filter_middlename']);
-    $filter_lastname = sanitize_input($data['filter_lastname']);
-    $filter_nickname = sanitize_input($data['filter_nickname']);
-    $filter_gender = sanitize_input($data['filter_gender']);
-    $filter_mobile = sanitize_input($data['filter_mobile']);
-    $filter_landline = sanitize_input($data['filter_landline']);
-    $filter_address = sanitize_input($data['filter_address']);
-    $filter_relationship = sanitize_input($data['filter_relationship']);
-
-
-    if(!empty($filter_firstname))
+    // Loop through the key value pairs in $data superglobal array
+    foreach($data as $x => $y)
     {
-        validateFirstname($filter_firstname, 100, '', false, true);
+        // Check and sanitize the user input that is form data
+        $$x = sanitize_input($y);
+        // Put form data in a session variable array in case validation fails
+        $_SESSION['filter']['formData'][$x] = $y;
     }
 
-    if(!empty($filter_middlename))
+    if(!empty($_SESSION['filter']['formData']['csrf_token']))
     {
-        validateMiddlename($filter_middlename, 100, '', false, true);
-    }
-
-    if(!empty($filter_lastname))
-    {
-        validateLastname($filter_lastname, 100, '', false, true);
-    }
-
-    if(!empty($filter_nickname))
-    {
-        validateNickname($filter_nickname, 100, '', false, true);
-    }
-
-    if(!empty($filter_gender))
-    {
-        validateGender($filter_gender, '', true);
-    }
-
-    validateMobile($filter_mobile, '', true);
-
-    validateLandline($filter_landline, '', true);
-
-    if(!empty($filter_address))
-    {
-        if(strlen($filter_address) > 500)
+        if(!isset($_SESSION['csrf_token'], $_SESSION['filter']['formData']['csrf_token']) &&
+        !hash_equals($_SESSION['csrf_token'], $_SESSION['filter']['formData']['csrf_token']))
         {
             $data['status'] = "error";
-            $data['data'] = "Address cannot contain more than 500 characters!";
+            $data['data'] = "Session expired. Please refresh the webpage!";
             $data = json_encode($data);
             header("Content-Type: application/json");
             echo $data;
@@ -81,22 +39,29 @@
         }
     }
 
-    if(!empty($filter_relationship))
-    {
-        if(strlen($filter_relationship) > 100)
-        {
-            $data['status'] = "error";
-            $data['data'] = "Relationship cannot contain more than 100 characters!";
-            $data = json_encode($data);
-            header("Content-Type: application/json");
-            echo $data;
-            exit();
-        }
-    }
+    validateFirstname('filter', $_SESSION['filter']['formData']['firstname'], 100, true);
+
+    validateMiddlename('filter', $_SESSION['filter']['formData']['middlename'], 100, true);
+
+    validateLastname('filter', $_SESSION['filter']['formData']['lastname'], 100, true);
+
+    validateNickname('filter', $_SESSION['filter']['formData']['nickname'], 100, true);
+
+    validateGender('filter', $_SESSION['filter']['formData']['gender']);
+
+    validateMobile('filter', $_SESSION['filter']['formData']['mobile']);
+
+    validateLandline('filter', $_SESSION['filter']['formData']['landline']);
+
+    validateAddress('filter', $_SESSION['filter']['formData']['address'], true);
+
+    validateRelationship('filter', $_SESSION['filter']['formData']['relationship'], true);
+
+    // Display validation errors if exists
+    DisplayValidationErrors('filter', 'filter', true);
 
     // If all input fields are empty
-    if(empty($filter_firstname) && empty($filter_middlename) && empty($filter_lastname) && empty($filter_nickname) &&
-        empty($filter_gender) && empty($filter_mobile) && empty($filter_landline) && empty($filter_address) && empty($filter_relationship))
+    if(count(array_filter($_SESSION['filter']['formData'])) == 0)
     {
         $data['status'] = "error";
         $data['data'] = "Please provide atleast one input!";
@@ -134,104 +99,104 @@
             
             $parameter = "user_id = {$id} AND ";
 
-            if(!empty($filter_firstname))
+            if(!empty($_SESSION['filter']['formData']['firstname']))
             {
-                $parameter .= "first_name LIKE '%{$filter_firstname}%' ";
+                $parameter .= "first_name LIKE '%{$_SESSION['filter']['formData']['firstname']}%' ";
             }
 
-            if(!empty($filter_middlename))
+            if(!empty($_SESSION['filter']['formData']['middlename']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "middle_name LIKE '%{$filter_middlename}%'";
+                    $parameter .= "middle_name LIKE '%{$_SESSION['filter']['formData']['middlename']}%'";
                 }
                 else
                 {
-                    $parameter .= "AND middle_name LIKE '%{$filter_middlename}%'";
+                    $parameter .= "AND middle_name LIKE '%{$_SESSION['filter']['formData']['middlename']}%'";
                 }
             }
 
-            if(!empty($filter_lastname))
+            if(!empty($_SESSION['filter']['formData']['lastname']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "last_name LIKE '%{$filter_lastname}%'";
+                    $parameter .= "last_name LIKE '%{$_SESSION['filter']['formData']['lastname']}%'";
                 }
                 else
                 {
-                    $parameter .= " AND last_name LIKE '%{$filter_lastname}%'";
+                    $parameter .= " AND last_name LIKE '%{$_SESSION['filter']['formData']['lastname']}%'";
                 }
             }
 
-            if(!empty($filter_nickname))
+            if(!empty($_SESSION['filter']['formData']['nickname']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "nickname LIKE '%{$filter_nickname}%'";
+                    $parameter .= "nickname LIKE '%{$_SESSION['filter']['formData']['nickname']}%'";
                 }
                 else
                 {
-                    $parameter .= "AND nickname LIKE '%{$filter_nickname}%'";
+                    $parameter .= "AND nickname LIKE '%{$_SESSION['filter']['formData']['nickname']}%'";
                 }
             }
 
-            if(!empty($filter_gender))
+            if(!empty($_SESSION['filter']['formData']['gender']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "gender = '{$filter_gender}'";
+                    $parameter .= "gender = '{$_SESSION['filter']['formData']['gender']}'";
                 }
                 else
                 {
-                    $parameter .= "AND gender = '{$filter_gender}'";
+                    $parameter .= "AND gender = '{$_SESSION['filter']['formData']['gender']}'";
                 }
             }
 
-            if(!empty($filter_mobile))
+            if(!empty($_SESSION['filter']['formData']['mobile']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "mobile_number = '{$filter_mobile}'";
+                    $parameter .= "mobile_number = '{$_SESSION['filter']['formData']['mobile']}'";
                 }
                 else
                 {
-                    $parameter .= "AND mobile_number = '{$filter_mobile}'";
+                    $parameter .= "AND mobile_number = '{$_SESSION['filter']['formData']['mobile']}'";
                 }
             }
 
-            if(!empty($filter_landline))
+            if(!empty($_SESSION['filter']['formData']['landline']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "landline_number = '{$filter_landline}'";
+                    $parameter .= "landline_number = '{$_SESSION['filter']['formData']['landline']}'";
                 }
                 else
                 {
-                    $parameter .= "AND landline_number = '{$filter_landline}'";
+                    $parameter .= "AND landline_number = '{$_SESSION['filter']['formData']['landline']}'";
                 }
             }
 
-            if(!empty($filter_address))
+            if(!empty($_SESSION['filter']['formData']['address']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "addr LIKE '%{$filter_address}%'";
+                    $parameter .= "addr LIKE '%{$_SESSION['filter']['formData']['address']}%'";
                 }
                 else
                 {
-                    $parameter .= "AND addr LIKE '%{$filter_address}%'";
+                    $parameter .= "AND addr LIKE '%{$_SESSION['filter']['formData']['address']}%'";
                 }
             }
 
-            if(!empty($filter_relationship))
+            if(!empty($_SESSION['filter']['formData']['relationship']))
             {
                 if(str_ends_with($parameter, "AND "))
                 {
-                    $parameter .= "relationship LIKE '%{$filter_relationship}%'";
+                    $parameter .= "relationship LIKE '%{$_SESSION['filter']['formData']['relationship']}%'";
                 }
                 else
                 {
-                    $parameter .= "AND relationship LIKE '%{$filter_relationship}%'";
+                    $parameter .= "AND relationship LIKE '%{$_SESSION['filter']['formData']['relationship']}%'";
                 }
             }
 
@@ -262,7 +227,7 @@
                 $total_pages = ceil($total_records / 10);
 
                 // Pagination
-                $page = $data['page'] ?? 1;
+                $page = $_SESSION['filter']['formData']['page'] ?? 1;
 
                 $page = sanitize_input($page);
 
