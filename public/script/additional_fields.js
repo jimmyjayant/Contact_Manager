@@ -3,17 +3,17 @@ import { get_show_more_additional_fields_buttons } from "../script/show_more_add
 export function get_additional_fields_buttons()
 {
     var additional_fields_button = Array.from(document.getElementsByClassName("additional_fields_btn"));
-    console.log(additional_fields_button);
+    // console.log(additional_fields_button);
 
     additional_fields_button.forEach(function(button) {
         button.addEventListener("click", function(event) {
             //console.log(event.srcElement.alt);
 
             var additional_fields_page = 1;
-            console.log(additional_fields_page);
+            // console.log(additional_fields_page);
 
             var form_number = Number(event.target.dataset.form);
-            console.log(form_number);
+            // console.log(form_number);
 
             var xhttp = new XMLHttpRequest();
 
@@ -23,7 +23,7 @@ export function get_additional_fields_buttons()
 
             xhttp.onload = function() {
                 var data = JSON.parse(this.responseText);
-                console.log(data);
+                // console.log(data);
 
                 if(data.status == 'error')
                 {
@@ -31,7 +31,7 @@ export function get_additional_fields_buttons()
                     newTableElement.classList.add("additional_fields");
                     var newRowElement = document.createElement("tr");
                     var newDataElement = document.createElement("td");
-                    newDataElement.classList.add("red_font");
+                    newDataElement.classList.add("error");
                     newDataElement.innerHTML = data.data;
                     newRowElement.appendChild(newDataElement);
                     newTableElement.appendChild(newRowElement);

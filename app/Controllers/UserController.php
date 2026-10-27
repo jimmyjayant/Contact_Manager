@@ -10,10 +10,10 @@ use GuzzleHttp\Psr7\Utils;
 
 class UserController
 {
-    public function delete()
+    public function delete(ServerRequest $request, $args) : Response
     {
         ob_start();
-
+        $GLOBALS['deleteID'] = $args['id'];
         requireFile("../app/Models/delete_user_contact.php");
 
         $content = ob_get_clean();

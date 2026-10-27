@@ -1,14 +1,14 @@
-export function get_delete_contact_buttons()
+export function get_delete_contact_buttons(onDeleteSuccess)
 {
     var delete_contact_button = Array.from(document.getElementsByClassName("delete_contact_btn"));
-    console.log(delete_contact_button);
+    // console.log(delete_contact_button);
 
     delete_contact_button.forEach(function(button) {
         button.addEventListener("click", function(event) {
             //console.log(event.srcElement.alt);
 
             var contact_id = Number(event.target.dataset.id);
-            console.log(contact_id);
+            // console.log(contact_id);
 
             var xhttp = new XMLHttpRequest();
             var resultdiv = document.getElementById("result");
@@ -19,19 +19,16 @@ export function get_delete_contact_buttons()
                 if(data.status == 'error')
                 {
                     var newDivElement = document.createElement("div");
-                    newDivElement.classList.add("center");
-                    var newSpanElement = document.createElement("span");
-                    newSpanElement.classList.add("red_font");
-                    newSpanElement.innerHTML = data.data;
-                    newDivElement.appendChild(newSpanElement);
-                    resultdiv.appendChild(newDivElement);
+                    newDivElement.classList.add("error");
+                    newDivElement.innerHTML = data.data;
+                    resultdiv.insertBefore(newDivElement, table_with_contacts);
                 }
                 else if(data.status == 'success')
                 {
-                    window.location.reload();
+                    onDeleteSuccess(1,1);
                 }
             }
-            xhttp.open("GET", "delete?id=" + contact_id, true);
+            xhttp.open("GET", "delete/" + contact_id, true);
             xhttp.send();
         });
     });

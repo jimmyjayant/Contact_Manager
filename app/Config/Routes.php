@@ -168,7 +168,7 @@ $router->post("search", [SearchController::class, "search"]);
 
 
 // For delete_user_contact page
-$router->get("delete", [UserController::class, "delete"]);
+$router->get("delete/{id:number}", [UserController::class, "delete"]);
 
 
 // For edit and search page

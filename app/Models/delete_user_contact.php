@@ -11,16 +11,6 @@
 
     IsGet(true);
 
-    // if(!isset($_SESSION['user_token']))
-    // {
-    //     $data['status'] = "error";
-    //     $data['data'] = "Please login!";
-    //     $data = json_encode($data);
-    //     header("Content-Type: application/json");
-    //     echo $data;
-    //     exit();
-    // }
-
     IsLoggedIn(true);
 
     $token = $_SESSION['user_token'];
@@ -47,7 +37,7 @@
             $row = $result->fetch_assoc();
             $user_id = $row['id'];
 
-            $contact_id = sanitize_input($_GET['id']);
+            $contact_id = sanitize_input($GLOBALS['deleteID']);
             
             $sql = "DELETE FROM contacts WHERE user_id={$user_id} AND form_number={$contact_id}";
 

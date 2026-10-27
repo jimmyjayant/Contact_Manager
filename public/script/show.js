@@ -4,11 +4,20 @@ import { get_edit_contact_buttons } from "../script/edit.js";
 import { get_delete_contact_buttons } from "../script/delete.js";
 import { get_additional_fields_buttons } from "../script/additional_fields.js";
 
-function get_user_contacts(pageNumber = 1)
+function get_user_contacts(pageNumber = 1, deleteSuccess = 0)
 {
     var xhttp = new XMLHttpRequest();
     var resultdiv = document.getElementById("result");
     var table_with_contacts = document.getElementById("table_with_contacts");
+
+    // If deleteSuccess != 0
+    if(deleteSuccess == 1)
+    {
+        var newDivElement = document.createElement("div");
+        newDivElement.classList.add("success");
+        newDivElement.innerHTML = "Contact record successfully deleted.";
+        resultdiv.insertBefore(newDivElement, table_with_contacts);
+    }
 
     xhttp.onload = function() {
         var data = JSON.parse(this.responseText);
@@ -20,7 +29,7 @@ function get_user_contacts(pageNumber = 1)
             var newDivElement = document.createElement("div");
             newDivElement.classList.add("error");
             newDivElement.innerHTML = data.data;
-            resultdiv.appendChild(newDivElement);
+            resultdiv.insertBefore(newDivElement, table_with_contacts);
         }
         else if(data.status == 'success')
         {
@@ -38,7 +47,7 @@ function get_user_contacts(pageNumber = 1)
                 paginationDiv.style.display = "flex";
             }
 
-            get_delete_contact_buttons();
+            get_delete_contact_buttons(get_user_contacts);
             get_edit_contact_buttons();
             get_additional_fields_buttons();
         }
