@@ -14,21 +14,14 @@
 
     IsPost(true);
 
-    // if(!isset($_SESSION['user_token']))
-    // {
-    //     $data['status'] = "error";
-    //     $data['data'] = "Please login!";
-    //     $data = json_encode($data);
-    //     header("Content-Type: application/json");
-    //     echo $data;
-    //     exit();
-    // }
-
     IsLoggedIn(true);
 
     $firstname = sanitize_input($_POST['firstname']);
 
-    validateFirstname('search', $firstname, 100, true);
+    validateFirstname('search', $firstname, 100, false);
+
+    // Display validation errors if exist
+    DisplayValidationErrors('search', 'search', true);
 
     $token = $_SESSION['user_token'];
     // sql query

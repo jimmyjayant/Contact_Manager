@@ -2,7 +2,7 @@ var searchText = "";
 var total_pages = 1;
 
 import { get_edit_contact_buttons } from "../script/edit.js";
-import {get_delete_contact_buttons} from "../script/delete.js";
+import { get_delete_contact_buttons } from "../script/delete.js";
 import { get_additional_fields_buttons } from "../script/additional_fields.js";
 
 function search_user_contacts(searchText, page = 1)
@@ -16,6 +16,7 @@ function search_user_contacts(searchText, page = 1)
         //console.log(this.responseText);
         var data = JSON.parse(this.responseText);
         var search_contact_error_div = document.getElementById("search_contact_error");
+        search_contact_error_div.innerHTML = "";
         var contact_data_div = document.getElementById("contact_data");
         var table_with_contacts = document.getElementById("table_with_contacts");
 
@@ -24,13 +25,21 @@ function search_user_contacts(searchText, page = 1)
             contact_data_div.classList.add("hide");
             search_contact_error_div.innerHTML = data.data;
         }
+        else if(data.status == 'validationError')
+        {
+            table_with_contacts.classList.add("hide");
+
+            if(data.data.firstname)
+            {
+                for(const x of data.data.firstname)
+                {
+                    search_contact_error_div.innerHTML += x + "<br>";
+                }
+            }
+        }
         else if(data.status == 'success')
         {
-            contact_data_div.classList.remove("hide");
-            search_contact_error_div.innerHTML = "";
-            
-            contact_data_div.classList.remove("hide");
-            
+            contact_data_div.classList.remove("hide");            
             table_with_contacts.classList.remove("hide");
             
             var tbody = table_with_contacts.querySelector("table tbody");

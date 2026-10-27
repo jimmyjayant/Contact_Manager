@@ -36,7 +36,7 @@ if(isset($_SESSION['last_activity']))
 {
     if(isset($_SESSION['user_token']))
     {
-        if(time() - $_SESSION['last_activity'] > 60)
+        if(time() - $_SESSION['last_activity'] > 600)
         {
             unset($_SESSION['last_activity']);
             header("Location: logout");
@@ -45,7 +45,7 @@ if(isset($_SESSION['last_activity']))
     }
     else
     {
-        if(time() - $_SESSION['last_activity'] > 60)
+        if(time() - $_SESSION['last_activity'] > 600)
         {
             header("Refresh:0");
             exit();
