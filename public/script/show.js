@@ -18,11 +18,8 @@ function get_user_contacts(pageNumber = 1)
             table_with_contacts.classList.add("hide");
             
             var newDivElement = document.createElement("div");
-            newDivElement.classList.add("center");
-            var newSpanElement = document.createElement("span");
-            newSpanElement.classList.add("red_font");
-            newSpanElement.innerHTML = data.data;
-            newDivElement.appendChild(newSpanElement);
+            newDivElement.classList.add("error");
+            newDivElement.innerHTML = data.data;
             resultdiv.appendChild(newDivElement);
         }
         else if(data.status == 'success')

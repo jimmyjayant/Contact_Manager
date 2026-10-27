@@ -1,5 +1,5 @@
 <?php
-requireFile('../app/Views/sessionstart.php');
+// requireFile('../app/Views/sessionstart.php');
 
 $GLOBALS['css'] = ["css/show.css", "css/table.css"];
 
