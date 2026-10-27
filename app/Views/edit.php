@@ -6,7 +6,7 @@ requireFile('../app/Helpers/old.php');
 
 $GLOBALS['css'] = ["css/edit.css"];
 
-$GLOBALS['js'] = ["script/edit.js"];
+$GLOBALS['js'] = ["script/edit.js", "script/dropCustomElement.js"];
 
 requireFile('../app/Views/headerandnavbar.php');
 
@@ -280,7 +280,10 @@ echo $customInputElement;
 </div>
 </div>
 
-<script src="script/dropCustomElement.js"></script>
+<script type="module">
+    import { get_custom_elements } from "../script/dropCustomElement.js";
+    get_custom_elements();
+</script>
 
 <?php requireFile('../app/Views/footer.php'); ?>
 <?php unset($_SESSION['edit']['formData']); ?>

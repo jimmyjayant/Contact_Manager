@@ -1,3 +1,5 @@
+import { get_custom_elements } from "../script/dropCustomElement.js";
+
 var counter = 1;
 
 window.addEventListener("DOMContentLoaded", function() {
@@ -8,6 +10,18 @@ window.addEventListener("DOMContentLoaded", function() {
     add_custom_fields_button.addEventListener("click", function() {
         var newRowDiv = document.createElement("div");
         newRowDiv.classList.add("row");
+
+        var newDropCustomElement = document.createElement("div");
+        newDropCustomElement.classList.add("dropCustomElement");
+
+        var newSpanElement = document.createElement("span");
+        newSpanElement.title = "Remove the custom field";
+        newSpanElement.innerHTML = "X";
+
+        newDropCustomElement.appendChild(newSpanElement);
+
+        newRowDiv.appendChild(newDropCustomElement);
+
         var newCol25Div = document.createElement("div");
         newCol25Div.classList.add("col25");
 
@@ -20,7 +34,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         newCol25Div.appendChild(newInputElement);
 
-        console.log(newInputElement);
+        // console.log(newInputElement);
         var newCol75Div = document.createElement("div");
         newCol75Div.classList.add("col75");
 
@@ -51,5 +65,7 @@ window.addEventListener("DOMContentLoaded", function() {
         parentDiv.insertBefore(newRowDiv, arr);
         counter = counter + 2;
         //console.log(counter);
+
+        get_custom_elements();
     });
 });

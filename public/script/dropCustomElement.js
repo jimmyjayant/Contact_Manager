@@ -1,6 +1,6 @@
-window.addEventListener("DOMContentLoaded", function() {
+export function get_custom_elements() {
     var removeCustomInputElement = Array.from(document.querySelectorAll(".dropCustomElement span"));
-    console.log(removeCustomInputElement);
+    // console.log(removeCustomInputElement);
 
     removeCustomInputElement.forEach((button) => {
         button.addEventListener("click", function() {
@@ -16,4 +16,4 @@ window.addEventListener("DOMContentLoaded", function() {
             custom_fields_number.value -= 1;
         });
     });
-});
+}

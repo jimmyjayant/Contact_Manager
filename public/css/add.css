@@ -90,6 +90,27 @@ div.radio {
     background-color:darkgrey;
 }
 
+.dropCustomElement {
+    text-align:right;
+    margin:0;
+}
+
+.dropCustomElement span {
+    padding:0.5rem;
+}
+
+.dropCustomElement span:hover {
+    cursor:pointer;
+    background-color:black;
+    color:white;
+}
+
+div.row:has(div.dropCustomElement > span) {
+    border:2px solid #d3d3d3;
+    border-radius:1rem;
+    padding:0.5rem;
+}
+
 @media screen and (max-width:600px) {
     .row {
         flex-direction:column;

@@ -5,6 +5,7 @@
         for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
         {
             echo "<div class='row'>";
+            echo "<div class='dropCustomElement'><span title='Remove the custom field'>X</span></div>";
 
             $customFieldName = 'customInputElement' . $i;
             $customFieldValue = $_SESSION['add']['formData'][$customFieldName];
@@ -34,6 +35,7 @@ echo $customInputElement;
             // Show custom input field validation error 
             echo showValidationError('add', $customFieldName);
 
+            echo "</div>";
             echo "</div>";
         }
     }
