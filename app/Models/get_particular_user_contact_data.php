@@ -122,6 +122,7 @@
                             $row = $result1->fetch_assoc();
                             if($row['total_fields'] != 0)
                             {
+                                $_SESSION['edit']['formData']['custom_fields_present'] = 1;
                                 $_SESSION['edit']['formData']['custom_fields_number'] = $row['total_fields'];
                                 //$total_additional_fields = $row['total_fields'];
                                 //$total_additional_fields_pages = ceil($total_additional_fields / 10);

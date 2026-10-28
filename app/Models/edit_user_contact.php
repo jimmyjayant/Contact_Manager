@@ -25,7 +25,10 @@
         // Put form data in a session variable array in case validation fails
         $_SESSION['edit']['formData'][$x] = $y;
     }
-
+    // echo "<pre>";
+    // print_r($_SESSION['edit']['formData']);
+    // echo "</pre>";
+    // exit();
     $array = array_keys($_SESSION['edit']['formData']);
     $fieldarray = [];
     foreach($array as $x)
@@ -209,7 +212,7 @@
                     $customFieldValue = $_SESSION['edit']['formData']['customInputElement' . ($n*2)];
 
                     /*
-                        If $fieldValue is found in $IDArray, then update the record, else delete it
+                        If $fieldValue is found in $IDArray, then update the record, else add it
                     */
                     if(in_array($fieldValue, $IDArray))
                     {
@@ -245,6 +248,24 @@
                                 header("Location: edit");
                                 exit();
                             }
+                        }
+                    }
+                    else
+                    {
+                        // Add the new entry
+                        // sql query to add new record in additional_fields table
+                        $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value) 
+                                VALUES($id, $formNumber, '$customFieldName', '$customFieldValue')";
+
+                        try
+                        {
+                            $result = $conn->query($sql);
+                        }
+                        catch(mysqli_sql_exception $e)
+                        {
+                            $_SESSION['edit']['error'] = "Error adding new additional info. Please try again later!";
+                            header("Location: edit");
+                            exit();
                         }
                     }
                 }

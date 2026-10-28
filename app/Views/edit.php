@@ -6,7 +6,7 @@ requireFile('../app/Helpers/old.php');
 
 $GLOBALS['css'] = ["css/edit.css"];
 
-$GLOBALS['js'] = ["script/edit.js", "script/dropCustomElement.js"];
+$GLOBALS['js'] = ["script/edit.js", "script/dropCustomElement.js", "script/add.js"];
 
 requireFile('../app/Views/headerandnavbar.php');
 
@@ -200,19 +200,19 @@ if(empty($_SESSION['edit']['formData']))
                     if(!empty($_SESSION['edit']['formData']['custom_fields_number']))
                     {
                         // $n depicts the number of pairs of custom fields present
-                        $n = $_SESSION['edit']['formData']['custom_fields_number'];
+                        // $n = $_SESSION['edit']['formData']['custom_fields_number'];
 
-                        $html = <<< EOT
-                        <div class="row">
-                            <div class="col25">
-                                <label>Edit Custom Fields</label>
-                                <input type="hidden" id="custom_fields_present" name="custom_fields_present" value="1">
-                                <input type="hidden" id="custom_fields_number" name="custom_fields_number" 
-                                value="{$n}">
-                            </div>
-                        </div>
-EOT;
-echo $html;
+//                         $html = <<< EOT
+//                         <div class="row">
+//                             <div class="col25">
+//                                 <label>Edit Custom Fields</label>
+//                                 <input type="hidden" id="custom_fields_present" name="custom_fields_present" value="1">
+//                                 <input type="hidden" id="custom_fields_number" name="custom_fields_number" 
+//                                 value="{$n}">
+//                             </div>
+//                         </div>
+// EOT;
+// echo $html;
 
                         $array = array_keys($_SESSION['edit']['formData']);
                         $fieldarray = [];
@@ -231,7 +231,7 @@ echo $html;
                         
                             $fieldName = 'fieldName' . $n;
 
-                            $fieldValue = $_SESSION['edit']['formData'][$fieldName];
+                            $fieldValue = $_SESSION['edit']['formData'][$fieldName] ?? '';
                             
                             $customFieldName = 'customInputElement' . ($n*2)-1;
                             $customFieldValue = 
@@ -268,6 +268,23 @@ echo $customInputElement;
                         }
                     }
                 ?>
+
+                <div class="row" id="add_custom_fields_div">
+                    <div class="col25">
+                        <label for="add_custom_fields">Add Custom Fields</label>
+                    </div>
+                    <div class="col75">
+                        <button type="button" id="add_custom_fields">+</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="hidden" id="custom_fields_present" name="custom_fields_present" 
+                    value="<?= old('edit', 'custom_fields_present') ?? '0'; ?>">
+                    <input type="hidden" id="custom_fields_number" name="custom_fields_number" 
+                    value="<?= old('edit', 'custom_fields_number') ?? '0'; ?>">
+                </div>
+
                 <input type="hidden" name="form_number" value="<?= old('edit', 'form_number') ?? '0'; ?>">
 
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">

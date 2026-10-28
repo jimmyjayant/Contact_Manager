@@ -70,6 +70,16 @@ div.radio {
     line-height:2;
 }
 
+#add_custom_fields {
+    cursor:pointer;
+    border-radius:50%;
+    padding:0.5rem 1rem;
+}
+
+#add_custom_fields:hover {
+    background-color:darkgrey;
+}
+
 .dropCustomElement {
     text-align:right;
     margin:0;

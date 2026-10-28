@@ -1,13 +1,43 @@
+// This add.js script is used by add.php and edit.php webpage
+
+
 import { get_custom_elements } from "../script/dropCustomElement.js";
 
 var counter = 1;
 
 window.addEventListener("DOMContentLoaded", function() {
-    var add_contact_div = document.getElementById("add_contact");
+    // var add_contact_div = document.getElementById("add_contact");
 
     var add_custom_fields_button = document.getElementById("add_custom_fields");
 
     add_custom_fields_button.addEventListener("click", function() {
+
+        let argument = '';
+        if(window.location.href.includes("add"))
+        {
+            argument = '#addForm';
+        }
+        else
+        {
+            argument = '#editForm';
+        }
+
+        // Get all the input type hidden field having name='fieldNameX' where X = natural number
+        var hiddenInputFields = 
+        Array.from(document.querySelectorAll(`${argument} input[type=hidden]`));
+
+        // console.log(hiddenInputFields);
+
+        hiddenInputFields.forEach((field) => {
+            if(field.name.includes('fieldName'))
+            {
+                let nameOfField = field.name;
+                let numberOfField = nameOfField.replace('fieldName', '');
+                counter = numberOfField;
+                counter++;
+            }
+        });
+
         var newRowDiv = document.createElement("div");
         newRowDiv.classList.add("row");
 
@@ -57,18 +87,19 @@ window.addEventListener("DOMContentLoaded", function() {
 
         var arr = document.querySelector("#add_custom_fields_div");
         //console.log(arr);
+        
 
-        var parentDiv = document.querySelector("#add_contact form");
+        var parentDiv = document.querySelector(argument);
         //console.log(parentDiv);
 
         var custom_fields_present = document.getElementById("custom_fields_present");
         custom_fields_present.value = "1";
 
         var custom_fields_number = document.getElementById("custom_fields_number");
-        custom_fields_number.value++;
+        custom_fields_number.value = Number(custom_fields_number.value) + 1;
 
         parentDiv.insertBefore(newRowDiv, arr);
-        counter++;
+        // counter++;
         //console.log(counter);
 
         get_custom_elements();
