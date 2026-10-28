@@ -26,6 +26,16 @@
         $_SESSION['add']['formData'][$x] = $y;
     }
 
+    $array = array_keys($_SESSION['add']['formData']);
+    $fieldarray = [];
+    foreach($array as $x)
+    {
+        if(str_contains($x, 'fieldName'))
+        {
+            $fieldarray[] = str_replace('fieldName', '', $x);
+        }
+    }
+
     // Validate user provided form data
     validateFirstname('add', $firstname, 100, false);
     validateMiddlename('add', $middlename, 100, false);    
@@ -111,7 +121,6 @@
         }
 
         // If custom fields are present in form
-    
         if(!empty($_SESSION['add']['formData']['custom_fields_present']) && 
             $_SESSION['add']['formData']['custom_fields_present'] == 1)
         {
@@ -137,15 +146,15 @@
                     exit();
                 }
 
-                $custom_fields_number = $_SESSION['add']['formData']['custom_fields_number'];
-                for($i = 1; $i < ($custom_fields_number * 2); $i = $i+2)
+                foreach($fieldarray as $n)
                 {
-                    $customFieldName = $_SESSION['add']['formData']['customInputElement' . $i];
-                    $customFieldValue = $_SESSION['add']['formData']['customInputElement' . $i+1];
+                    $customFieldName = $_SESSION['add']['formData']['customInputElement' . ($n*2)-1];
+                    $customFieldValue = $_SESSION['add']['formData']['customInputElement' . ($n*2)];
 
-                    // sql statement to insert additional fields into additional_fields table in contact_manager_db database
-                    $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value) 
-                            VALUES($id, $formNumber, '$customFieldName', '$customFieldValue')";
+                    // sql statement to insert new records into additional_fields table 
+                    // in contact_manager_db database
+                    $sql = "INSERT INTO additional_fields(userID, form_no, field_name, field_value)
+                            VALUES($id, $formNumber, '$customFieldName','$customFieldValue')";
 
                     try
                     {
@@ -161,7 +170,7 @@
                         }
                         else
                         {
-                            $_SESSION['add']['error'] = "Error Adding additional info. Please try again later!";
+                            $_SESSION['add']['error'] = "Error inserting additional info. Please try again later!";
                             header("Location: add");
                             exit();
                         }

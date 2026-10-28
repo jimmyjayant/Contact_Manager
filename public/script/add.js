@@ -25,13 +25,18 @@ window.addEventListener("DOMContentLoaded", function() {
         var newCol25Div = document.createElement("div");
         newCol25Div.classList.add("col25");
 
+        var newHiddenInputElement = document.createElement("input");
+        newHiddenInputElement.type = "hidden";
+        newHiddenInputElement.name = "fieldName" + counter;
+
         var newInputElement = document.createElement("input");
         newInputElement.type = "text";
-        newInputElement.name = "customInputElement" + counter;
+        newInputElement.name = `customInputElement${(counter*2)-1}`;
         newInputElement.maxLength = "100";
         newInputElement.placeholder = "Enter field name here";
         newInputElement.required = "true";
 
+        newCol25Div.appendChild(newHiddenInputElement);
         newCol25Div.appendChild(newInputElement);
 
         // console.log(newInputElement);
@@ -40,7 +45,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         var newInputElement1 = document.createElement("input");
         newInputElement1.type = "text";
-        newInputElement1.name = "customInputElement" + (counter + 1);
+        newInputElement1.name = `customInputElement${(counter*2)}`;
         newInputElement1.maxLength = "500";
         newInputElement1.placeholder = "Enter field value here";
         newInputElement1.required = "true";
@@ -63,7 +68,7 @@ window.addEventListener("DOMContentLoaded", function() {
         custom_fields_number.value++;
 
         parentDiv.insertBefore(newRowDiv, arr);
-        counter = counter + 2;
+        counter++;
         //console.log(counter);
 
         get_custom_elements();
