@@ -52,8 +52,8 @@ requireFile('../app/Views/headerandnavbar.php');
                 <?= showValidationError('login', 'password'); ?>
             </div>
 
-            <input type="submit" value="Submit">
-            <input type="reset" value="Reset">
+            <input type="submit" value="Submit" class='preloaderContainer'>
+            <input type="reset" value="Reset" class='preloaderContainer'>
         </form>
     </div>
 </div>

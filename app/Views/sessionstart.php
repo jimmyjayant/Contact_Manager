@@ -47,7 +47,7 @@ if(isset($_SESSION['last_activity']))
     {
         if(time() - $_SESSION['last_activity'] > 600)
         {
-            header("Refresh:0");
+            $_SESSION['last_activity'] = time();
             exit();
         }
     }

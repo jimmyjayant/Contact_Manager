@@ -1,6 +1,4 @@
 <?php
-requireFile('../app/Views/sessionstart.php');
-
 $GLOBALS['css'] = ["css/index.css"];
 
 requireFile('../app/Views/headerandnavbar.php');
@@ -24,8 +22,23 @@ if(isset($_SESSION['user_token']))
             <?php
                 if(!isset($_SESSION['user_token']))
                 {
-                    echo "<a href='login' target='_self'>Sign In</a>";
-                    echo "<a href='register' target='_self'>Sign Up</a>";
+                    // echo "<a href='login' target='_self' class='preloaderContainer'>";
+                    // echo "<span>Sign In</span>";
+                    // require '../app/Views/preloader.php';
+                    // echo "</a>";
+
+                    echo "<a href='login' target='_self' class='preloaderContainer'>";
+                    echo "Sign In";
+                    echo "</a>";
+
+                    // echo "<a href='register' target='_self' class='preloaderContainer'>";
+                    // echo "<span>Sign Up</span>";
+                    // require '../app/Views/preloader.php';
+                    // echo "</a>";
+
+                    echo "<a href='register' target='_self' class='preloaderContainer'>";
+                    echo "Sign Up";
+                    echo "</a>";
                 }
             ?>
         </div>

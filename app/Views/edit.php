@@ -199,21 +199,6 @@ if(empty($_SESSION['edit']['formData']))
                 <?php
                     if(!empty($_SESSION['edit']['formData']['custom_fields_number']))
                     {
-                        // $n depicts the number of pairs of custom fields present
-                        // $n = $_SESSION['edit']['formData']['custom_fields_number'];
-
-//                         $html = <<< EOT
-//                         <div class="row">
-//                             <div class="col25">
-//                                 <label>Edit Custom Fields</label>
-//                                 <input type="hidden" id="custom_fields_present" name="custom_fields_present" value="1">
-//                                 <input type="hidden" id="custom_fields_number" name="custom_fields_number" 
-//                                 value="{$n}">
-//                             </div>
-//                         </div>
-// EOT;
-// echo $html;
-
                         $array = array_keys($_SESSION['edit']['formData']);
                         $fieldarray = [];
                         foreach($array as $x)

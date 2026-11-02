@@ -1,6 +1,4 @@
 <?php
-// requireFile('../app/Views/sessionstart.php');
-
 $GLOBALS['css'] = ["css/search.css", "css/table.css"];
 
 $GLOBALS['js'] = ["script/search.js"];

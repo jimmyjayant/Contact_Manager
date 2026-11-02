@@ -1,8 +1,4 @@
 <?php
-// requireFile('../app/Filters/IsLoggedIn.php');
-
-// IsLoggedIn(true);
-
 $GLOBALS['css'] = ["css/logout.css"];
 $GLOBALS['js'] = ["script/logout.js"];
 

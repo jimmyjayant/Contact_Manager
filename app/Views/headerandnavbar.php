@@ -9,8 +9,8 @@
         <title>Contact Manager</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/footer.css">
+        <script src="script/preloader.js"></script>
         <?php
-            //print_r($GLOBALS['css']);
             if(isset($GLOBALS['js']) && (count($GLOBALS['js']) > 0))
             {
                 foreach($GLOBALS['js'] as $script)
@@ -32,13 +32,6 @@
     <body>
         <div class="main">
             <div class="header">
-                <!--
-                <div id="hambergurmenu">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
--->
                 <div class="sitelogo">
                     <a href="/" target="_self">
                         <img src="images/contact_mng.png" alt="Site Logo">
@@ -71,15 +64,3 @@
                     </div>
                 </div>
             </div>
-<!--
-            <div id="navbar">
-                <a href="#"><span id="closebutton">X</span></a>
-                <a href="index" target="_self">Home</a>
-                <?php
-                    if(isset($_SESSION['user_token']))
-                    {
-                        echo "<a href='dashboard' target='_self'>Dashboard</a>";
-                    }
-                ?>
-            </div>
--->

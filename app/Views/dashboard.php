@@ -3,8 +3,6 @@ requireFile('../app/Views/sessionstart.php');
 
 $GLOBALS['css'] = ["css/dashboard.css"];
 
-//$js = ["script/dashboard.js"];
-
 requireFile('../app/Views/headerandnavbar.php');
 
 requireFile('../app/Filters/IsLoggedIn.php');
@@ -28,13 +26,7 @@ IsLoggedIn(false);
                 <br>
                 <a href="add" target="_self">Add Contacts</a>
             </div>
-<!--
-            <div>
-                <img src="images/edit.png" alt="Edit Contacts">
-                <br>
-                <a href="edit" target="_self">Edit Contacts</a>
-            </div>
--->
+
             <div>
                 <img src="images/filter.png" alt="Filter Contacts">
                 <br>
