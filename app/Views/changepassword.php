@@ -2,7 +2,7 @@
 requireFile('../app/Helpers/sanitize_input_helper.php');
 requireFile('../app/Helpers/showValidationError.php');
 
-$GLOBALS['css'] = ["css/changepassword.css"];
+$GLOBALS['css'] = ["css/form.css"];
 
 requireFile('../app/Views/headerandnavbar.php');
 

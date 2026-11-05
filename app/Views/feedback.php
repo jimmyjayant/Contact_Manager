@@ -3,7 +3,7 @@ requireFile('../app/Helpers/sanitize_input_helper.php');
 requireFile('../app/Helpers/showValidationError.php');
 requireFile('../app/Helpers/old.php');
 
-$GLOBALS['css'] = ["css/feedback.css"];
+$GLOBALS['css'] = ["css/form.css", "css/feedback.css"];
 
 requireFile('../app/Views/headerandnavbar.php');
 ?>

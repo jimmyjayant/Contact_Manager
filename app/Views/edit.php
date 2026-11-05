@@ -4,7 +4,7 @@ requireFile("../app/Filters/validationFilters.php");
 requireFile('../app/Helpers/showValidationError.php');
 requireFile('../app/Helpers/old.php');
 
-$GLOBALS['css'] = ["css/edit.css"];
+$GLOBALS['css'] = ["css/form.css", "css/edit.css"];
 
 $GLOBALS['js'] = ["script/edit.js", "script/dropCustomElement.js", "script/add.js"];
 

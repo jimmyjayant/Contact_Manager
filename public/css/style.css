@@ -16,6 +16,10 @@ body {
     flex:1;
 }
 
+h1 {
+    text-align:center;
+}
+
 .header {
     display:flex;
     flex-direction:row;
@@ -120,6 +124,10 @@ body {
 
 .hide {
     display:none;
+}
+
+.show {
+    display:block;
 }
 
 @media screen and (max-width:600px) {

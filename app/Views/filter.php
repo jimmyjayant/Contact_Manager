@@ -1,5 +1,5 @@
 <?php
-$GLOBALS['css'] = ["css/filter.css", "css/table.css"];
+$GLOBALS['css'] = ["css/form.css", "css/filter.css", "css/table.css"];
 
 $GLOBALS['js'] = ["script/filter.js"];
 

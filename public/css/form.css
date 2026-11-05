@@ -1,5 +1,4 @@
 h1 {
-    text-align:center;
     margin-bottom:0;
 }
 
@@ -32,7 +31,7 @@ form input {
     font-size:1rem;
 }
 
-form input:not([type=submit]):not([type=reset]) {
+form input:not([type=submit]):not([type=reset]):not([type=radio]) {
     width:100%;
     max-width:500px;
 }

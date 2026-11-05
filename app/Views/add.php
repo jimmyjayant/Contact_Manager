@@ -4,7 +4,7 @@
     requireFile('../app/Helpers/old.php');
     requireFile('../app/Filters/IsLoggedIn.php');
 
-    $GLOBALS['css'] = ["css/add.css"];
+    $GLOBALS['css'] = ["css/form.css", "css/add.css"];
 
     $GLOBALS['js'] = ["script/add.js"];
 
